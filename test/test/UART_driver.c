@@ -28,7 +28,7 @@ unsigned char UART_receive(void){
 
 void UART_init(unsigned int baud){
 	
-	int baudrate = 4915200/16/baud -1;
+	uint16_t baudrate = 4915200/16/baud -1;
 	//Set baud rate
 	UBRR0H = (unsigned char) (baudrate>>8);
 	UBRR0L = (unsigned char) baudrate;

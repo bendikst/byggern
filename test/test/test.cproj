@@ -109,13 +109,28 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="test.c">
+    <Compile Include="oppg2.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="main.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SRAM.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SRAM.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="UART_driver.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="UART_driver.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="XMEM_module.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="XMEM_module.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

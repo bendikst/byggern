@@ -37,8 +37,11 @@ SUBDIRS :=
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
-../test.c \
-../UART_driver.c
+../oppg2.c \
+../main.c \
+../SRAM.c \
+../UART_driver.c \
+../XMEM_module.c
 
 
 PREPROCESSING_SRCS += 
@@ -48,20 +51,32 @@ ASM_SRCS +=
 
 
 OBJS +=  \
-test.o \
-UART_driver.o
+oppg2.o \
+main.o \
+SRAM.o \
+UART_driver.o \
+XMEM_module.o
 
 OBJS_AS_ARGS +=  \
-test.o \
-UART_driver.o
+oppg2.o \
+main.o \
+SRAM.o \
+UART_driver.o \
+XMEM_module.o
 
 C_DEPS +=  \
-test.d \
-UART_driver.d
+oppg2.d \
+main.d \
+SRAM.d \
+UART_driver.d \
+XMEM_module.d
 
 C_DEPS_AS_ARGS +=  \
-test.d \
-UART_driver.d
+oppg2.d \
+main.d \
+SRAM.d \
+UART_driver.d \
+XMEM_module.d
 
 OUTPUT_FILE_PATH +=test.elf
 
@@ -77,6 +92,12 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
+
+
+
+
 
 
 
