@@ -109,6 +109,9 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="macaroni.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="oppg2.c">
       <SubType>compile</SubType>
     </Compile>
