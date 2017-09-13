@@ -109,6 +109,24 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ADC.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="ADC.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="joystick.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="joystick.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="JOYSTICK_driver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="JOYSTICK_driver.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="macaroni.h">
       <SubType>compile</SubType>
     </Compile>

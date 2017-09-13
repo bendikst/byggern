@@ -40,6 +40,6 @@ void UART_init(unsigned int baud){
 	//UCSR0C = (1<<URSEL0)|(0<<USBS0)|(3<<UCSZ00);
 	UCSR0C = (1<<URSEL0)|(3<<UCSZ00);
 	
-	uart = fdevopen(UART_transmit, UART_receive);
+	uart = fdevopen(&UART_transmit, &UART_receive);
 	
 }

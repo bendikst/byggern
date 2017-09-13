@@ -14,27 +14,38 @@
 #include "UART_driver.h"
 #include "XMEM_module.h"
 #include "SRAM.h"
+#include "macaroni.h"
+#include "ADC.h"
 #include <stdio.h>
-
+#include <avr/interrupt.h>
 
 int main(void)
 {
 	
 	UART_init(9600);
 	XMEM_init();
-	DDRA = 0xFF;
-	PORTE |= (1 << PE1);
-	PORTA = 0xFF;
-	PORTA |= (1 << PA1);
+	ADC_init();
+	sei();
 	
-	SRAM_test();	
+	//SRAM_test();
+	
+	//unsigned char val = adc_read(X_axis);
+			
+	//printf("%d\n",val);
+	
+	
+	//volatile char *ext_ram = (char *) 0x0000;
+	
 	//const unsigned char test[500];
 	//UART_transmit('y');
 	//printf("Hello\n");
     while(1)
     {
+		unsigned char val = adc_read(X_axis);
 		
-		
+		//printf("%d\n",val);
+		printf("%d\n",val);
+		_delay_ms(100);
 		//UART_transmit('\n');
 		//scanf("%s",test);
 		

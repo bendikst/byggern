@@ -7,6 +7,7 @@
 #include "XMEM_module.h"
 #include "macaroni.h"
 #include <avr/io.h>
+
 //Flytt denne inn i SRAM istedet?
 
 void XMEM_init(void){
@@ -15,6 +16,7 @@ void XMEM_init(void){
 	//MCUCR = (1 << SRE);
 	set_bit(MCUCR, SRE);
 	//SFIOR = (1 << XMM2);
-	set_bit(MCUCR, SRE);
+	set_bit(SFIOR, XMM2);
+	
 }
 
