@@ -40,8 +40,11 @@ C_SRCS +=  \
 ../ADC.c \
 ../joystick.c \
 ../JOYSTICK_driver.c \
+../MENU_system.c \
+../OLED_driver.c \
 ../oppg2.c \
 ../main.c \
+../SLIDER_driver.c \
 ../SRAM.c \
 ../UART_driver.c \
 ../XMEM_module.c
@@ -57,8 +60,11 @@ OBJS +=  \
 ADC.o \
 joystick.o \
 JOYSTICK_driver.o \
+MENU_system.o \
+OLED_driver.o \
 oppg2.o \
 main.o \
+SLIDER_driver.o \
 SRAM.o \
 UART_driver.o \
 XMEM_module.o
@@ -67,8 +73,11 @@ OBJS_AS_ARGS +=  \
 ADC.o \
 joystick.o \
 JOYSTICK_driver.o \
+MENU_system.o \
+OLED_driver.o \
 oppg2.o \
 main.o \
+SLIDER_driver.o \
 SRAM.o \
 UART_driver.o \
 XMEM_module.o
@@ -77,8 +86,11 @@ C_DEPS +=  \
 ADC.d \
 joystick.d \
 JOYSTICK_driver.d \
+MENU_system.d \
+OLED_driver.d \
 oppg2.d \
 main.d \
+SLIDER_driver.d \
 SRAM.d \
 UART_driver.d \
 XMEM_module.d
@@ -87,8 +99,11 @@ C_DEPS_AS_ARGS +=  \
 ADC.d \
 joystick.d \
 JOYSTICK_driver.d \
+MENU_system.d \
+OLED_driver.d \
 oppg2.d \
 main.d \
+SLIDER_driver.d \
 SRAM.d \
 UART_driver.d \
 XMEM_module.d
@@ -107,6 +122,12 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
+
+
+
+
 
 
 

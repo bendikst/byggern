@@ -15,9 +15,14 @@
 #include "XMEM_module.h"
 #include "SRAM.h"
 #include "macaroni.h"
+#include "JOYSTICK_driver.h"
+#include "SLIDER_driver.h"
 #include "ADC.h"
+//#include "fonts.h"
+#include "OLED_driver.h"
 #include <stdio.h>
 #include <avr/interrupt.h>
+#include <avr/pgmspace.h>
 
 int main(void)
 {
@@ -26,40 +31,19 @@ int main(void)
 	XMEM_init();
 	ADC_init();
 	sei();
-	
+	JOYSTICK_init();
+	OLED_init();
 	//SRAM_test();
-	
-	//unsigned char val = adc_read(X_axis);
-			
-	//printf("%d\n",val);
+
+	_delay_ms(100);
 	
 	
-	//volatile char *ext_ram = (char *) 0x0000;
+	OLED_print_str("This line is the");
+	OLED_clear_page(1);
+	OLED_print_str("best");
 	
-	//const unsigned char test[500];
-	//UART_transmit('y');
-	//printf("Hello\n");
     while(1)
     {
-		unsigned char val = adc_read(X_axis);
-		
-		//printf("%d\n",val);
-		printf("%d\n",val);
-		_delay_ms(100);
-		//UART_transmit('\n');
-		//scanf("%s",test);
-		
-		
-		//if(test){
-			//UART_transmit(test);
-			//UART_transmit('\n');
-			//UART_transmit('y');
-			//printf("%s\n", test);
-		//}
-		//test = 0;
-		//printf("\n");
+
     }
 }
-
-//ISR();
-//printf("r:\n %c", UDR0);

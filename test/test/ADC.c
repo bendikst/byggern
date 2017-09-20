@@ -30,7 +30,6 @@ void ADC_init(void){
 uint8_t adc_read(channel_type channel){
 	volatile char *adresse = ext_adc;
 	adresse[0] = channel;
-	
 	while(!(intflag));
 	intflag = false;
 	

@@ -8,9 +8,15 @@ joystick.c
 
 JOYSTICK_driver.c
 
+MENU_system.c
+
+OLED_driver.c
+
 oppg2.c
 
 main.c
+
+SLIDER_driver.c
 
 SRAM.c
 

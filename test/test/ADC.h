@@ -7,6 +7,8 @@
 #ifndef ADC_H
 #define ADC_H
 
+#include <stdint.h>
+
 #define ext_ram         ((volatile char*) 0x1800)
 #define ext_ram_size    0x800
 #define ext_adc         ((volatile char*) 0x1400)
@@ -23,6 +25,7 @@ typedef enum{
 }channel_type;
 
 void ADC_init(void);
+
 uint8_t adc_read(channel_type channel);
 
 #endif /* ADC_H */

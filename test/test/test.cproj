@@ -115,6 +115,9 @@
     <Compile Include="ADC.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="fonts.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="joystick.c">
       <SubType>compile</SubType>
     </Compile>
@@ -130,10 +133,28 @@
     <Compile Include="macaroni.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="MENU_system.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MENU_system.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="OLED_driver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="OLED_driver.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="oppg2.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SLIDER_driver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SLIDER_driver.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="SRAM.c">

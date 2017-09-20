@@ -22,10 +22,9 @@ void JOYSTICK_init(){
 
 JOYSTICK_position_t JOYSTICK_getPosition(void){
 	JOYSTICK_position_t returner;
-	returner.x_pos = (adc_read(X_axis)-x_initialpos)/();
-	
-	
-	
+	returner.x_pos = (adc_read(X_axis)-x_initialpos)/(double)(MAX_VALUE-x_initialpos)*100;
+	returner.y_pos = (adc_read(Y_axis)-y_initialpos)/(MAX_VALUE-y_initialpos)*100;	
+	return returner;
 }
 
 
@@ -34,10 +33,10 @@ JOYSTICK_direction_t JOYSTICK_getDirection(void){
 	JOYSTICK_position_t position = JOYSTICK_getPosition();
 	
 	int mid_lim = 50;
-	position.x_pos > mid_lim ? return UP:
-	position.x_pos < -mid_lim ? return DOWN:
-	position.y_pos > mid_lim ? return RIGHT:
-	position.y_pos < -mid_lim ? return LEFT:
+	if (position.x_pos > mid_lim) return UP;
+	if (position.x_pos < -mid_lim) return DOWN;
+	if (position.y_pos > mid_lim) return RIGHT;
+	if (position.y_pos < -mid_lim) return LEFT;
 	
-	return MIDDLE
+	return MIDDLE;
 }
