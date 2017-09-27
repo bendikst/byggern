@@ -33,10 +33,10 @@ JOYSTICK_direction_t JOYSTICK_getDirection(void){
 	JOYSTICK_position_t position = JOYSTICK_getPosition();
 	
 	int mid_lim = 50;
-	if (position.x_pos > mid_lim) return UP;
-	if (position.x_pos < -mid_lim) return DOWN;
-	if (position.y_pos > mid_lim) return RIGHT;
-	if (position.y_pos < -mid_lim) return LEFT;
+	if (position.y_pos > mid_lim) return UP;
+	if (position.y_pos < -mid_lim) return DOWN;
+	if (position.x_pos > mid_lim) return RIGHT;
+	if (position.x_pos < -mid_lim) return LEFT;
 	
 	return MIDDLE;
 }

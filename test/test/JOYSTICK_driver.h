@@ -24,10 +24,11 @@ typedef enum
 }JOYSTICK_direction_t;
 
 
-typedef struct{
+typedef struct
+{
 	int x_pos;
 	int y_pos;
-	}JOYSTICK_position_t;
+}JOYSTICK_position_t;
 
 
 void JOYSTICK_init(void);
@@ -35,7 +36,7 @@ void JOYSTICK_calibrate(void);
 bool JOYSTICK_button(int button);
 JOYSTICK_position_t JOYSTICK_getPosition(void);
 JOYSTICK_direction_t JOYSTICK_getDirection(void);
-
+void MENU_main(void);
 
 
 

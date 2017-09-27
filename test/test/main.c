@@ -18,8 +18,8 @@
 #include "JOYSTICK_driver.h"
 #include "SLIDER_driver.h"
 #include "ADC.h"
-//#include "fonts.h"
 #include "OLED_driver.h"
+#include "MENU_system.h"
 #include <stdio.h>
 #include <avr/interrupt.h>
 #include <avr/pgmspace.h>
@@ -34,16 +34,43 @@ int main(void)
 	JOYSTICK_init();
 	OLED_init();
 	//SRAM_test();
-
+	MENU_init();
+	
 	_delay_ms(100);
+
+	//OLED_print_str("hallo");
+	//OLED_draw_arrow(3);
+	//OLED_print_str(main_menu->name);
+	//OLED_clear_page(1);
+	//OLED_print_str("best");
+	//OLED_goto_page(2);
+	//OLED_print_str(main_menu->children[0]->name);
+	//OLED_goto_page(3);
+	//OLED_print_str(main_menu->children[1]->name);
+	//OLED_goto_page(4);
+	//OLED_print_str(main_menu->children[1]->children[0]->name);
+	//OLED_goto_page(5);
+	//OLED_print_str(main_menu->children[1]->children[1]->name);
+	//OLED_goto_page(6);
+	//OLED_print_str(main_menu->children[1]->children[2]->name);
+	//OLED_goto_page(7);
 	
+	//OLED_print_menu(curr_menu);
+	//OLED_draw_arrow(position);
+	for (int page = 0; page < 8; page++){
+		for (int col = 0; col < 128; col++ )
+		{
+			ext_ram[page*128 + col] = 0x00;
+		}
+	}
+	printf("Done clearing\r\n");
 	
-	OLED_print_str("This line is the");
-	OLED_clear_page(1);
-	OLED_print_str("best");
 	
     while(1)
     {
-
+		SRAM_reset();
+		MENU_main();
+		OLED_draw();
+		
     }
 }

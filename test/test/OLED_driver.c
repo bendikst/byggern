@@ -8,6 +8,7 @@
 #include <string.h>
 #include "fonts.h"
 #include <avr/pgmspace.h>
+#include "ADC.h"
 
 static uint8_t PAGE, COLUMN;
 
@@ -44,13 +45,38 @@ void OLED_init(void){
 	  OLED_home();
 	  
 }
+void SRAM_print(unsigned char c){
+	for(int i = 0; i < 8; i++)
+		{
+		ext_ram[PAGE*128 + COLUMN] = (pgm_read_byte(&(font8[c - ASCII_OFFSET][i])));
+		COLUMN += 1;
+		}
+	
+}
 
+void SRAM_reset(){
+	OLED_home();
+	for (uint8_t page = 0; page < 8; page++)
+	{
+		SRAM_clear_page(page);
+	}
+	OLED_home();
+}
+
+void SRAM_clear_page(uint8_t page){
+	OLED_goto_page(page);
+	for (int i = 0; i < 128; i++)
+	{
+		ext_ram[page*128 + i] = 0;
+	}
+}
 
 void OLED_print(unsigned char c)
 {
 		for(int i = 0; i < 8; i++)
 		{
 		*ext_oled_data = (pgm_read_byte(&(font8[c - ASCII_OFFSET][i]))); 
+		
 		}
 		
 		//Fra studass: writeData(~pgm_read_byte(&myfont[oledRam[page][col] - ASCII_OFFSET][i]))
@@ -107,7 +133,49 @@ void OLED_print_str(const char* data){
 	for (int i = 0; i<strlen(data); i++)
 	
 	{
-		OLED_print(data[i]);
+		SRAM_print(data[i]);
 	}
 	
+}
+
+void OLED_print_menu(Menu* menu){
+	OLED_home();
+	OLED_print_str(menu->name);
+	for (int i = 0; i < menu->num_children; i++){
+		OLED_goto_page(i+1);
+		OLED_goto_column(10);
+		OLED_print_str(menu->children[i]->name);
+	}
+	
+	
+	
+}
+
+void OLED_draw_arrow(int pos){
+	OLED_goto_page(pos+1);
+	OLED_goto_column(0);
+	
+	for(int i = 0; i < 8; i++)
+	{
+		ext_ram[PAGE*128 + COLUMN] = (pgm_read_byte(&(font8[96][i])));
+		COLUMN += 1;
+		//*ext_oled_data = (pgm_read_byte(&(font8[96][i])));
+	}
+	
+}
+
+
+void OLED_draw()
+{
+	
+	OLED_reset();
+	OLED_home();
+	for (int page = 0; page < 8; page++){
+		OLED_goto_page(page);
+		for (int col = 0; col < 128; col++ )
+		{
+			OLED_goto_column(col);
+			*ext_oled_data = ext_ram[page*128 + col];
+		}
+	}
 }

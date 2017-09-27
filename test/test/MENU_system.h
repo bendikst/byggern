@@ -9,21 +9,36 @@
 #ifndef MENU_SYSTEM_H_
 #define MENU_SYSTEM_H_
 
+#include <stdlib.h>
+#include "JOYSTICK_driver.h"
+
+
 typedef struct Menu_struct Menu;
 
 static Menu* main_menu;
+static int position;
+static Menu* curr_menu;
 
 typedef struct Menu_struct
 {
 	char* name;
-	Menu* parent = NULL;
+	Menu* parent;
 	int num_children;
-	Menu* children;
+	Menu** children;
 	
+	void (*function)(void);
 }Menu;
 
-void MENU_init(void);
-void MENU_new_submenu(char* name, );
+
+
+//Menu creation
+Menu* MENU_init(void);
+Menu* MENU_new_submenu(Menu* self, char* name, void (*function)(void));
+
+//Menu navigation
+void MENU_main(void);
+
+
 
 
 #endif /* MENU_SYSTEM_H_ */
