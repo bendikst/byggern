@@ -167,8 +167,6 @@ void OLED_draw_arrow(int pos){
 
 void OLED_draw()
 {
-	
-	OLED_reset();
 	OLED_home();
 	for (int page = 0; page < 8; page++){
 		OLED_goto_page(page);

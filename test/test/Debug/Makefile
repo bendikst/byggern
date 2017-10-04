@@ -38,13 +38,16 @@ SUBDIRS :=
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
 ../ADC.c \
+../CAN_driver.c \
 ../joystick.c \
 ../JOYSTICK_driver.c \
+../MCP2515_setup.c \
 ../MENU_system.c \
 ../OLED_driver.c \
 ../oppg2.c \
 ../main.c \
 ../SLIDER_driver.c \
+../SPI_driver.c \
 ../SRAM.c \
 ../UART_driver.c \
 ../XMEM_module.c
@@ -58,59 +61,71 @@ ASM_SRCS +=
 
 OBJS +=  \
 ADC.o \
+CAN_driver.o \
 joystick.o \
 JOYSTICK_driver.o \
+MCP2515_setup.o \
 MENU_system.o \
 OLED_driver.o \
 oppg2.o \
 main.o \
 SLIDER_driver.o \
+SPI_driver.o \
 SRAM.o \
 UART_driver.o \
 XMEM_module.o
 
 OBJS_AS_ARGS +=  \
 ADC.o \
+CAN_driver.o \
 joystick.o \
 JOYSTICK_driver.o \
+MCP2515_setup.o \
 MENU_system.o \
 OLED_driver.o \
 oppg2.o \
 main.o \
 SLIDER_driver.o \
+SPI_driver.o \
 SRAM.o \
 UART_driver.o \
 XMEM_module.o
 
 C_DEPS +=  \
 ADC.d \
+CAN_driver.d \
 joystick.d \
 JOYSTICK_driver.d \
+MCP2515_setup.d \
 MENU_system.d \
 OLED_driver.d \
 oppg2.d \
 main.d \
 SLIDER_driver.d \
+SPI_driver.d \
 SRAM.d \
 UART_driver.d \
 XMEM_module.d
 
 C_DEPS_AS_ARGS +=  \
 ADC.d \
+CAN_driver.d \
 joystick.d \
 JOYSTICK_driver.d \
+MCP2515_setup.d \
 MENU_system.d \
 OLED_driver.d \
 oppg2.d \
 main.d \
 SLIDER_driver.d \
+SPI_driver.d \
 SRAM.d \
 UART_driver.d \
 XMEM_module.d
 
-OUTPUT_FILE_PATH +=test.elf
+OUTPUT_FILE_PATH +=Node_1.elf
 
-OUTPUT_FILE_PATH_AS_ARGS +=test.elf
+OUTPUT_FILE_PATH_AS_ARGS +=Node_1.elf
 
 ADDITIONAL_DEPENDENCIES:=
 
@@ -122,6 +137,12 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
+
+
+
+
 
 
 
@@ -177,13 +198,13 @@ all: $(OUTPUT_FILE_PATH) $(ADDITIONAL_DEPENDENCIES)
 $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP) $(LINKER_SCRIPT_DEP)
 	@echo Building target: $@
 	@echo Invoking: AVR/GNU Linker : 4.8.1
-	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1061\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="test.map" -Wl,--start-group -Wl,-lm  -Wl,--end-group -Wl,--gc-sections -mmcu=atmega162  
+	$(QUOTE)C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1061\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="Node_1.map" -Wl,--start-group -Wl,-lm  -Wl,--end-group -Wl,--gc-sections -mmcu=atmega162  
 	@echo Finished building target: $@
-	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1061\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures  "test.elf" "test.hex"
-	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1061\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "test.elf" "test.eep" || exit 0
-	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1061\avr8-gnu-toolchain\bin\avr-objdump.exe" -h -S "test.elf" > "test.lss"
-	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1061\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "test.elf" "test.srec"
-	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1061\avr8-gnu-toolchain\bin\avr-size.exe" "test.elf"
+	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1061\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures  "Node_1.elf" "Node_1.hex"
+	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1061\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "Node_1.elf" "Node_1.eep" || exit 0
+	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1061\avr8-gnu-toolchain\bin\avr-objdump.exe" -h -S "Node_1.elf" > "Node_1.lss"
+	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1061\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "Node_1.elf" "Node_1.srec"
+	"C:\Program Files (x86)\Atmel\Atmel Toolchain\AVR8 GCC\Native\3.4.1061\avr8-gnu-toolchain\bin\avr-size.exe" "Node_1.elf"
 	
 	
 
@@ -195,5 +216,5 @@ $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP) $(LINKER
 clean:
 	-$(RM) $(OBJS_AS_ARGS) $(EXECUTABLES)  
 	-$(RM) $(C_DEPS_AS_ARGS)   
-	rm -rf "test.elf" "test.a" "test.hex" "test.lss" "test.eep" "test.map" "test.srec" "test.usersignatures"
+	rm -rf "Node_1.elf" "Node_1.a" "Node_1.hex" "Node_1.lss" "Node_1.eep" "Node_1.map" "Node_1.srec" "Node_1.usersignatures"
 	

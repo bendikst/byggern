@@ -12,7 +12,6 @@
 #include <util/delay.h>
 #include "OLED_driver.h"
 
-
 Menu* MENU_init()
 {
 	//create main menu
@@ -61,17 +60,17 @@ void MENU_main(){
 	switch (JOYSTICK_getDirection()){
 		case DOWN:
 			position++;
-			_delay_ms(500);
+			_delay_ms(1000);
 			break;
 		case UP:
 			position--;
-			_delay_ms(500);
+			_delay_ms(1000);
 			break;
 		case RIGHT:
 			if (curr_menu->children[position] != NULL){
 				curr_menu = curr_menu->children[position];
 				position = 0;
-				_delay_ms(500);
+				_delay_ms(1000);
 			}
 
 			break;
@@ -79,7 +78,7 @@ void MENU_main(){
 			if(curr_menu->parent != NULL){
 				curr_menu = curr_menu->parent;
 				position = 0;
-				_delay_ms(500);
+				_delay_ms(1000);
 			}
 			break;
 		default:
@@ -111,7 +110,7 @@ void MENU_main(){
 		position = 0;
 	}
 	
-	OLED_reset();
+	SRAM_reset();
 	OLED_print_menu(curr_menu);
 	OLED_draw_arrow(position);
 }
