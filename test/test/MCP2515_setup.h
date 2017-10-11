@@ -10,6 +10,8 @@
 #define MCP2515_SETUP_H_
 
 
+
+
 //uint8_t MCP2515_init(void); Tror ikke vi trenger
 uint8_t MCP2515_read(uint8_t address);
 void MCP2515_write(uint8_t data, uint8_t address); //HVorfor ikke char*?

@@ -57,14 +57,36 @@ Copyright 2003 Kimberly Otten Software Consulting
 #define MCP_CANINTE		0x2B
 #define MCP_CANINTF		0x2C
 #define MCP_EFLG		0x2D
+
 #define MCP_TXB0CTRL	0x30
+#define MCP_TXB0SIDH	0x31 //High value ID-register 0
+#define MCP_TXB0SIDL	0x32 //Low value ID-register 0 (write to bit 5-7)
+#define MCP_TXB0DLC		0x35 //Data length register 0 (write to bit 0-3), Bit 6 is RTR-bit
+#define MCP_TXB0D		0x36 //Data buffer start address, ends on 0x3D
+
 #define MCP_TXB1CTRL	0x40
+#define MCP_TXB1SIDH	0x41 //High value ID-register 1
+#define MCP_TXB1SIDL	0x42 //Low value ID-register 1 (write to bit 5-7)
+#define MCP_TXB1DLC		0x45 //Data length register 1 (write to bit 0-3), Bit 6 is RTR-bit
+#define MCP_TXB1D		0x46 //Data buffer start address, ends on 0x4D
+
 #define MCP_TXB2CTRL	0x50
+#define MCP_TXB2SIDH	0x51 //High value ID-register 2
+#define MCP_TXB2SIDL	0x52 //Low value ID-register 2 (write to bit 5-7)
+#define MCP_TXB2DLC		0x55 //Data length register 2 (write to bit 0-3), Bit 6 is RTR-bit
+#define MCP_TXB2D		0x56 //Data buffer start address, ends on 0x5D
+
 #define MCP_RXB0CTRL	0x60
 #define MCP_RXB0SIDH	0x61
+#define MCP_RXB0SIDL	0x62
+#define MCP_RXB0DLC		0x65
+#define MCP_RXB0D		0x66 //Receive start, up to 0x6D
+
 #define MCP_RXB1CTRL	0x70
 #define MCP_RXB1SIDH	0x71
-
+#define MCP_RXB1SIDL	0x72
+#define MCP_RXB1DLC		0x75
+#define MCP_RXB1D		0x76 //Receive start, up to 0x6D
 
 #define MCP_TX_INT		0x1C		// Enable all transmit interrupts
 #define MCP_TX01_INT	0x0C		// Enable TXB0 and TXB1 interrupts

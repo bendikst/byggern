@@ -21,6 +21,7 @@
 #include "OLED_driver.h"
 #include "MENU_system.h"
 #include "SPI_driver.h"
+#include "CAN_driver.h"
 #include "MCP2515_setup.h"
 #include <stdio.h>
 #include <avr/interrupt.h>
@@ -32,6 +33,7 @@ int main(void)
 	UART_init(9600);
 	XMEM_init();
 	ADC_init();
+	CAN_init();
 	sei();
 	JOYSTICK_init();
 	OLED_init();
@@ -42,13 +44,39 @@ int main(void)
 	
 	_delay_ms(100);
 	
+	char* data = "yolo";
+	CAN_message test_can;
+	test_can.id = 6;
+	test_can.length = 4;
+	for (uint8_t i = 0; i < test_can.length; i++){
+		test_can.data[i] = data[i];
+	}
+	char* data2 = "snek2";
+	CAN_message test_can2;
+	test_can2.id = 2;
+	test_can2.length = 5;
+	for (uint8_t i = 0; i < test_can2.length; i++){
+		test_can2.data[i] = data2[i];
+	}
+	
+	CAN_transmit(&test_can);
+	
+	_delay_ms(50);
+	CAN_print();
+	
+	_delay_ms(1000);
+	
+	CAN_transmit(&test_can2);
+	
+	_delay_ms(50);
+	CAN_print();
 	
 	
+	//CAN_transmit(&test_can2);
+	//CAN_print(&test_can2);
 	
     while(1)
     {
-		
-		SPI_transceive(0);
 		
 
 		//MENU_main();
