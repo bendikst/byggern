@@ -59,26 +59,30 @@ int main(void)
 		test_can2.data[i] = data2[i];
 	}
 	
-	CAN_transmit(&test_can);
+	//CAN_transmit(&test_can);
 	
 	_delay_ms(50);
-	CAN_print();
+	//CAN_print();
 	
-	_delay_ms(1000);
+	//_delay_ms(1000);
 	
-	CAN_transmit(&test_can2);
+	//CAN_transmit(&test_can2);
 	
 	_delay_ms(50);
-	CAN_print();
+	//CAN_print();
 	
 	
 	//CAN_transmit(&test_can2);
 	//CAN_print(&test_can2);
-	
+	CAN_message msg;
     while(1)
     {
+		msg = CAN_joystick_transmit();
 		
-
+		CAN_transmit(&msg);
+		printf("Node 1 pos: %d\n",msg.data[0]);
+		//printf("Node 1 ID: %d\n", msg.id);
+		_delay_ms(100);
 		//MENU_main();
 		//OLED_draw();
 		//_delay_ms(100);

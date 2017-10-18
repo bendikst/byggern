@@ -80,6 +80,20 @@ CAN_message CAN_receive(){
 }
 
 
+CAN_message CAN_joystick_transmit(){
+
+	JOYSTICK_direction_t pos = JOYSTICK_getDirection();
+	CAN_message msg;
+	
+	msg.id = 0;
+	msg.length = 1;
+	msg.data[0] = (uint8_t)pos;
+	
+	CAN_transmit(&msg);
+	
+	return msg;
+}
+
 void CAN_print(){ //TESTFUNKSJON
 	
 	CAN_message* msg = &rec_msg;

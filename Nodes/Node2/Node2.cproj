@@ -117,6 +117,12 @@
     <Compile Include="CAN_driver.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="JOYCOM.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="JOYCOM.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="macaroni.h">
       <SubType>compile</SubType>
     </Compile>
