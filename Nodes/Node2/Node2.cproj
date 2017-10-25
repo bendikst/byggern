@@ -117,12 +117,6 @@
     <Compile Include="CAN_driver.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="JOYCOM.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="JOYCOM.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="macaroni.h">
       <SubType>compile</SubType>
     </Compile>
@@ -142,6 +136,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="SPI_driver.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="PWM_driver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="PWM_driver.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="UART_driver.c">
