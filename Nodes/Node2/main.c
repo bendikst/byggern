@@ -13,18 +13,22 @@
 #include "macaroni.h"
 #include "UART_driver.h"
 #include "PWM_driver.h"
+#include "IR_driver.h"
 #include <stdio.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
+#include <stdbool.h>
 
 int main(void)
 {
 	
 	cli();
+	int score = 0;
 		
 	UART_init(9600);
 	CAN_init();
 	PWM_init();
+	IR_init();
 	sei();
 	
 	_delay_ms(50);
@@ -34,6 +38,7 @@ int main(void)
 	
 	_delay_ms(100);
 	
+	int testvar;
 	//char* data = "Hvor er";
 	//CAN_message test_can;
 	//test_can.id = 6;
@@ -68,11 +73,24 @@ int main(void)
 	printf("node2\n");
 	
 	
-	
+	bool goal = false;
     while(1)
     {
 		//_delay_ms(1000);
 		PWM_joystick_control(CAN_get_curr().data[0]);
+		testvar = IR_read();
+		
+		//_delay_ms();
+		
+		if(testvar < 15 && !goal){
+			score++;
+			goal = true;
+			printf("the score is: %d\n", score);
+		}else if (testvar > 40){
+			goal = false;
+		}
+		
+		
 		
     }
 }

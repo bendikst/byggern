@@ -4,6 +4,7 @@
  * Created: 25.10.2017 11:30:12
  *  Author: Administrator
  */ 
+#include <stdio.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include "PWM_driver.h"
