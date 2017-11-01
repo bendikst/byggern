@@ -37,8 +37,6 @@ void IR_init(){
 
 
 uint8_t IR_read(){
-	uint8_t low;
-	uint16_t high;
 	//Start conversion
 	set_bit(ADCSRA, ADSC);
 	
@@ -50,5 +48,6 @@ uint8_t IR_read(){
 
 
 ISR(ADC_vect){
+	//printf("kjørr\n");
 	IR_intflag = true;
 }

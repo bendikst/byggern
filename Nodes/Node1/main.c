@@ -80,7 +80,7 @@ int main(void)
 		msg = CAN_joystick_transmit();
 		
 		CAN_transmit(&msg);
-		printf("Node 1 pos: %d\n",msg.data[0]);
+		printf("Node 1 pos: %d\n",msg.data[1]);
 		//printf("Node 1 ID: %d\n", msg.id);
 		_delay_ms(100);
 		//MENU_main();

@@ -39,7 +39,13 @@ void PWM_set_duty_cycle(int cycles){
 }
 
 
-void PWM_joystick_control(JOYSTICK_direction_t dir){
+void PWM_joystick_control(uint8_t val){
+	
+	int PWM_value = 24*val+1800;
+	
+	PWM_set_duty_cycle(PWM_value);
+	
+	/*
 	switch (dir){
 		case LEFT:
 			PWM_set_duty_cycle(1800);
@@ -50,12 +56,11 @@ void PWM_joystick_control(JOYSTICK_direction_t dir){
 		default:
 			PWM_set_duty_cycle(3000);
 	}
-	
+	*/
 }
 
 
 ISR(TIMER1_COMPA_vect){
 	
-	//printf("Interrupt PWM happened\n");
 	clear_bit(TIFR1, OCF1A);
 }

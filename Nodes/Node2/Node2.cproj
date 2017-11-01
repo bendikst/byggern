@@ -138,6 +138,12 @@
     <Compile Include="MCP2515_setup.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="MOTOR_driver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MOTOR_driver.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="SPI_driver.c">
       <SubType>compile</SubType>
     </Compile>
@@ -148,6 +154,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="PWM_driver.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="TWI_Master.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="TWI_Master.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="UART_driver.c">

@@ -14,6 +14,8 @@
 #include "UART_driver.h"
 #include "PWM_driver.h"
 #include "IR_driver.h"
+//#include "TWI_Master.h"
+#include "MOTOR_driver.h"
 #include <stdio.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
@@ -24,73 +26,50 @@ int main(void)
 	
 	cli();
 	int score = 0;
-		
+	
 	UART_init(9600);
 	CAN_init();
 	PWM_init();
 	IR_init();
+	MOTOR_init();
 	sei();
-	
-	_delay_ms(50);
-	
-	//printf("node 2 \n");
-	//printf("node 2 \n");
-	
+
 	_delay_ms(100);
 	
 	int testvar;
-	//char* data = "Hvor er";
-	//CAN_message test_can;
-	//test_can.id = 6;
-	//test_can.length = 7;
-	//for (uint8_t i = 0; i < test_can.length; i++){
-		//test_can.data[i] = data[i];
-	//}
-	//char* data2 = "Bendik?";
-	//CAN_message test_can2;
-	//test_can2.id = 2;
-	//test_can2.length = 7;
-	//for (uint8_t i = 0; i < test_can2.length; i++){
-		//test_can2.data[i] = data2[i];
-	//}
-//
-	//JOYSTICK_direction_t pos = 0;
-	//CAN_message msg = CAN_get_curr();
-		//
-		//if(msg.id == 0){
-			//
-			//pos = msg.data[0];
-			//
-		//}
-		////CAN_print();
-		//
-		//
-		//
-		//printf("Node2 Pos: %d\n",pos);
-		//
-		//_delay_ms(100);
-//
 	printf("node2\n");
 	
 	
 	bool goal = false;
+	int counter = 0;
     while(1)
     {
+		
+		
 		//_delay_ms(1000);
 		PWM_joystick_control(CAN_get_curr().data[0]);
-		testvar = IR_read();
+		//printf("tranceived from CAN: %d\n", CAN_get_curr().data[1]);
+		MOTOR_move(CAN_get_curr().data[1]);
+		//_delay_ms(1000);
 		
-		//_delay_ms();
-		
-		if(testvar < 15 && !goal){
-			score++;
-			goal = true;
-			printf("the score is: %d\n", score);
-		}else if (testvar > 40){
-			goal = false;
+		testvar += IR_read();
+		counter++;
+		if (counter == 5){   //digital low pass filter
+			if(testvar/5 < 15 && !goal){
+				score++;
+				goal = true;
+				printf("the score is: %d\n", score);
+				printf("IR_value: %d\n", testvar);
+			}else if (testvar/5 > 40){
+				goal = false;
+			}
+			counter = 0;
+			testvar = 0;
 		}
-		
-		
-		
     }
+}
+
+ISR(BADISR_vect){
+	printf(("BADISR"));
+	while(1);
 }
