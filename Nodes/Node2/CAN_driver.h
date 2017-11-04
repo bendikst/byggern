@@ -28,7 +28,7 @@ typedef enum
 	
 }JOYSTICK_direction_t;
 
-static CAN_message rec_msg;
+volatile static CAN_message rec_msg;
 
 uint8_t CAN_init(void);
 void CAN_transmit(CAN_message* msg);
