@@ -144,6 +144,12 @@
     <Compile Include="MOTOR_driver.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="PID_controller.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="PID_controller.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="SPI_driver.c">
       <SubType>compile</SubType>
     </Compile>

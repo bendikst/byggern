@@ -16,20 +16,18 @@
 
 void MOTOR_init(){
 	TWI_Master_Initialise();
-	//set_bit(DDRD, PD0);
-	//set_bit(DDRD, PD1);
-	//Enable motor
+		//Enable motor
 	set_bit(DDRH, PH4);
 	set_bit(PORTH, PH4);
 	
 	//Direction pin output
 	set_bit(DDRH, PH1);
 	
-	set_bit(DDRH, PH3);
-	set_bit(DDRH, PH5);
 	
 	//Encoder pins:
 	set_bit(DDRH, PH6); //RST pin output
+	set_bit(DDRH, PH3);
+	set_bit(DDRH, PH5);
 	MOTOR_reset_encoder();
 	
 	//Data bits:
@@ -51,32 +49,111 @@ void MOTOR_reset_encoder() {
 }
 
 
+int16_t MOTOR_read_encoder(void){
+	//!OE low to enable output of encoder
+	clear_bit(PORTH, PH5);
+	
+	//Set SEL low to select high byte 
+	clear_bit(PORTH,PH3);
+	_delay_us(100);
+	
+	//Read MSB:
+	uint8_t hi = PINK;
+	
+	//Set SEL low to select high byte
+	set_bit(PORTH, PH3);	
+	_delay_us(100);
+	
+	//Read LSB
+	uint8_t lo = PINK;
+	
+	MOTOR_reset_encoder();
+	
+	set_bit(PORTH, PH5);
+	return (int16_t) ((hi<<8) | lo);
+}
+
+
+void MOTOR_set_direction(uint8_t val){
+	if (val < 128)
+	{
+		clear_bit(PORTH, PH1);
+		
+	} else if (val >= 128)
+	{
+		set_bit(PORTH, PH1);
+	}
+	
+}
+
+
 void MOTOR_move(uint8_t val){//Kunne også tatt inn både direction og value??
 	uint8_t address = 0x5e;
 	uint8_t command = 0b00; //Do we need this?? page 11 in the datasheet for DAC
 	uint8_t data = 0b0;
-	//printf("val: %d\n", val);
+	
 	//Set direction
-	if (val < 50)
-	{
-		set_bit(PORTH, PH1);
-		data = (-1)*(val - 50)/10;
-	} else if (val >= 50)
+	if (val < 128)
 	{
 		clear_bit(PORTH, PH1);
-		data = (val-50)/10;
+		data = (-1)*val*2;
+		
+	} else if (val >= 128)
+	{
+		set_bit(PORTH, PH1);
+		data = (val-128)*2;
 	}	
 	
 	//Set SPEEEED/POWEEEEER
-
 	uint8_t message[3];
 	message[0] = address;
 	message[1] = command;
-	message[2] = 100;
-	_delay_us(100);
-	printf("SKRIVE\n");
+	message[2] = data;
+	_delay_us(20);
+	
 	TWI_Start_Transceiver_With_Data(message, 3);
+}
+
+void MOTOR_move_PID(uint8_t val){//Kunne også tatt inn både direction og value??
+	uint8_t address = 0x5e;
+	uint8_t command = 0b00; //Do we need this?? page 11 in the datasheet for DAC
+	uint8_t data = 0b0;
 	
-	_delay_us(100);
+	//Set direction
+	if (val < 128)
+	{
+		clear_bit(PORTH, PH1);
+		data = (-1)*val*2;
+		
+	} else if (val >= 128)
+	{
+		set_bit(PORTH, PH1);
+		data = (val-128)*2;
+	}
 	
+	//Set SPEEEED/POWEEEEER
+	uint8_t message[3];
+	message[0] = address;
+	message[1] = command;
+	message[2] = data;
+	_delay_us(20);
+	
+	TWI_Start_Transceiver_With_Data(message, 3);
+}
+
+
+
+
+
+void MOTOR_calibrate(){
+	MOTOR_move(50); //SETTER VENSTRE
+	int16_t rotation = MOTOR_read_encoder();
+	int16_t prev_rotation = rotation + 300;
+	while (rotation != prev_rotation){
+		prev_rotation = rotation;
+		_delay_ms(20);
+		rotation = MOTOR_read_encoder();
+	}
+	MOTOR_reset_encoder();
+	MOTOR_move(128);
 }

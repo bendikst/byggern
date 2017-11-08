@@ -14,8 +14,8 @@
 #include "UART_driver.h"
 #include "PWM_driver.h"
 #include "IR_driver.h"
-//#include "TWI_Master.h"
 #include "MOTOR_driver.h"
+#include "PID_controller.h"
 #include <stdio.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
@@ -29,12 +29,12 @@ int main(void)
 	int score = 0;
 	
 	UART_init(9600);
-	//CAN_init();
+	CAN_init();
 	//PWM_init();
 	//IR_init();
 	sei();
-	MOTOR_init();
-	
+	//MOTOR_init();
+	//PID_init();
 	_delay_ms(100);
 	
 	int testvar = 0;
@@ -46,20 +46,24 @@ int main(void)
     while(1)
     {
 		
-		_delay_ms(1000);
-		MOTOR_move(40);
 		//_delay_ms(1000);
-		//PWM_joystick_control(CAN_get_curr().data[0]);
-		//printf("tranceived from CAN: %d\n", CAN_get_curr().data[1]);
+		//MOTOR_move(50);
+		PWM_joystick_control(CAN_get_curr().data[0]);
+		//printf("tranceived from CAN: %d\n", CAN_get_curr().data[2]);
 		
 		//_delay_ms(1000);
-		//MOTOR_move(40);
+		//MOTOR_move(CAN_get_curr().data[2]);
 		//_delay_ms(1000);
+		//uint16_t encoder = MOTOR_read_encoder();
+		
+		//ref = CAN_get_curr().data[2];
+		_delay_ms(100);
+		//printf("Encoder output: %d\n", encoder);
 		
 		//testvar += IR_read();
 		//int irvalue = IR_read(); 
 		//printf("IR_value: %d\n", irvalue);
-		//_delay_ms(500);
+		////_delay_ms(500);
 		//counter++;
 		//if (counter == 5){   //digital low pass filter
 			//if(testvar/5 < 15 && !goal){

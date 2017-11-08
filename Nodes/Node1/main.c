@@ -76,14 +76,14 @@ int main(void)
 	CAN_message msg;
     while(1)
     {
-		//msg = CAN_joystick_transmit();
+		msg = CAN_gamecontrols_transmit();
 		
-		//CAN_transmit(&msg);
+		CAN_transmit(&msg);
 		//printf("Node 1 pos: %d\n",msg.data[1]);
 		//printf("Node 1 ID: %d\n", msg.id);
 		_delay_ms(100);
-		MENU_main();
-		OLED_draw();
+		//MENU_main();
+		//OLED_draw();
 		//_delay_ms(100);
 		
     }

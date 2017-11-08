@@ -20,9 +20,9 @@ uint8_t CAN_init(){
 		//Interrupt on falling edge PD0:
 		clear_bit(EICRA, ISC00);
 		set_bit(EICRA, ISC01);
-		//Enabler interrupt on PD0:
+		//Enabler interrupt on a pit:
 		set_bit(EIMSK, INT2);
-		// INT0 intflag is cleared by writing 1 to INTF2
+		// INT2 intflag is cleared by writing 1 to INTF2
 		set_bit(EIFR, INTF2);
 	
 
@@ -92,16 +92,6 @@ CAN_message CAN_receive(){
 	
 	return msg;
 }
-
-//CAN_message CAN_receive_alt(){
-	//CAN_message received_msg;
-	//msg.id = (MCP2515_read(MCP_RXB1SIDH)<<3) + (MCP2515_read(MCP_RXB1SIDL)>>5);
-	//msg.length = MCP2515_read(MCP_RXB1DLC);
-	//for (uint8_t i = 0; i < msg.length; i++)
-	//{
-		//msg.data[i] = MCP2515_read(MCP_RXB1D+i);
-	//}
-//}
 
 
 //void CAN_print(void){ //TESTFUNKSJON

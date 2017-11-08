@@ -95,6 +95,26 @@ CAN_message CAN_joystick_transmit(){
 	return msg;
 }
 
+
+CAN_message CAN_gamecontrols_transmit(){
+
+	JOYSTICK_position_t pos = JOYSTICK_getPosition();
+	uint8_t slider = SLIDER_pos(1);
+	
+	CAN_message msg;
+	
+	msg.id = 0;
+	msg.length = 3;
+	msg.data[0] = (uint8_t)pos.x_pos;
+	msg.data[1] = (uint8_t)pos.y_pos;
+	msg.data[2] = slider;
+	
+	CAN_transmit(&msg);
+	
+	return msg;
+}
+
+
 void CAN_print(){ //TESTFUNKSJON
 	
 	CAN_message* msg = &rec_msg;

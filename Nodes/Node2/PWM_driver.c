@@ -19,12 +19,10 @@ void PWM_init(){
 	//Set top value
 	ICR1 = 40000; //The compiler handles writing to the 16-bit registers
 	OCR1A = 3000;
-	
 	//Enable timer interrupt
-	//set_bit(TIMSK1, OCIE1A); //Kan også enable overflow/Interrupt B?
-	//Clearing interrupt flags 
-	TIFR1 = 0;
-	
+	set_bit(TIMSK1, OCIE1A); //Kan også enable overflow/Interrupt B?
+	//Clearing interrupt flags, trengs ikke?
+	//TIFR1 = 0;	
 	//Set PB5 as output
 	set_bit(DDRB, PB5);
 }
@@ -62,5 +60,5 @@ void PWM_joystick_control(uint8_t val){
 
 ISR(TIMER1_COMPA_vect){
 	
-	clear_bit(TIFR1, OCF1A);
+	//clear_bit(TIFR1, OCF1A);
 }

@@ -147,7 +147,6 @@ application.
 ****************************************************************************/
 ISR(TWI_vect)
 {
-	printf("Interrupt\n");
   static unsigned char TWI_bufPtr;
   
   switch (TWSR)
@@ -156,22 +155,20 @@ ISR(TWI_vect)
     case TWI_REP_START:         // Repeated START has been transmitted
       TWI_bufPtr = 0;                                     // Set buffer pointer to the TWI Address location
     case TWI_MTX_ADR_ACK:       // SLA+W has been tramsmitted and ACK received
-	printf("SLA+W, ACK\n");
+	
     case TWI_MTX_DATA_ACK:      // Data byte has been tramsmitted and ACK received
-	printf("data sendt, ack mottat\n");
-	printf("ptr, size: %d\t%d\n", TWI_bufPtr, TWI_msgSize);
-      if (TWI_bufPtr < TWI_msgSize)
+	 if (TWI_bufPtr < TWI_msgSize)
       {
-		  printf("sender\n");
+		 
         TWDR = TWI_buf[TWI_bufPtr++];
-		printf("TWDR: %d\n", TWDR);
+		
         TWCR = (1<<TWEN)|                                 // TWI Interface enabled
                (1<<TWIE)|(1<<TWINT)|                      // Enable TWI Interupt and clear the flag to send byte
                (0<<TWEA)|(0<<TWSTA)|(0<<TWSTO)|           //
                (0<<TWWC);                                 //  
       }else                    // Send STOP after last byte
       {
-		  printf("STOP\n");
+		 
         TWI_statusReg.lastTransOK = TRUE;                 // Set status bits to completed successfully. 
         TWCR = (1<<TWEN)|                                 // TWI Interface enabled
                (0<<TWIE)|(1<<TWINT)|                      // Disable TWI Interrupt and clear the flag
@@ -182,8 +179,7 @@ ISR(TWI_vect)
     case TWI_MRX_DATA_ACK:      // Data byte has been received and ACK tramsmitted
       TWI_buf[TWI_bufPtr++] = TWDR;
     case TWI_MRX_ADR_ACK:       // SLA+R has been tramsmitted and ACK received
-	printf("SLA+R sendt, ack mottat\n");
-      if (TWI_bufPtr < (TWI_msgSize-1) )                  // Detect the last byte to NACK it.
+     if (TWI_bufPtr < (TWI_msgSize-1) )                  // Detect the last byte to NACK it.
       {
         TWCR = (1<<TWEN)|                                 // TWI Interface enabled
                (1<<TWIE)|(1<<TWINT)|                      // Enable TWI Interupt and clear the flag to read next byte
@@ -212,17 +208,16 @@ ISR(TWI_vect)
              (0<<TWWC);                                 //
       break;
     case TWI_MTX_ADR_NACK:      // SLA+W has been tramsmitted and NACK received
-	printf("SLA+W, NACK\n");
+	
     case TWI_MRX_ADR_NACK:      // SLA+R has been tramsmitted and NACK received    
-	printf("SLA+R, NACK\n");
+
     case TWI_MTX_DATA_NACK:     // Data byte has been tramsmitted and NACK received
-	printf("data, NACK\n");
+
 //    case TWI_NO_STATE              // No relevant state information available; TWINT = “0”
     case TWI_BUS_ERROR:         // Bus error due to an illegal START or STOP condition
-	printf("error\n");
+	
     default:     
-      printf("NACK mottat\n");
-	  TWI_state = TWSR;                                 // Store TWSR and automatically sets clears noErrors bit.
+      TWI_state = TWSR;                                 // Store TWSR and automatically sets clears noErrors bit.
                                                         // Reset TWI Interface
       TWCR = (1<<TWEN)|                                 // Enable TWI-interface and release TWI pins
              (0<<TWIE)|(0<<TWINT)|                      // Disable Interupt
