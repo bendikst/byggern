@@ -11,9 +11,9 @@
 #include <stdbool.h>
 #include <util/delay.h>
 #include "OLED_driver.h"
+#include "snake.h"
 
-Menu* MENU_init()
-{
+Menu* MENU_init(){
 	//create main menu
 	
 	main_menu = malloc(sizeof(Menu));
@@ -25,16 +25,16 @@ Menu* MENU_init()
 	Menu* test_menu = MENU_new_submenu(main_menu,"test", &SRAM_test);
 	Menu* sneakygirls_menu = MENU_new_submenu(main_menu,"sneakygirls", NULL);
 	
+	MENU_new_submenu(main_menu, "snake", &play_snake);
+	
 	MENU_new_submenu(sneakygirls_menu,"Julie",NULL);
 	MENU_new_submenu(sneakygirls_menu,"Andrea",NULL);
 	MENU_new_submenu(sneakygirls_menu,"Johanne <3",NULL);
 	MENU_new_submenu(sneakygirls_menu->children[0], "Snik", NULL);
 	curr_menu = main_menu;
 	position = 0;
-	
-	
+
 	return main_menu;
-	
 }
 
 Menu* MENU_new_submenu(Menu* self, char* name, void (*function)(void)){
@@ -72,7 +72,6 @@ void MENU_main(){
 				position = 0;
 				_delay_ms(1000);
 			}
-
 			break;
 		case LEFT:
 			if(curr_menu->parent != NULL){
@@ -87,7 +86,7 @@ void MENU_main(){
 	
 	if (curr_menu->function != NULL)
 		{
-			OLED_reset();
+			SRAM_reset();
 			OLED_print_menu(curr_menu);
 			(*curr_menu->function)();
 			

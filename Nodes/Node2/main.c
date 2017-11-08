@@ -20,6 +20,7 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 int main(void)
 {
@@ -28,15 +29,15 @@ int main(void)
 	int score = 0;
 	
 	UART_init(9600);
-	CAN_init();
-	PWM_init();
-	IR_init();
-	MOTOR_init();
+	//CAN_init();
+	//PWM_init();
+	//IR_init();
 	sei();
-
+	MOTOR_init();
+	
 	_delay_ms(100);
 	
-	int testvar;
+	int testvar = 0;
 	printf("node2\n");
 	
 	
@@ -45,27 +46,35 @@ int main(void)
     while(1)
     {
 		
-		
+		_delay_ms(1000);
+		MOTOR_move(40);
 		//_delay_ms(1000);
-		PWM_joystick_control(CAN_get_curr().data[0]);
+		//PWM_joystick_control(CAN_get_curr().data[0]);
 		//printf("tranceived from CAN: %d\n", CAN_get_curr().data[1]);
-		MOTOR_move(CAN_get_curr().data[1]);
+		
+		//_delay_ms(1000);
+		//MOTOR_move(40);
 		//_delay_ms(1000);
 		
-		testvar += IR_read();
-		counter++;
-		if (counter == 5){   //digital low pass filter
-			if(testvar/5 < 15 && !goal){
-				score++;
-				goal = true;
-				printf("the score is: %d\n", score);
-				printf("IR_value: %d\n", testvar);
-			}else if (testvar/5 > 40){
-				goal = false;
-			}
-			counter = 0;
-			testvar = 0;
-		}
+		//testvar += IR_read();
+		//int irvalue = IR_read(); 
+		//printf("IR_value: %d\n", irvalue);
+		//_delay_ms(500);
+		//counter++;
+		//if (counter == 5){   //digital low pass filter
+			//if(testvar/5 < 15 && !goal){
+				//score++;
+				//goal = true;
+				//printf("the score is: %d\n", score);
+				//printf("IR_value: %d\n", testvar/5);
+			//}else if (testvar/5 > 20){
+				//goal = false;
+			//}
+			////printf("IR_value: %d\n", testvar/5);
+			////goal = false;
+			//counter = 0;
+			//testvar = 0;
+		//}
     }
 }
 

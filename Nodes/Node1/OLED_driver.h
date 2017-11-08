@@ -35,5 +35,6 @@ void OLED_draw(void);
 void SRAM_print(unsigned char c);
 void SRAM_clear_page(uint8_t page);
 void SRAM_reset();
+void SRAM_custom_print(unsigned char* c);
 
 #endif /* OLED_DRIVER_H_ */

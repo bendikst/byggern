@@ -21,9 +21,9 @@ uint8_t CAN_init(){
 		clear_bit(EICRA, ISC00);
 		set_bit(EICRA, ISC01);
 		//Enabler interrupt on PD0:
-		set_bit(EIMSK, INT0);
+		set_bit(EIMSK, INT2);
 		// INT0 intflag is cleared by writing 1 to INTF2
-		set_bit(EIFR, INTF0);
+		set_bit(EIFR, INTF2);
 	
 
 	SPI_MasterInit();
@@ -93,28 +93,36 @@ CAN_message CAN_receive(){
 	return msg;
 }
 
+//CAN_message CAN_receive_alt(){
+	//CAN_message received_msg;
+	//msg.id = (MCP2515_read(MCP_RXB1SIDH)<<3) + (MCP2515_read(MCP_RXB1SIDL)>>5);
+	//msg.length = MCP2515_read(MCP_RXB1DLC);
+	//for (uint8_t i = 0; i < msg.length; i++)
+	//{
+		//msg.data[i] = MCP2515_read(MCP_RXB1D+i);
+	//}
+//}
 
-void CAN_print(void){ //TESTFUNKSJON
-	
-	CAN_message* msg = &rec_msg;
-	
-	char temp[msg->length+1];
-	for (uint8_t i = 0; i < msg->length; i++){
-		temp[i] = (unsigned char)msg->data[i];
-	}
-	temp[msg->length] = '\0';
-	printf("Message received: \nid:%d \nlength%d \nData:%s\n", msg->id, msg->length, temp);
 
-}
+//void CAN_print(void){ //TESTFUNKSJON
+	//
+	//CAN_message* msg = &rec_msg;
+	//
+	//char temp[msg->length+1];
+	//for (uint8_t i = 0; i < msg->length; i++){
+		//temp[i] = (unsigned char)msg->data[i];
+	//}
+	//temp[msg->length] = '\0';
+	//printf("Message received: \nid:%d \nlength%d \nData:%s\n", msg->id, msg->length, temp);
+//}
 
 CAN_message CAN_get_curr(){
 	return rec_msg;
 }
 
 
-ISR(INT0_vect){
+ISR(INT2_vect){
 	//Studass mener heller vi bør bruke et eget flagg som sier at interrupt har skjedd?
 	//rec_flag = 1;
-	
 	rec_msg = CAN_receive();
 }

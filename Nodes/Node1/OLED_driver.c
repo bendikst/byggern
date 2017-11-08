@@ -54,6 +54,15 @@ void SRAM_print(unsigned char c){
 	
 }
 
+void SRAM_custom_print(unsigned char* c){
+	for (int i = 0; i < 8; i++){
+		ext_ram[PAGE*128 + COLUMN] = (pgm_read_byte(c[i]));
+		COLUMN++;
+	}
+	
+	
+}
+
 void SRAM_reset(){
 	OLED_home();
 	for (uint8_t page = 0; page < 8; page++)

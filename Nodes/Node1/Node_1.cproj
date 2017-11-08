@@ -172,6 +172,12 @@
     <Compile Include="SLIDER_driver.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="snake.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="snake.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="SPI_driver.c">
       <SubType>compile</SubType>
     </Compile>

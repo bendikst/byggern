@@ -21,7 +21,7 @@ void PWM_init(){
 	OCR1A = 3000;
 	
 	//Enable timer interrupt
-	set_bit(TIMSK1, OCIE1A); //Kan også enable overflow/Interrupt B?
+	//set_bit(TIMSK1, OCIE1A); //Kan også enable overflow/Interrupt B?
 	//Clearing interrupt flags 
 	TIFR1 = 0;
 	

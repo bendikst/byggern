@@ -41,7 +41,6 @@ int main(void)
 	SPI_MasterInit();
 	//MCP2515_init();
 	
-	
 	_delay_ms(100);
 	
 	char* data = "yolo";
@@ -71,20 +70,20 @@ int main(void)
 	_delay_ms(50);
 	//CAN_print();
 	
-	
+	printf("Node 1\n");
 	//CAN_transmit(&test_can2);
 	//CAN_print(&test_can2);
 	CAN_message msg;
     while(1)
     {
-		msg = CAN_joystick_transmit();
+		//msg = CAN_joystick_transmit();
 		
-		CAN_transmit(&msg);
-		printf("Node 1 pos: %d\n",msg.data[1]);
+		//CAN_transmit(&msg);
+		//printf("Node 1 pos: %d\n",msg.data[1]);
 		//printf("Node 1 ID: %d\n", msg.id);
 		_delay_ms(100);
-		//MENU_main();
-		//OLED_draw();
+		MENU_main();
+		OLED_draw();
 		//_delay_ms(100);
 		
     }

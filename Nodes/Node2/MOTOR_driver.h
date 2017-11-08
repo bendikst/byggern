@@ -12,6 +12,7 @@
 
 void MOTOR_init(void);
 void MOTOR_move(uint8_t val);
+void MOTOR_reset_encoder(void);
 
 
 #endif /* MOTOR_DRIVER_H_ */
