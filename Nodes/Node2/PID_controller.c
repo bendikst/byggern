@@ -30,19 +30,18 @@ uint16_t encoder_output;
 
 
 void PID_init(){
-	//cli();
-	//
-	////enable timer overflow interrupt for timer 2
-	//set_bit(TIMSK2, TOIE2);
-	//
-	////Start timer2 with prescaler of 1024
-	//
-	//set_bit(TCCR2B, CS20);
-	//set_bit(TCCR2B, CS21);
-	//set_bit(TCCR2B, CS22);
-	//
-	//
-	//sei();
+	cli();
+	
+	//enable timer overflow interrupt for timer 2
+	set_bit(TIMSK2, TOIE2);
+	
+	//Start timer2 with prescaler of 1024
+	
+	set_bit(TCCR2B, CS20);
+	set_bit(TCCR2B, CS21);
+	set_bit(TCCR2B, CS22);
+		
+	sei();
 	MOTOR_calibrate();
 	_delay_ms(200);
 	
@@ -54,22 +53,25 @@ void PID_update_reference(uint16_t pos){
 }
 
 
+void PID_regulator(){
+	encoder_output = MOTOR_read_encoder(); //Integrating speed to find position
+	
+	position += encoder_output*dt;
+
+	error = ref - position;
+	integral += error*dt;
+	
+	derivative = -(error-prev_error)/dt; //Do we need negative??
+	
+	u = K_p*error + K_i*integral + K_d*derivative;
+	
+	prev_error = error;
+	MOTOR_move(u);
+}
+
+
 //ISR(TIMER2_OVF_vect){
 	//printf("Inteerr\n");
-	//encoder_output = MOTOR_read_encoder(); //Integrating speed to find position
-	//printf("Output: %d\n", encoder_output);
-	//position += encoder_output*dt;
-	//printf("Postition: %d\n", position);
-	//error = ref - position;
-	//integral += error*dt;
-	//
-	//derivative = -(error-prev_error)/dt; //Do we need negative??
-	//
-	//u = K_p*error + K_i*integral + K_d*derivative;
-	//
-	//prev_error = error;
-	//
-	//MOTOR_move(u);
-	//
-	////set_bit(TIFR2, TOV2); Trengs ikke, gjøres av hardware
+	PID_regulator();
+	//set_bit(TIFR2, TOV2); Trengs ikke, gjÃ¸res av hardware
 //}
