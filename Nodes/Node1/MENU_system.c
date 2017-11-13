@@ -21,6 +21,7 @@ Menu* MENU_init(){
 	main_menu->name = "MAIN MENU";
 	main_menu->num_children = 0;
 	main_menu->function = NULL;
+	main_menu->parent = NULL;
 	
 	Menu* test_menu = MENU_new_submenu(main_menu,"test", &SRAM_test);
 	Menu* sneakygirls_menu = MENU_new_submenu(main_menu,"sneakygirls", NULL);
@@ -67,7 +68,7 @@ void MENU_main(){
 			_delay_ms(1000);
 			break;
 		case RIGHT:
-			if (curr_menu->children[position] != NULL){
+			if (curr_menu->children != NULL){
 				curr_menu = curr_menu->children[position];
 				position = 0;
 				_delay_ms(1000);

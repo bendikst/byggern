@@ -16,6 +16,7 @@
 #include "IR_driver.h"
 #include "MOTOR_driver.h"
 #include "PID_controller.h"
+#include "SOLENOID_driver.h"
 #include <stdio.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
@@ -30,55 +31,72 @@ int main(void)
 	
 	UART_init(9600);
 	CAN_init();
-	//PWM_init();
-	//IR_init();
-	sei();
-	//MOTOR_init();
+	PWM_init();
+	IR_init();
+	SOLENOID_init();
+	//sei();
+	MOTOR_init();
 	//PID_init();
+	typedef enum {
+		PLAY = 0,
+		IDLE
+		}state_machine;
+	
 	_delay_ms(100);
 	
 	int testvar = 0;
 	printf("node2\n");
+	uint8_t ref;
 	
-	
+	state_machine state = 0;
 	bool goal = false;
 	int counter = 0;
+	
     while(1)
-    {
+    {		
+		//SOLENOID_shoot();
 		
-		//_delay_ms(1000);
-		//MOTOR_move(50);
-		PWM_joystick_control(CAN_get_curr().data[0]);
+		//_delay_ms(10);
+		printf("Main\n");
+		
+		switch (state)
+		{
+			case PLAY:
+			printf("pingping\n");
+				PINGPONG_init();
+				PINGPONG_play();
+				state = IDLE;
+				break;
+			case IDLE:
+				printf("idle\n");
+				cli();
+				_delay_ms(10000);
+				state = PLAY;
+				break;
+			default:
+				state = IDLE;
+		}
+		
+
+		//PWM_joystick_control(CAN_get_curr().data[0]);
+		//if (CAN_get_curr().data[3]) {
+			//SOLENOID_shoot();
+		//}
 		//printf("tranceived from CAN: %d\n", CAN_get_curr().data[2]);
 		
 		//_delay_ms(1000);
 		//MOTOR_move(CAN_get_curr().data[2]);
+		//PID_update_reference(CAN_get_curr().data[2]);
+		//printf("Position: %d\n", MOTOR_get_position());
+		
+		//printf("Encoder values: %d\n", MOTOR_read_encoder());
 		//_delay_ms(1000);
 		//uint16_t encoder = MOTOR_read_encoder();
 		
 		//ref = CAN_get_curr().data[2];
-		_delay_ms(100);
+		//_delay_ms(500);
 		//printf("Encoder output: %d\n", encoder);
 		
-		//testvar += IR_read();
-		//int irvalue = IR_read(); 
-		//printf("IR_value: %d\n", irvalue);
-		////_delay_ms(500);
-		//counter++;
-		//if (counter == 5){   //digital low pass filter
-			//if(testvar/5 < 15 && !goal){
-				//score++;
-				//goal = true;
-				//printf("the score is: %d\n", score);
-				//printf("IR_value: %d\n", testvar/5);
-			//}else if (testvar/5 > 20){
-				//goal = false;
-			//}
-			////printf("IR_value: %d\n", testvar/5);
-			////goal = false;
-			//counter = 0;
-			//testvar = 0;
-		//}
     }
 }
 

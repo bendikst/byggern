@@ -39,6 +39,8 @@ void MOTOR_init(){
 	clear_bit(DDRK, PK5);
 	clear_bit(DDRK, PK6);
 	clear_bit(DDRK, PK7);
+	
+	MOTOR_calibrate();
 }
 
 
@@ -67,10 +69,21 @@ int16_t MOTOR_read_encoder(void){
 	//Read LSB
 	uint8_t lo = PINK;
 	
-	MOTOR_reset_encoder();
+	//MOTOR_reset_encoder();
+	
 	
 	set_bit(PORTH, PH5);
 	return (int16_t) ((hi<<8) | lo);
+}
+
+
+uint8_t MOTOR_get_position(void){
+	int enc_min = -350;
+	int enc_max = 9090;
+	uint8_t result;
+	uint16_t read_value = (-1)*MOTOR_read_encoder(); //Read_encoder gives negative
+	result = (double)((read_value - enc_min)/(double)(enc_max))*255;
+	return result;
 }
 
 
@@ -87,21 +100,20 @@ void MOTOR_set_direction(uint8_t val){
 }
 
 
-void MOTOR_move(uint8_t val){//Kunne også tatt inn både direction og value??
+void MOTOR_move(int16_t val){//Kunne også tatt inn både direction og value??
 	uint8_t address = 0x5e;
 	uint8_t command = 0b00; //Do we need this?? page 11 in the datasheet for DAC
 	uint8_t data = 0b0;
 	
 	//Set direction
-	if (val < 128)
+	if (val < 0)
 	{
 		clear_bit(PORTH, PH1);
-		data = (-1)*val*2;
-		
-	} else if (val >= 128)
+		data = (-1)*val;
+	} else if (val >= 0)
 	{
 		set_bit(PORTH, PH1);
-		data = (val-128)*2;
+		data = (val);
 	}	
 	
 	//Set SPEEEED/POWEEEEER
@@ -114,9 +126,9 @@ void MOTOR_move(uint8_t val){//Kunne også tatt inn både direction og value??
 	TWI_Start_Transceiver_With_Data(message, 3);
 }
 
-void MOTOR_move_PID(uint8_t val){//Kunne også tatt inn både direction og value??
+void MOTOR_move_PID(uint8_t val, uint8_t direction){
 	uint8_t address = 0x5e;
-	uint8_t command = 0b00; //Do we need this?? page 11 in the datasheet for DAC
+	uint8_t command = 0b00; 
 	uint8_t data = 0b0;
 	
 	//Set direction
@@ -146,7 +158,7 @@ void MOTOR_move_PID(uint8_t val){//Kunne også tatt inn både direction og value??
 
 
 void MOTOR_calibrate(){
-	MOTOR_move(50); //SETTER VENSTRE
+	MOTOR_move(-100); //SETTER VENSTRE
 	int16_t rotation = MOTOR_read_encoder();
 	int16_t prev_rotation = rotation + 300;
 	while (rotation != prev_rotation){
@@ -154,6 +166,7 @@ void MOTOR_calibrate(){
 		_delay_ms(20);
 		rotation = MOTOR_read_encoder();
 	}
+	MOTOR_move(0);
+	_delay_ms(180); //To make the encoder reset properly to ~0
 	MOTOR_reset_encoder();
-	MOTOR_move(128);
 }

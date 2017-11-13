@@ -9,6 +9,8 @@
 #include <stdio.h>
 #include "MCP2515_setup.h"
 #include "MCP2515.h"
+#include "SLIDER_driver.h"
+#include "macaroni.h"
 #include <avr/interrupt.h>
 #include <string.h>
 
@@ -104,10 +106,11 @@ CAN_message CAN_gamecontrols_transmit(){
 	CAN_message msg;
 	
 	msg.id = 0;
-	msg.length = 3;
+	msg.length = 4;
 	msg.data[0] = (uint8_t)pos.x_pos;
 	msg.data[1] = (uint8_t)pos.y_pos;
 	msg.data[2] = slider;
+	msg.data[3] = test_bit(PINB, PB1) ? 0 : 1;
 	
 	CAN_transmit(&msg);
 	

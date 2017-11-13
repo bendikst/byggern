@@ -10,12 +10,15 @@
 #define MOTOR_DRIVER_H_
 #include <stdint.h>
 
+//static unsigned char ref;
+
 void MOTOR_init(void);
-void MOTOR_move(uint8_t val);
-void MOTOR_move_PID(uint8_t val);
+void MOTOR_move(int16_t val);
+void MOTOR_move_PID(uint8_t val, uint8_t direction);
 void MOTOR_reset_encoder(void);
 int16_t MOTOR_read_encoder(void);
 void MOTOR_calibrate();
 void MOTOR_set_direction(uint8_t val);
+uint8_t MOTOR_get_position(void);
 
 #endif /* MOTOR_DRIVER_H_ */

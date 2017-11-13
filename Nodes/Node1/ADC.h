@@ -16,12 +16,13 @@
 #define ext_oled_data ((volatile char*) 0x1200)
 
 
+//-------------CHANNELS--------------------------
+//Defining channel inputs for ADC
 typedef enum{
 	X_axis = 4, //axis 2 Joystick 
 	Y_axis = 5, //axis 1 Joystick
 	R_slide = 6, //right slider
 	L_slide = 7, //left slider
-
 }channel_type;
 
 void ADC_init(void);

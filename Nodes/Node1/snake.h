@@ -9,8 +9,8 @@
 
 #include <stdint.h>
 
-static unsigned char block_h[8] = {0b11110000, 0b11110000, 0b11110000, 0b11110000, 0b11110000, 0b11110000, 0b11110000, 0b11110000};
-static unsigned char block_l[8] = {0b00001111, 0b00001111, 0b00001111, 0b00001111, 0b00001111, 0b00001111, 0b00001111, 0b00001111};
+static const unsigned char block_h[8] = {0b00001111,0b00001111,0b00001111,0b00001111,0b00001111,0b00001111,0b00001111,0b00001111};
+static const unsigned char block_l[8] = {0b11110000,0b11110000,0b11110000,0b11110000,0b11110000,0b11110000,0b11110000,0b11110000};
 
 typedef struct apple_struct{
 	uint8_t ax;
@@ -32,7 +32,7 @@ snake_struct* snake_add(snake_struct *next, uint8_t px, uint8_t py);
 void snake_remove_last(snake_struct *snake);
 
 void play_snake();//loops while the game is played
-void rand_apple(apple_struct *apple);
+apple_struct* rand_apple(apple_struct *apple);
 snake_struct* move_snake(snake_struct *snake, uint8_t vx,uint8_t vy);
 
 void draw_square(uint8_t px, uint8_t py);

@@ -4,6 +4,7 @@
 * Created: 08.11.2017 16:30:48
 *  Author: alexjoha
 */
+#define F_CPU 16000000L
 #include <stdint.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -11,67 +12,92 @@
 #include "MOTOR_driver.h"
 #include "PID_controller.h"
 #include "macaroni.h"
+#include "CAN_driver.h"
 
 //GAINS:
 double K_p = 1;
-double K_i = 4;
-double K_d = 0.1;
-double dt = 0.016; //timestep?? regn over
+double K_i = 0.03;
+double K_d = 0.02;
+double dt = 0.02; //timestep?? regn over
 
-double position = 0; //integral av encoder???
-double error = 0;
-double prev_error = 0;
-double integral = 0;
-double derivative = 0;
+int16_t position = 0; 
+int16_t error = 0;
+int16_t prev_error = 0;
+int16_t integral = 0;
+int16_t derivative = 0;
 
-uint8_t u = 0;
-uint16_t ref = 0;
-uint16_t encoder_output;
-
+int16_t u = 0;
 
 void PID_init(){
+	//MOTOR_calibrate();
 	cli();
 	
-	//enable timer overflow interrupt for timer 2
-	set_bit(TIMSK2, TOIE2);
+	////enable timer overflow interrupt for timer 2
+	//set_bit(TIMSK2, TOIE2);
+	//
+	////Start timer2 with prescaler of 1024
+	//
+	//set_bit(TCCR2B, CS20);
+	//set_bit(TCCR2B, CS21);
+	//set_bit(TCCR2B, CS22);
 	
-	//Start timer2 with prescaler of 1024
+	//Set waveform generation mode to fast PWM, TOP: ICRn, update of OCRx at: BOTTOM, TOV flag set on: TOP
+	//And normal port operation compare output mode
+	TCCR3A = (1<<WGM31)|(1<<COM3A1);
+	TCCR3B = (1<<WGM32)|(1<<WGM33)|(1<<CS31);
 	
-	set_bit(TCCR2B, CS20);
-	set_bit(TCCR2B, CS21);
-	set_bit(TCCR2B, CS22);
+	//Set top value
+	ICR3 = 40000; //The compiler handles writing to the 16-bit registers
+	OCR3A = 3000;
+	//Enable timer interrupt
+	set_bit(TIMSK3, TOIE3); //Kan også enable overflow/Interrupt B?
 		
 	sei();
-	MOTOR_calibrate();
+	
 	_delay_ms(200);
 	
 }
 
 
-void PID_update_reference(uint16_t pos){
-	ref = pos;
-}
+//void PID_update_reference(uint8_t pos){
+	//ref = pos;
+//}
 
 
 void PID_regulator(){
-	encoder_output = MOTOR_read_encoder(); //Integrating speed to find position
+	uint8_t ref = CAN_get_curr().data[2];
 	
-	position += encoder_output*dt;
+	if (ref < 10){
+		ref = 10;
+	}
+	else if (ref > 245){
+		ref = 245;
+	}
+	
+	position = MOTOR_get_position(); 
 
 	error = ref - position;
-	integral += error*dt;
 	
-	derivative = -(error-prev_error)/dt; //Do we need negative??
+	integral += error;
+	
+	if(error<7 && error > -7){
+		integral = 0;
+	}
+	
+	
+	derivative = (error-prev_error);
 	
 	u = K_p*error + K_i*integral + K_d*derivative;
 	
 	prev_error = error;
+	//printf("Paadrag u: %d\n", u);
+	//printf("error: %d\n", error);
 	MOTOR_move(u);
+	
 }
 
 
-//ISR(TIMER2_OVF_vect){
-	//printf("Inteerr\n");
+ISR(TIMER3_OVF_vect){
 	PID_regulator();
-	//set_bit(TIFR2, TOV2); Trengs ikke, gjøres av hardware
-//}
+	//set_bit(TIFR2, TOV2); //Trengs ikke, gjøres av hardware
+}

@@ -59,7 +59,7 @@ JOYSTICK_direction_t JOYSTICK_getDirection(void){
 	JOYSTICK_position_t position = JOYSTICK_getPosition();
 	
 	int middle = 50;
-	int deadband = 25;
+	int deadband = 15;
 	
 	if (position.y_pos > middle+deadband) return UP;
 	if (position.y_pos < middle-deadband) return DOWN;

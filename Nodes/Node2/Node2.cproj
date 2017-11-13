@@ -150,6 +150,18 @@
     <Compile Include="PID_controller.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="PINGPONG.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="PINGPONG_game.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SOLENOID_driver.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SOLENOID_driver.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="SPI_driver.c">
       <SubType>compile</SubType>
     </Compile>
