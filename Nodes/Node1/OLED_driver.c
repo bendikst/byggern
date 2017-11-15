@@ -59,8 +59,6 @@ void SRAM_custom_print(const unsigned char* c){
 		ext_ram[PAGE*128 + COLUMN] |= c[i];
 		COLUMN++;
 	}
-	
-	
 }
 
 void SRAM_reset(){
@@ -139,12 +137,29 @@ void OLED_pos(uint8_t page, uint8_t col){
 }
 
 void OLED_print_str(const char* data){
+	//int datalengde = strlen(data);
+	//printf("lengden av data %d\n", datalengde);
 	for (int i = 0; i<strlen(data); i++)
 	
 	{
 		SRAM_print(data[i]);
 	}
 	
+}
+
+/*Convert any integer of size <256 to cstring for use of the OLED_print_str*/
+char* OLED_int_to_str(int integer){
+	int n;
+	if (integer == 0)
+	{
+		n = 1;
+	}
+	else {
+		n = floor(log10(integer)+1);
+	}
+	char result[n+1];
+	itoa(integer, result, 10);
+	return result;
 }
 
 void OLED_print_menu(Menu* menu){
@@ -155,9 +170,6 @@ void OLED_print_menu(Menu* menu){
 		OLED_goto_column(10);
 		OLED_print_str(menu->children[i]->name);
 	}
-	
-	
-	
 }
 
 void OLED_draw_arrow(int pos){

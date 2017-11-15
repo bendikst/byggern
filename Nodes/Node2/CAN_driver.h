@@ -9,6 +9,7 @@
 #ifndef CAN_DRIVER_H_
 #define CAN_DRIVER_H_
 #include <stdint.h>
+#include <stdbool.h>
 
 typedef struct CAN_message {
 	
@@ -35,6 +36,7 @@ void CAN_transmit(CAN_message* msg);
 CAN_message CAN_receive(void);
 CAN_message CAN_receive_alt(void);
 CAN_message CAN_get_curr(void);
+void CAN_transmit_game(bool lose);
 
 
 void CAN_print(void); //TESTFUNKSJON

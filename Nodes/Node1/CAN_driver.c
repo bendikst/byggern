@@ -86,6 +86,7 @@ CAN_message CAN_joystick_transmit(){
 
 	JOYSTICK_position_t pos = JOYSTICK_getPosition();
 	CAN_message msg;
+	_delay_us(10);
 	
 	msg.id = 0;
 	msg.length = 2;
@@ -105,6 +106,7 @@ CAN_message CAN_gamecontrols_transmit(){
 	
 	CAN_message msg;
 	
+	
 	msg.id = 0;
 	msg.length = 4;
 	msg.data[0] = (uint8_t)pos.x_pos;
@@ -118,18 +120,23 @@ CAN_message CAN_gamecontrols_transmit(){
 }
 
 
-void CAN_print(){ //TESTFUNKSJON
-	
-	CAN_message* msg = &rec_msg;
-	
-	char temp[msg->length+1];
-	for (uint8_t i = 0; i < msg->length; i++){
-		temp[i] = (unsigned char)msg->data[i];
-	}
-	temp[msg->length] = '\0';
-	printf("Message received: \nid:%d \nlength%d \nData:%s\n", msg->id, msg->length, temp);
-}
+//void CAN_print(){ //TESTFUNKSJON
+	//
+	//CAN_message* msg = &rec_msg;
+	//
+	//char temp[msg->length+1];
+	//for (uint8_t i = 0; i < msg->length; i++){
+		//temp[i] = (unsigned char)msg->data[i];
+	//}
+	//temp[msg->length] = '\0';
+	//printf("Message received: \nid:%d \nlength%d \nData:%s\n", msg->id, msg->length, temp);
+//}
 
+
+
+CAN_message CAN_get_curr(){
+	return rec_msg;
+}
 
 ISR(INT0_vect){
 	//Studass mener heller vi bør bruke et eget flagg som sier at interrupt har skjedd?

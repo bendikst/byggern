@@ -111,6 +111,23 @@ CAN_message CAN_get_curr(){
 }
 
 
+void CAN_transmit_game(bool lose){
+	CAN_message msg;
+	if (lose)
+	{
+		msg.id = 11; //Kan bruke annet her??
+	} else {
+		msg.id = 2;
+	}
+	
+	
+	msg.length = 1;
+	msg.data[0] = 0;
+	CAN_transmit(&msg);
+}
+
+
+
 ISR(INT2_vect){
 	//Studass mener heller vi bør bruke et eget flagg som sier at interrupt har skjedd?
 	//rec_flag = 1;

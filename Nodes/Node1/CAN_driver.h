@@ -27,6 +27,7 @@ uint8_t CAN_init(void);
 void CAN_transmit(CAN_message* msg);
 CAN_message CAN_receive(void);
 
+CAN_message CAN_get_curr(void);
 CAN_message CAN_gamecontrols_transmit(void);
 CAN_message CAN_joystick_transmit(void);
 

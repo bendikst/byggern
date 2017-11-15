@@ -27,6 +27,7 @@ void OLED_clear_page(uint8_t page);
 void OLED_pos(uint8_t row, uint8_t col);
 
 void OLED_print_str(const char* data);
+char* OLED_int_to_str(const int integer);
 
 void OLED_print_menu(Menu* menu);
 void OLED_draw_arrow(int pos);

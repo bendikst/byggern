@@ -4,6 +4,7 @@
 #include "JOYSTICK_driver.h"
 #include "snake.h"
 #include "OLED_driver.h"
+#include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <util/delay.h>
@@ -15,7 +16,7 @@ snake_struct* snake_init(uint8_t length, uint8_t start_x, uint8_t start_y){
 	snake_struct* n = snake_add(NULL, start_x, start_y);
 	for(int i = 1; i<length; i++){
 		n = snake_add(n, start_x + i, start_y);
-		printf("for\n");
+		//printf("for\n");
 	}
 	return n;
 }
@@ -25,7 +26,7 @@ snake_struct* snake_add(snake_struct *next, uint8_t px, uint8_t py){
 	n->next = next;
 	n->px = px;
 	n->py = py;
-	printf("inside: %d , %d \n",n->px, n->py);
+	//printf("inside: %d , %d \n",n->px, n->py);
 	return n;
 }
 
@@ -45,8 +46,12 @@ void play_snake(){
 	
 	SRAM_reset();
 	printf("snake\n");
+	OLED_pos(0, 40);
+	OLED_print_str("SNEK");
+	OLED_pos(4, 20);
+	OLED_print_str("Get ready...");
 	OLED_draw();
-	_delay_ms(1000);
+	_delay_ms(2000);
 	
 	uint8_t vx = 1;
 	uint8_t vy = 0; // snake velocity
@@ -71,7 +76,7 @@ void play_snake(){
 		draw_snake(head);
 		draw_apple(apple);
 		OLED_draw();
-		printf("drawing\n");
+		//printf("drawing\n");
 		
 		//-----checking for gameover-----// !!!//TODO: sjekk om snaken treffer seg selv
 		if(head->px < 0 || head->px>=WIDTH){
@@ -103,7 +108,6 @@ void play_snake(){
 			if (vy != -1){
 				vy = -1;
 				vx = 0;
-				printf("UP\n");
 			}
 			break;
 		case DOWN:
@@ -181,5 +185,9 @@ void endgame(snake_struct *snake){
 		free(snake);
 		snake = temp;
 	}
-	printf("gameover\n");
+	//printf("gameover\n");
+	SRAM_reset();
+	OLED_pos(4, 25);
+	OLED_print_str("GAME OVER");
+	OLED_draw();
 }

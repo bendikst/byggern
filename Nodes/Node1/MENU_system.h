@@ -10,6 +10,7 @@
 #define MENU_SYSTEM_H_
 
 #include <stdlib.h>
+#include <stdio.h>
 #include "JOYSTICK_driver.h"
 
 
@@ -34,6 +35,7 @@ typedef struct Menu_struct
 //Menu creation
 Menu* MENU_init(void);
 Menu* MENU_new_submenu(Menu* self, char* name, void (*function)(void));
+Menu* MENU_new_submenu_warguments(Menu* self, char* name, void (*function)(char*, uint8_t));
 
 //Menu navigation
 void MENU_main(void);

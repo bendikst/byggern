@@ -22,6 +22,11 @@
 #include <avr/interrupt.h>
 #include <stdbool.h>
 #include <stdlib.h>
+typedef enum {
+	PLAY = 0,
+	IDLE
+}state_machine;
+
 
 int main(void)
 {
@@ -34,35 +39,32 @@ int main(void)
 	PWM_init();
 	IR_init();
 	SOLENOID_init();
-	//sei();
-	MOTOR_init();
+	sei();
+	//MOTOR_init();
 	//PID_init();
-	typedef enum {
-		PLAY = 0,
-		IDLE
-		}state_machine;
+	
 	
 	_delay_ms(100);
 	
 	int testvar = 0;
 	printf("node2\n");
-	uint8_t ref;
+	//uint8_t ref;
 	
-	state_machine state = 0;
-	bool goal = false;
-	int counter = 0;
+	state_machine state = PLAY;
+	//bool goal = false;
+	//int counter = 0;
 	
     while(1)
     {		
 		//SOLENOID_shoot();
-		
-		//_delay_ms(10);
-		printf("Main\n");
-		
+		//
+		//_delay_ms(1000);
+		//printf("Main\n");
+		//
 		switch (state)
 		{
 			case PLAY:
-			printf("pingping\n");
+				printf("pingping\n");
 				PINGPONG_init();
 				PINGPONG_play();
 				state = IDLE;
@@ -70,19 +72,22 @@ int main(void)
 			case IDLE:
 				printf("idle\n");
 				cli();
-				_delay_ms(10000);
+				_delay_ms(6000);
 				state = PLAY;
 				break;
 			default:
 				state = IDLE;
 		}
-		
+		//testvar = IR_read();
+		//printf("IR: %d\n", testvar);
+		//_delay_ms(100);
 
 		//PWM_joystick_control(CAN_get_curr().data[0]);
 		//if (CAN_get_curr().data[3]) {
 			//SOLENOID_shoot();
 		//}
-		//printf("tranceived from CAN: %d\n", CAN_get_curr().data[2]);
+		//_delay_ms(100);
+		//printf("tranceived from CAN: %d\n", CAN_get_curr().data[0]);
 		
 		//_delay_ms(1000);
 		//MOTOR_move(CAN_get_curr().data[2]);
@@ -94,7 +99,7 @@ int main(void)
 		//uint16_t encoder = MOTOR_read_encoder();
 		
 		//ref = CAN_get_curr().data[2];
-		//_delay_ms(500);
+		//_delay_ms(50);
 		//printf("Encoder output: %d\n", encoder);
 		
     }
