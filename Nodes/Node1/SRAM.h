@@ -11,7 +11,7 @@
 
 
 
-void SRAM_test(void);
+void SRAM_test(char* name);
 
 
 

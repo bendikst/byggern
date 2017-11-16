@@ -6,6 +6,7 @@
  */ 
 #include "OLED_driver.h"
 #include <string.h>
+#include <math.h>
 #include "fonts.h"
 #include <avr/pgmspace.h>
 #include "ADC.h"
@@ -45,7 +46,7 @@ void OLED_init(void){
 	  OLED_home();
 	  
 }
-void SRAM_print(unsigned char c){
+void OLED_SRAM_print(unsigned char c){
 	for(int i = 0; i < 8; i++)
 		{
 		ext_ram[PAGE*128 + COLUMN] = (pgm_read_byte(&(font8[c - ASCII_OFFSET][i])));
@@ -54,23 +55,23 @@ void SRAM_print(unsigned char c){
 	
 }
 
-void SRAM_custom_print(const unsigned char* c){
+void OLED_SRAM_custom_print(const unsigned char* c){
 	for (int i = 0; i < 8; i++){
 		ext_ram[PAGE*128 + COLUMN] |= c[i];
 		COLUMN++;
 	}
 }
 
-void SRAM_reset(){
+void OLED_SRAM_RESET(){
 	OLED_home();
 	for (uint8_t page = 0; page < 8; page++)
 	{
-		SRAM_clear_page(page);
+		OLED_SRAM_clear_page(page);
 	}
 	OLED_home();
 }
 
-void SRAM_clear_page(uint8_t page){
+void OLED_SRAM_clear_page(uint8_t page){
 	OLED_goto_page(page);
 	for (int i = 0; i < 128; i++)
 	{
@@ -142,13 +143,13 @@ void OLED_print_str(const char* data){
 	for (int i = 0; i<strlen(data); i++)
 	
 	{
-		SRAM_print(data[i]);
+		OLED_SRAM_print(data[i]);
 	}
 	
 }
 
-/*Convert any integer of size <256 to cstring for use of the OLED_print_str*/
-char* OLED_int_to_str(int integer){
+
+const char* OLED_int_to_str(int integer){
 	int n;
 	if (integer == 0)
 	{

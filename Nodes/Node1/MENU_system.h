@@ -11,14 +11,11 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdarg.h>
 #include "JOYSTICK_driver.h"
 
 
 typedef struct Menu_struct Menu;
-
-static Menu* main_menu;
-static int position;
-static Menu* curr_menu;
 
 typedef struct Menu_struct
 {
@@ -27,19 +24,21 @@ typedef struct Menu_struct
 	int num_children;
 	Menu** children;
 	
-	void (*function)(void);
+	void (*function)(char*);
 }Menu;
 
 
 
 //Menu creation
 Menu* MENU_init(void);
-Menu* MENU_new_submenu(Menu* self, char* name, void (*function)(void));
-Menu* MENU_new_submenu_warguments(Menu* self, char* name, void (*function)(char*, uint8_t));
+Menu* MENU_new_submenu(Menu* self, char* name, void (*function)(char*));
 
-//Menu navigation
+/*Menu navigation is handled here. Heads up and down in the menu hierarchy according to input
+from the joystick. Acts as Node 1's main function when in the MENU state.*/
 void MENU_main(void);
 
+/*Function to run the function pointers from the submenu structs.*/
+void MENU_run_functions();
 
 
 

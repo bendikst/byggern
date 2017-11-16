@@ -42,9 +42,9 @@ void snake_remove_last(snake_struct *snake){
 	temp->next = NULL;
 }
 
-void play_snake(){
+void play_snake(char* player){
 	
-	SRAM_reset();
+	OLED_SRAM_RESET();
 	printf("snake\n");
 	OLED_pos(0, 40);
 	OLED_print_str("SNEK");
@@ -72,7 +72,7 @@ void play_snake(){
 		eating = false;
 		
 		//-----drawing------//
-		SRAM_reset();
+		OLED_SRAM_RESET();
 		draw_snake(head);
 		draw_apple(apple);
 		OLED_draw();
@@ -159,9 +159,9 @@ void draw_square(uint8_t px, uint8_t py){
 	OLED_pos(py/2,px*8);
 	//printf("py/2,px*8 = %d, %d \n", py/2,px*8);
 	if (py%2 == 1){
-		SRAM_custom_print(block_l);
+		OLED_SRAM_custom_print(block_l);
 	}else{
-		SRAM_custom_print(block_h);
+		OLED_SRAM_custom_print(block_h);
 	}
 	
 }
@@ -186,7 +186,7 @@ void endgame(snake_struct *snake){
 		snake = temp;
 	}
 	//printf("gameover\n");
-	SRAM_reset();
+	OLED_SRAM_RESET();
 	OLED_pos(4, 25);
 	OLED_print_str("GAME OVER");
 	OLED_draw();

@@ -5,14 +5,22 @@
  *  Author: bendikss
  */ 
 
+/*
+----------------------------------
+HIGHSCORES MEMORY LOCATIONS
+			Pingpong:	Snake:
+"alex"	=		0			4	
+"asp"	=		10			14
+"benny" =		20			24
+---------------------------------
+*/
 
 #ifndef GAME_DRIVER_H_
 #define GAME_DRIVER_H_
 
 #include <stdint.h>
 
-//TODO: Implement timer on atmega162, play function, print scores, keep track of scores, highscores ++??
-//TODO: turn of timer/interrupt when game over??
+
 //TODO: FIx bugen med at den resetter seg!!
 
 typedef struct  
@@ -28,7 +36,7 @@ void GAME_init(void);
 
 /*Game function for the amazing pingpong game. Takes in the name of the player and desired difficulty 
 (between 1-3) from the menu. Stores the score in highscores*/
-void GAME_play(char* name, uint8_t difficulty);
+void GAME_play(char* name);
 
 void GAME_print_score(game_parameters* last_game);
 
@@ -36,10 +44,16 @@ void GAME_print_score(game_parameters* last_game);
 void GAME_inc_score(game_parameters* current_game);
 
 
-//void GAME_EEPROM_init(void);
-void GAME_EEPROM_write(unsigned char data, const char* name);
+/*Write to EEPROM on the atmega162. Be careful with uppercase and lowercase!*/
+void GAME_EEPROM_write(unsigned char data, const char* name, const char* game);
+
+/*Read from EEPROM. Addresses for different players can be found op the top of this file.*/
 int GAME_EEPROM_read(unsigned int address);
-/*Prints all highscores stored in EEPROM, hardcoded*/
-void GAME_EEPROM_print_highscores(void);
+
+/*Prints all highscores stored in EEPROM. Takes in the name of the game. Case-sensitive!*/
+void GAME_EEPROM_print_highscores(char* name);
+
+/*Resets highscores that are permanently stored.*/
+void GAME_EEPROM_reset_highscores(void);
 
 #endif /* GAME_DRIVER_H_ */

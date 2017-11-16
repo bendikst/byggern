@@ -11,12 +11,6 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-//TODO: store in fdjska 
-//
-//typedef struct game_parameters{
-	//uint8_t score; //Make this larger? store in 
-	//bool lose; //True if ball falls down
-	//}game;
 
 
 void PINGPONG_init(void);

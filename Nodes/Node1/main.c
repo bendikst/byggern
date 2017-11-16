@@ -6,8 +6,6 @@
  */ 
 #define F_OSC 4915200UL
 #define F_CPU F_OSC
-//#define BAUD 9600
-//#define MYUBRR (F_OSC)/(16*BAUD)-1
 
 #include <avr/io.h>
 #include <util/delay.h>
@@ -34,7 +32,8 @@ typedef enum{
 	SNAKE = 1,
 	PINGPONG = 2,
 	SRAM_tester = 3,
-	IDLE = 4
+	IDLE = 4,
+	TEST = 5
 	}state_enum;
 
 int main(void)
@@ -49,40 +48,20 @@ int main(void)
 	OLED_init();
 	MENU_init();
 	SPI_MasterInit();
-	//MCP2515_init();
 	
 	_delay_ms(100);
-	//GAME_EEPROM_write(0, "benny");
-	//unsigned char test = GAME_EEPROM_read(0b10000);
-	//printf("teeeest %d\n", test);
-	state_enum state = MENU;
-	//CAN_message msg;
-	//char* data = "yolo";
-	//CAN_message test_can;
-	//test_can.id = 6;
-	//test_can.length = 4;
-	//for (uint8_t i = 0; i < test_can.length; i++){
-		//test_can.data[i] = data[i];
-	//}
-	//char* data2 = "snek2";
-	//CAN_message test_can2;
-	//test_can2.id = 2;
-	//test_can2.length = 5;
-	//for (uint8_t i = 0; i < test_can2.length; i++){
-		//test_can2.data[i] = data2[i];
-	//}
+	/*-------- ONLY USE WHEN YOU WANT TO RESET THE SCORES!!---------*/
+	//GAME_EEPROM_reset_highscores();
+	/*--------------------------------------------------------------*/
 	
 	printf("Node 1\n");
-	//CAN_transmit(&test_can2);
-	//CAN_print(&test_can2);
 	
-	//TESTSTATE
-	state = MENU;
+	state_enum state = MENU;
+	
+	//state = TEST;
 	
     while(1)
-    {
-		
-		
+    {		
 		switch (state)
 		{
 		case MENU:
@@ -94,16 +73,20 @@ int main(void)
 			//trenger vi??
 			break;
 		case PINGPONG:
-			GAME_play("benny", 1);
+			GAME_play("benny");
 			break;
 		case IDLE:
 			_delay_ms(10000); //Noe annet her??
 			state = MENU;
+		case TEST:
+			/*DIFFERENT TEST FUNCTIONS FOR DEBUGGING PURPOSES.*/
+			CAN_gamecontrols_transmit();
+			//printf("Transmitting\n");
+			_delay_ms(100);
+			break;
 		default:
 			state = IDLE;
 			
 		}
-	
-	//CAN_gamecontrols_transmit();    
 	}
 }

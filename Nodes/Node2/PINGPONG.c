@@ -26,7 +26,6 @@ void PINGPONG_init(){
 	MOTOR_init();
 	PID_init();
 		
-		
 }
 
 void PINGPONG_play(){
@@ -34,8 +33,7 @@ void PINGPONG_play(){
 	_delay_us(50);
 	uint8_t counter = 0;
 	int testvar = 0;
-	bool lose = false; //TESTVERDI, TA VEKK??
-	
+	bool lose = false; //TESTVERDI, TA VEKK??	
 	while (!lose)
 	{
 		counter++;
@@ -51,7 +49,7 @@ void PINGPONG_play(){
 		testvar = 0;
 		counter = 0;
 		}
-		//printf("tranceived from CAN: %d\n", CAN_get_curr().data[0]);
+		printf("tranceived from CAN: %d\n", CAN_get_curr().data[2]);
 		PWM_joystick_control(CAN_get_curr().data[0]);
 				if (CAN_get_curr().data[3]) {
 			SOLENOID_shoot();
@@ -60,23 +58,3 @@ void PINGPONG_play(){
 	CAN_transmit_game(lose);
 }
 
-
-
-//bool PINGPONG_lose(){ //kopiert fra main, endre på denne?
-	//Kjøres egt i while løkke
-	//testvar += IR_read();
-	//_delay_ms(50);
-	//bool goal;
-	//uint8_t counter;
-	//counter++;
-	//if (counter == 5){   //digital low pass filter
-		//if(testvar/5 < 15 && !goal){
-			////score++;
-			////goal = true;
-			////printf("the score is: %d\n", score);
-		//}else if (testvar/5 > 20){
-			//goal = false;
-	//}
-	//goal = false;
-	//counter = 0;
-//}

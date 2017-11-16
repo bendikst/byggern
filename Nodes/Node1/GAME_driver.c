@@ -21,12 +21,13 @@
 static game_parameters current_game;
 
 /*
-----------------------------
+----------------------------------
 HIGHSCORES MEMORY LOCATIONS
-"alex"	= 0b0
-"asp"	= 0b1000
-"benny" = 0b10000
-----------------------------
+			Pingpong:	Snake:
+"alex"	=		0			4	
+"asp"	=		10			14
+"benny" =		20			24
+---------------------------------
 */
 
 void GAME_init(){
@@ -43,19 +44,28 @@ void GAME_init(){
 }
 
 
-void GAME_play(char* name, uint8_t difficulty){
+void GAME_play(char* name){
 	//TODO: WRITE A START GAME CAN MESSAGE
-	current_game.name = "benny";
-	current_game.difficulty = difficulty;
+	current_game.name = name;
+	//current_game.difficulty = difficulty;
 	current_game.score = 0;
 	
-	SRAM_reset();
+	OLED_SRAM_RESET();
 	OLED_pos(0, 30);
 	OLED_print_str(current_game.name);
 	OLED_pos(4, 0);
 	OLED_print_str("GET READY...");
 	OLED_draw();
 	_delay_ms(1000);
+	
+	//Send a message to start the game
+	CAN_message start_game;
+	start_game.id = 5; //Start game ID
+	start_game.length = 1;
+	start_game.data[0] = 0;
+	CAN_transmit(&start_game);
+	_delay_ms(100);
+	
 	GAME_init();
 	
 	while(1){
@@ -63,7 +73,7 @@ void GAME_play(char* name, uint8_t difficulty){
 		CAN_gamecontrols_transmit();
 		_delay_ms(100); //how much DELAY??
 		
-		SRAM_reset();
+		OLED_SRAM_RESET();
 		_delay_ms(100);
 		OLED_pos(0, 30);
 		OLED_print_str(current_game.name);
@@ -81,24 +91,24 @@ void GAME_play(char* name, uint8_t difficulty){
 			if (!(strcmp(current_game.name, "alex"))) {
 				unsigned int address = 0b0;
 				if (current_game.score > GAME_EEPROM_read(address)) {
-					GAME_EEPROM_write(current_game.score, "alex");
+					GAME_EEPROM_write(current_game.score, "alex", "Pingpong");
 				}
 			}
 			else if (!(strcmp(current_game.name, "benny"))) {
 				unsigned int address = 0b10000;
 				if (current_game.score > GAME_EEPROM_read(address))
 				{
-					GAME_EEPROM_write(current_game.score, "benny");
+					GAME_EEPROM_write(current_game.score, "benny", "Pingpong");
 				}
 			}
 			else if (!(strcmp(current_game.name, "asp"))) {
 				unsigned int address = 0b1000;
 				if (current_game.score > GAME_EEPROM_read(address))
 				{
-					GAME_EEPROM_write(current_game.score, "asp");
+					GAME_EEPROM_write(current_game.score, "asp", "Pingpong");
 				}
 			}
-			GAME_EEPROM_print_highscores();
+			GAME_EEPROM_print_highscores("Pingpong");
 			_delay_ms(5000);
 			break;
 		}		
@@ -107,7 +117,7 @@ void GAME_play(char* name, uint8_t difficulty){
 
 
 void GAME_print_score(game_parameters* last_game){
-	SRAM_reset();
+	OLED_SRAM_RESET();
 	OLED_print_str("GAME OVER!");
 	OLED_pos(3, 0);
 	OLED_print_str("YOUR SCORE IS: ");
@@ -116,24 +126,52 @@ void GAME_print_score(game_parameters* last_game){
 	OLED_draw();
 }
 
-
-void GAME_EEPROM_print_highscores(){
-	SRAM_reset();
-	OLED_pos(0, 20);
-	OLED_print_str("HIGHSCORES");
-	OLED_pos(1, 0);
-	OLED_print_str("Alex:");
-	OLED_pos(1, 60);
-	OLED_print_str(OLED_int_to_str(GAME_EEPROM_read(0b0))); //ADDRESS for alex
-	OLED_pos(2, 0);
-	OLED_print_str("Asp:");
-	OLED_pos(2, 60);
-	OLED_print_str(OLED_int_to_str(GAME_EEPROM_read(0b1000))); //ADDRESS for asp
-	OLED_pos(3, 0);
-	OLED_print_str("Benny:");
-	OLED_pos(3, 60);
-	OLED_print_str(OLED_int_to_str(GAME_EEPROM_read(0b10000))); //ADDRESS for Benny
-	OLED_draw();
+//Endre hvis tid
+void GAME_EEPROM_print_highscores(char* game){
+	if (!strcmp(game, "Pingpong")){
+		OLED_SRAM_RESET();
+		OLED_pos(0, 0);
+		OLED_print_str("---HIGHSCORES---");
+		OLED_pos(1, 0);
+		OLED_print_str("Alex:");
+		OLED_pos(1, 60);
+		OLED_print_str(OLED_int_to_str(GAME_EEPROM_read(0))); //ADDRESS for alex
+		OLED_pos(2, 0);
+		OLED_print_str("Asp:");
+		OLED_pos(2, 60);
+		OLED_print_str(OLED_int_to_str(GAME_EEPROM_read(10))); //ADDRESS for asp
+		OLED_pos(3, 0);
+		OLED_print_str("Benny:");
+		OLED_pos(3, 60);
+		OLED_print_str(OLED_int_to_str(GAME_EEPROM_read(20))); //ADDRESS for Benny
+		OLED_draw();
+	}
+	else if(!strcmp(game, "Snake")){
+		OLED_SRAM_RESET();
+		OLED_pos(0, 0);
+		OLED_print_str("---HIGHSCORES---");
+		OLED_pos(1, 0);
+		OLED_print_str("Alex:");
+		OLED_pos(1, 60);
+		OLED_print_str(OLED_int_to_str(GAME_EEPROM_read(4))); //ADDRESS for alex
+		OLED_pos(2, 0);
+		OLED_print_str("Asp:");
+		OLED_pos(2, 60);
+		OLED_print_str(OLED_int_to_str(GAME_EEPROM_read(14))); //ADDRESS for asp
+		OLED_pos(3, 0);
+		OLED_print_str("Benny:");
+		OLED_pos(3, 60);
+		OLED_print_str(OLED_int_to_str(GAME_EEPROM_read(24))); //ADDRESS for Benny
+		OLED_draw();
+	}
+ 	else {
+		OLED_SRAM_RESET();
+		OLED_pos(1,0);
+		OLED_print_str("Error GAME.h");
+		OLED_pos(4, 40);
+		OLED_print_str(":(((");
+		OLED_draw();
+	}
 }
 
 
@@ -142,28 +180,42 @@ void GAME_inc_score(game_parameters* current_game){
 }
 
 
-//void GAME_EEPROM_init(void){
-	//
-	//unsigned int ad_alex = 0b0;
-	//unsigned int ad_asp = 0b1000;
-	//unsigned int ad_ben = 0b10000;
-//}
 
-
-void GAME_EEPROM_write(unsigned char data, const char* name){
+void GAME_EEPROM_write(unsigned char data, const char* name, const char* game){
 	
 	while(EECR & (1<<EEWE)){};
 	if (!strcmp(name, "alex")){
-		EEAR = 0b0;
-		EEDR = data;
+		if (!strcmp(game, "Snake")){
+			EEAR = 4;
+			EEDR = data;
+		}
+		else if (!strcmp(game, "Pingpong"))
+		{
+			EEAR = 0b0;
+			EEDR = data;
+		}
 	}
 	else if (!strcmp(name, "asp")){
-		EEAR = 0b1000;
-		EEDR = data;
+		if (!strcmp(game, "Snake")){
+			EEAR = 14;
+			EEDR = data;
+		}
+		else if (!strcmp(game, "Pingpong"))
+		{
+			EEAR = 10;
+			EEDR = data;
+		}
 	}
 	else if (!strcmp(name, "benny")){
-		EEAR = 0b10000;
-		EEDR = data;
+		if (!strcmp(game, "Snake")){
+			EEAR = 24;
+			EEDR = data;
+		}
+		else if (!strcmp(game, "Pingpong"))
+		{
+			EEAR = 20;
+			EEDR = data;
+		}
 	}
 	set_bit(EECR, EEMWE);
 	set_bit(EECR, EEWE);	
@@ -177,6 +229,16 @@ int GAME_EEPROM_read(unsigned int address){
 	return EEDR;
 }
 
+
+void GAME_EEPROM_reset_highscores(){
+	char* players[3] = {"alex","asp","benny"};
+	for (int i = 0; i < 3; i++){
+		GAME_EEPROM_write(0, players[i], "Snake");
+	}
+	for (int i = 0; i < 3; i++){
+		GAME_EEPROM_write(0, players[i], "Pingpong");
+	}
+}
 
 ISR(TIMER1_OVF_vect){
 	GAME_inc_score(&current_game);

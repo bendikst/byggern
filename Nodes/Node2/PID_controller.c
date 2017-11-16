@@ -20,15 +20,23 @@ double K_i = 0.03;
 double K_d = 0.02;
 double dt = 0.02; //timestep?? regn over
 
-int16_t position = 0; 
+int16_t position = 0;
 int16_t error = 0;
 int16_t prev_error = 0;
 int16_t integral = 0;
 int16_t derivative = 0;
 
+
 int16_t u = 0;
+//TODO: Tror denne timeren er feil. Regn ut og prøv ny, kanskje derfor PID er litt rar?
 
 void PID_init(){
+	position = 0;
+	error = 0;
+	prev_error = 0;
+	integral = 0;
+	derivative = 0;
+	
 	//MOTOR_calibrate();
 	cli();
 	
@@ -59,10 +67,6 @@ void PID_init(){
 }
 
 
-//void PID_update_reference(uint8_t pos){
-	//ref = pos;
-//}
-
 
 void PID_regulator(){
 	uint8_t ref = CAN_get_curr().data[2];
@@ -90,8 +94,7 @@ void PID_regulator(){
 	u = K_p*error + K_i*integral + K_d*derivative;
 	
 	prev_error = error;
-	//printf("Paadrag u: %d\n", u);
-	//printf("error: %d\n", error);
+	
 	MOTOR_move(u);
 	
 }
@@ -99,5 +102,4 @@ void PID_regulator(){
 
 ISR(TIMER3_OVF_vect){
 	PID_regulator();
-	//set_bit(TIFR2, TOV2); //Trengs ikke, gjøres av hardware
 }

@@ -3,17 +3,18 @@ Aleks, Alex og Bennys byggernprosjekt
 
 
 Things to do etter dag 5:
-  
-- Oppdater navn på OLED greier
-  
-- Lag statemachine
-  
+   
+
 - Kretskort, PCB
-- Kommunikasjon 
+
+- Kommunikasjon: 
+
 - Clean up code/COMMENT
-- SPILLFUNKSJONER, score 
-- Highscores, lagre, print, meny
-- Beautify kretser
 - Flere ekstra ting
+
 - UML
-- Highscores online??
+
+- Highscores online?? 
+- Små figurer for snake og pingpong?
+- Oppdater navn på snake? konvensjon
+- Se over TODOS i koden

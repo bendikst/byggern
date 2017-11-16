@@ -31,7 +31,7 @@ snake_struct* snake_init(uint8_t length, uint8_t start_x, uint8_t start_y);
 snake_struct* snake_add(snake_struct *next, uint8_t px, uint8_t py);
 void snake_remove_last(snake_struct *snake);
 
-void play_snake();//loops while the game is played
+void play_snake(char* player);//loops while the game is played
 apple_struct* rand_apple(apple_struct *apple);
 snake_struct* move_snake(snake_struct *snake, uint8_t vx,uint8_t vy);
 

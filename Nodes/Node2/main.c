@@ -17,6 +17,7 @@
 #include "MOTOR_driver.h"
 #include "PID_controller.h"
 #include "SOLENOID_driver.h"
+#include "PINGPONG_game.h"
 #include <stdio.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
@@ -32,7 +33,7 @@ int main(void)
 {
 	
 	cli();
-	int score = 0;
+	//int score = 0;
 	
 	UART_init(9600);
 	CAN_init();
@@ -46,11 +47,12 @@ int main(void)
 	
 	_delay_ms(100);
 	
-	int testvar = 0;
+	//int testvar = 0;
 	printf("node2\n");
 	//uint8_t ref;
 	
-	state_machine state = PLAY;
+
+	state_machine state = IDLE;
 	//bool goal = false;
 	//int counter = 0;
 	
@@ -60,7 +62,7 @@ int main(void)
 		//
 		//_delay_ms(1000);
 		//printf("Main\n");
-		//
+		
 		switch (state)
 		{
 			case PLAY:
@@ -70,10 +72,12 @@ int main(void)
 				state = IDLE;
 				break;
 			case IDLE:
+				clear_bit(TIMSK3, TOIE3);
 				printf("idle\n");
-				cli();
-				_delay_ms(6000);
-				state = PLAY;
+				if (CAN_get_curr().id == 5) {
+					state = PLAY;
+				}
+				_delay_ms(50);
 				break;
 			default:
 				state = IDLE;

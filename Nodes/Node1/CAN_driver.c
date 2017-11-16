@@ -4,6 +4,7 @@
  * Created: 04.10.2017 11:56:16
  *  Author: aleksra
  */ 
+#define F_CPU 4915200UL
 #include "CAN_driver.h"
 #include "SPI_driver.h"
 #include <stdio.h>
@@ -11,15 +12,20 @@
 #include "MCP2515.h"
 #include "SLIDER_driver.h"
 #include "macaroni.h"
+#include <util/delay.h>
 #include <avr/interrupt.h>
 #include <string.h>
+
+/*Variable to store the last received message*/
+static CAN_message rec_msg;
+
 
 uint8_t CAN_init(){
 	uint8_t value;
 	
 	SPI_MasterInit();
 	MCP2515_reset();
-	
+
 	//SELF TEST (From lab lecture)
 	value = MCP2515_read(MCP_CANSTAT);
 	if ((value & MODE_MASK) != MODE_CONFIG) {

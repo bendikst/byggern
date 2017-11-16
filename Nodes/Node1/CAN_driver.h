@@ -20,9 +20,6 @@ typedef struct CAN_message {
 	
 	}CAN_message;
 
-
-static CAN_message rec_msg;
-
 uint8_t CAN_init(void);
 void CAN_transmit(CAN_message* msg);
 CAN_message CAN_receive(void);
