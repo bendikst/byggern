@@ -72,7 +72,6 @@ void GAME_play(char* name){
 		_delay_ms(100); //how much DELAY??
 		
 		OLED_SRAM_RESET();
-		_delay_ms(100);
 		OLED_pos(0, 30);
 		OLED_print_str(current_game.name);
 		OLED_pos(4, 0);
