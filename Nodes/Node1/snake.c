@@ -4,6 +4,7 @@
 #include "JOYSTICK_driver.h"
 #include "snake.h"
 #include "OLED_driver.h"
+#include "GAME_driver.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -16,7 +17,6 @@ snake_struct* snake_init(uint8_t length, uint8_t start_x, uint8_t start_y){
 	snake_struct* n = snake_add(NULL, start_x, start_y);
 	for(int i = 1; i<length; i++){
 		n = snake_add(n, start_x + i, start_y);
-		//printf("for\n");
 	}
 	return n;
 }
@@ -26,7 +26,6 @@ snake_struct* snake_add(snake_struct *next, uint8_t px, uint8_t py){
 	n->next = next;
 	n->px = px;
 	n->py = py;
-	//printf("inside: %d , %d \n",n->px, n->py);
 	return n;
 }
 
@@ -59,6 +58,7 @@ void play_snake(char* player){
 	uint8_t px = 3;
 	uint8_t py = 8;
 	uint8_t length = 5;
+	uint8_t score = 0;
 	snake_struct* head = snake_init(length, px, py);
 	apple_struct n; //allokerer plass til eple i compile time
 	apple_struct *apple = rand_apple(&n); //lagrer pekeren til eplet
@@ -98,6 +98,7 @@ void play_snake(char* player){
 		if (head->px == apple->ax && head->py == apple->ay){
 			eating = true;
 			length++;
+			score++;
 			apple = rand_apple(apple);
 		}
 		
@@ -140,6 +141,7 @@ void play_snake(char* player){
 		
 	}
 	endgame(head);
+	GAME_EEPROM_write(score, name, "Snake");
 }
 
 apple_struct* rand_apple(apple_struct *apple){
@@ -185,7 +187,6 @@ void endgame(snake_struct *snake){
 		free(snake);
 		snake = temp;
 	}
-	//printf("gameover\n");
 	OLED_SRAM_RESET();
 	OLED_pos(4, 25);
 	OLED_print_str("GAME OVER");
