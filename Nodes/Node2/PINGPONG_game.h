@@ -17,6 +17,9 @@
 /*This initializes the hardware and software for playing the pingpong game. In its current state, the initial position 
 of the motor will be decided  by where it was when the last game was lost.*/
 void PINGPONG_init(void);
+
+/*Game function that reads the IR-sensor and utilizes a digital low pass filter for determining
+if the game is lost, then controls the physical components based on the latest received CAN gamecontrol message.*/
 void PINGPONG_play(void);
 
 
