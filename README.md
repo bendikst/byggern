@@ -3,7 +3,7 @@ Aleks, Alex og Bennys byggernprosjekt
 
 Lab project for the subject TTK4155 Embedded and Industrial Computer Systems Design, "Byggern".
 #### Authors:
-Aleksander Asp @aleksra, Alexander Johansen @aalexjo, Bendik Standal @bendikst
+Aleksander Asp, Alexander Johansen, Bendik Standal
 
 
 Things to do etter dag 5:
