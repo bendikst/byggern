@@ -12,6 +12,7 @@ HIGHSCORES MEMORY LOCATIONS
 "alex"	=		0			4	
 "asp"	=		10			14
 "benny" =		20			24
+"guest" =		30			34
 ---------------------------------------------------
 Procedure for adding new players:
 - Include them in this overview
