@@ -15,13 +15,9 @@
 #include <util/delay.h>
 #include <avr/interrupt.h>
 
-//static game* current_game;
 
-void PINGPONG_init(){
-	//PWM_init();
-	//IR_init();
-	//SOLENOID_init();
-	
+void PINGPONG_init()
+{
 	sei();
 	MOTOR_init();
 	CAN_transmit_game(false);
