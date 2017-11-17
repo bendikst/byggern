@@ -5,7 +5,7 @@
  *  Author: bendikss
  */ 
 
-#define F_CPU 4915200UL //Atmegaens CPU går vel på oscillatoren??
+#define F_CPU 4915200UL //Atmegaens CPU gÃ¥r vel pÃ¥ oscillatoren??
 #include "GAME_driver.h"
 #include "CAN_driver.h"
 #include "macaroni.h"
@@ -21,13 +21,13 @@
 static game_parameters current_game;
 
 /*
-----------------------------------
+---------------------------------------------------
 HIGHSCORES MEMORY LOCATIONS
 			Pingpong:	Snake:
 "alex"	=		0			4	
 "asp"	=		10			14
 "benny" =		20			24
----------------------------------
+----------------------------------------------------
 */
 
 void GAME_init(){
@@ -45,10 +45,15 @@ void GAME_init(){
 
 
 void GAME_play(char* name){
-	//TODO: WRITE A START GAME CAN MESSAGE
 	current_game.name = name;
 	//current_game.difficulty = difficulty;
 	current_game.score = 0;
+	
+	//Send a message to start the game module in Node 2:
+	CAN_message start_game;
+	start_game.id = 5; //Start game ID
+	start_game.length = 1;
+	start_game.data[0] = 0;
 	
 	OLED_SRAM_RESET();
 	OLED_pos(0, 30);
@@ -56,15 +61,8 @@ void GAME_play(char* name){
 	OLED_pos(4, 0);
 	OLED_print_str("GET READY...");
 	OLED_draw();
-	_delay_ms(1000);
-	
-	//Send a message to start the game
-	CAN_message start_game;
-	start_game.id = 5; //Start game ID
-	start_game.length = 1;
-	start_game.data[0] = 0;
 	CAN_transmit(&start_game);
-	_delay_ms(100);
+	_delay_ms(1000);
 	
 	GAME_init();
 	
@@ -89,20 +87,20 @@ void GAME_play(char* name){
 			GAME_print_score(&current_game);
 			_delay_ms(2000);
 			if (!(strcmp(current_game.name, "alex"))) {
-				unsigned int address = 0b0;
+				unsigned int address = 0;
 				if (current_game.score > GAME_EEPROM_read(address)) {
 					GAME_EEPROM_write(current_game.score, "alex", "Pingpong");
 				}
 			}
 			else if (!(strcmp(current_game.name, "benny"))) {
-				unsigned int address = 0b10000;
+				unsigned int address = 20;
 				if (current_game.score > GAME_EEPROM_read(address))
 				{
 					GAME_EEPROM_write(current_game.score, "benny", "Pingpong");
 				}
 			}
 			else if (!(strcmp(current_game.name, "asp"))) {
-				unsigned int address = 0b1000;
+				unsigned int address = 10;
 				if (current_game.score > GAME_EEPROM_read(address))
 				{
 					GAME_EEPROM_write(current_game.score, "asp", "Pingpong");
@@ -126,7 +124,6 @@ void GAME_print_score(game_parameters* last_game){
 	OLED_draw();
 }
 
-//Endre hvis tid
 void GAME_EEPROM_print_highscores(char* game){
 	if (!strcmp(game, "Pingpong")){
 		OLED_SRAM_RESET();
@@ -191,7 +188,7 @@ void GAME_EEPROM_write(unsigned char data, const char* name, const char* game){
 		}
 		else if (!strcmp(game, "Pingpong"))
 		{
-			EEAR = 0b0;
+			EEAR = 0;
 			EEDR = data;
 		}
 	}
@@ -242,5 +239,4 @@ void GAME_EEPROM_reset_highscores(){
 
 ISR(TIMER1_OVF_vect){
 	GAME_inc_score(&current_game);
-	//increase score by 1 per 1.05 seconds??
 }
