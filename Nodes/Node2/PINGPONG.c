@@ -30,12 +30,13 @@ void PINGPONG_init(){
 		
 }
 
-void PINGPONG_play(){
-	
+void PINGPONG_play()
+{
 	_delay_us(50);
 	uint8_t counter = 0;
 	int testvar = 0;
-	bool lose = false;	
+	bool lose = false;
+	
 	while (!lose)
 	{
 		counter++;
@@ -43,7 +44,7 @@ void PINGPONG_play(){
 		_delay_us(50);
 		if (counter == 5) //digital low pass filter
 		{   
-			if(testvar/5 < 9 && !lose)
+			if((testvar/5 < 9) && !lose)
 			{
 				lose = true;
 			}
@@ -52,7 +53,8 @@ void PINGPONG_play(){
 		}
 		//printf("tranceived from CAN: %d\n", CAN_get_curr().data[2]);
 		PWM_joystick_control(CAN_get_curr().data[0]);
-				if (CAN_get_curr().data[3]) {
+		if (CAN_get_curr().data[3]) 
+		{
 			SOLENOID_shoot();
 		}
 	}
