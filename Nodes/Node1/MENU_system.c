@@ -21,7 +21,6 @@ static Menu* curr_menu;
 
 
 Menu* MENU_init(){
-	//create main menu
 	
 	main_menu = malloc(sizeof(Menu));
 	
@@ -30,16 +29,21 @@ Menu* MENU_init(){
 	main_menu->function = NULL;
 	main_menu->parent = NULL;
 	
-	
 	Menu* sneakygirls_menu = MENU_new_submenu(main_menu,"Sneakygirls", NULL);
 	MENU_new_submenu(main_menu,"Test", &SRAM_test);
-	MENU_new_submenu(main_menu, "Snake", &play_snake);
+	Menu* snake_menu = MENU_new_submenu(main_menu, "Snake", NULL);
 	Menu* pingpong_menu = MENU_new_submenu(main_menu, "Ping Pong", NULL);
 	Menu* highscores_menu = MENU_new_submenu(main_menu, "Highscores", NULL);
 	
 	MENU_new_submenu(pingpong_menu, "alex", &GAME_play);
 	MENU_new_submenu(pingpong_menu, "asp", &GAME_play);
 	MENU_new_submenu(pingpong_menu, "benny", &GAME_play);
+	MENU_new_submenu(pingpong_menu, "guest", &GAME_play);
+	
+	MENU_new_submenu(snake_menu, "alex", &play_snake);
+	MENU_new_submenu(snake_menu, "asp", &play_snake);
+	MENU_new_submenu(snake_menu, "benny", &play_snake);
+	MENU_new_submenu(snake_menu, "guest", &play_snake);
 	
 	MENU_new_submenu(highscores_menu, "Snake", &GAME_EEPROM_print_highscores);
 	MENU_new_submenu(highscores_menu, "Pingpong", &GAME_EEPROM_print_highscores);
@@ -109,7 +113,7 @@ void MENU_main(){
 			OLED_print_menu(curr_menu);
 			MENU_run_functions();
 			
-			//Trenger ikke dette når vi starter games osv??
+			//Trenger ikke dette nÃ¥r vi starter games osv??
 			//VI vil heller oppdatere en state fra menu til riktig state?
 			_delay_ms(1000);
 			curr_menu = curr_menu->parent;
