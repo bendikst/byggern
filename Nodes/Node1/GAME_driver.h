@@ -13,6 +13,11 @@ HIGHSCORES MEMORY LOCATIONS
 "asp"	=		10			14
 "benny" =		20			24
 ---------------------------------------------------
+Procedure for adding new players:
+- Include them in this overview
+- Include them in the submenus for the games
+- If names are used specifically in-game, handle.
+- Change GAME_EEPROM_... write/read/print_highscores/reset to include given name and memory
 */
 
 #ifndef GAME_DRIVER_H_
