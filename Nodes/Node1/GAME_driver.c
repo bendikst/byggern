@@ -27,7 +27,13 @@ HIGHSCORES MEMORY LOCATIONS
 "alex"	=		0			4	
 "asp"	=		10			14
 "benny" =		20			24
-----------------------------------------------------
+"guest" =		30			34
+---------------------------------------------------
+Procedure for adding new players:
+- Include them in this overview
+- Include them in the submenus for the games
+- If names are used specifically in-game, handle.
+- Change GAME_EEPROM_... write/read/print_highscores/reset to include given name and memory
 */
 
 void GAME_init(){
@@ -85,24 +91,35 @@ void GAME_play(char* name){
 			clear_bit(TIMSK, TOIE1); //Shutting off timer for counting score
 			GAME_print_score(&current_game);
 			_delay_ms(2000);
-			if (!(strcmp(current_game.name, "alex"))) {
+			if (!(strcmp(current_game.name, "alex"))) 
+			{
 				unsigned int address = 0;
 				if (current_game.score > GAME_EEPROM_read(address)) {
 					GAME_EEPROM_write(current_game.score, "alex", "Pingpong");
 				}
 			}
-			else if (!(strcmp(current_game.name, "benny"))) {
+			else if (!(strcmp(current_game.name, "benny"))) 
+			{
 				unsigned int address = 20;
 				if (current_game.score > GAME_EEPROM_read(address))
 				{
 					GAME_EEPROM_write(current_game.score, "benny", "Pingpong");
 				}
 			}
-			else if (!(strcmp(current_game.name, "asp"))) {
+			else if (!(strcmp(current_game.name, "asp"))) 
+			{
 				unsigned int address = 10;
 				if (current_game.score > GAME_EEPROM_read(address))
 				{
 					GAME_EEPROM_write(current_game.score, "asp", "Pingpong");
+				}
+			}
+			else if (!(strcmp(current_game.name, "guest"))) 
+			{
+				unsigned int address = 30;
+				if (current_game.score > GAME_EEPROM_read(address))
+				{
+					GAME_EEPROM_write(current_game.score, "guest", "Pingpong");
 				}
 			}
 			GAME_EEPROM_print_highscores("Pingpong");
@@ -140,6 +157,10 @@ void GAME_EEPROM_print_highscores(char* game){
 		OLED_print_str("Benny:");
 		OLED_pos(3, 60);
 		OLED_print_str(OLED_int_to_str(GAME_EEPROM_read(20))); //ADDRESS for Benny
+		OLED_pos(4, 0);
+		OLED_print_str("Guests:");
+		OLED_pos(4, 60);
+		OLED_print_str(OLED_int_to_str(GAME_EEPROM_read(30))); //ADDRESS for Guest
 		OLED_draw();
 	}
 	else if(!strcmp(game, "Snake")){
@@ -158,6 +179,10 @@ void GAME_EEPROM_print_highscores(char* game){
 		OLED_print_str("Benny:");
 		OLED_pos(3, 60);
 		OLED_print_str(OLED_int_to_str(GAME_EEPROM_read(24))); //ADDRESS for Benny
+		OLED_pos(4, 0);
+		OLED_print_str("Guests:");
+		OLED_pos(4, 60);
+		OLED_print_str(OLED_int_to_str(GAME_EEPROM_read(30))); //ADDRESS for Guest
 		OLED_draw();
 	}
  	else {
@@ -178,7 +203,6 @@ void GAME_inc_score(game_parameters* current_game){
 
 
 void GAME_EEPROM_write(unsigned char data, const char* name, const char* game){
-	
 	while(EECR & (1<<EEWE)){};
 	if (!strcmp(name, "alex")){
 		if (!strcmp(game, "Snake")){
@@ -213,10 +237,21 @@ void GAME_EEPROM_write(unsigned char data, const char* name, const char* game){
 			EEDR = data;
 		}
 	}
+	else if (!strcmp(name, "guest")){
+		if (!strcmp(game, "Snake")){
+			EEAR = 34;
+			EEDR = data;
+		}
+		else if (!strcmp(game, "Pingpong"))
+		{
+			EEAR = 30;
+			EEDR = data;
+		}
 	set_bit(EECR, EEMWE);
 	set_bit(EECR, EEWE);	
 }
 
+	
 int GAME_EEPROM_read(unsigned int address){
 	
 	while(EECR & (1<<EEWE)){};
@@ -227,7 +262,7 @@ int GAME_EEPROM_read(unsigned int address){
 
 
 void GAME_EEPROM_reset_highscores(){
-	char* players[3] = {"alex","asp","benny"};
+	char* players[3] = {"alex","asp","benny", "guest"};
 	for (int i = 0; i < 3; i++){
 		GAME_EEPROM_write(0, players[i], "Snake");
 	}
