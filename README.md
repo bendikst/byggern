@@ -18,3 +18,4 @@ Things to do etter dag 5:
 - [ ] Små figurer for snake og pingpong?
 - [ ] Oppdater navn på snake? konvensjon
 - [ ] Se over TODOS i koden
+- [x] scoring in snake
