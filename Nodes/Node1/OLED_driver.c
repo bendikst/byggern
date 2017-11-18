@@ -17,7 +17,7 @@ static uint8_t PAGE, COLUMN;
 void OLED_init(void){
 	  volatile char *adresse = ext_oled_cmd;
 	  
-      *adresse = (0xae);        //  display  off
+      *adresse = (0xae);        //display  off
       *adresse = (0xa1);        //segment  remap
       *adresse = (0xda);        //common  pads  hardware:  alternative
       *adresse = (0x12);
@@ -63,7 +63,6 @@ void OLED_SRAM_custom_print(const unsigned char* c){
 }
 
 void OLED_SRAM_RESET(){
-	OLED_home();
 	for (uint8_t page = 0; page < 8; page++)
 	{
 		OLED_SRAM_clear_page(page);
@@ -96,6 +95,7 @@ void OLED_reset(){
 	{
 		OLED_clear_page(page);
 	}
+	OLED_SRAM_RESET();
 	OLED_home();
 }
 
@@ -148,8 +148,7 @@ void OLED_print_str(const char* data){
 	
 }
 
-
-const char* OLED_int_to_str(int integer){
+char* OLED_int_to_str(int integer){
 	int n;
 	if (integer == 0)
 	{
@@ -164,6 +163,7 @@ const char* OLED_int_to_str(int integer){
 }
 
 void OLED_print_menu(Menu* menu){
+	OLED_SRAM_RESET();
 	OLED_home();
 	OLED_print_str(menu->name);
 	for (int i = 0; i < menu->num_children; i++){
@@ -190,7 +190,8 @@ void OLED_draw_arrow(int pos){
 void OLED_draw()
 {
 	OLED_home();
-	for (int page = 0; page < 8; page++){
+	for (int page = 0; page < 8; page++)
+	{
 		OLED_goto_page(page);
 		for (int col = 0; col < 128; col++ )
 		{

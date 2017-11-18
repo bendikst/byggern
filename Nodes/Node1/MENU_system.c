@@ -11,7 +11,7 @@
 #include <stdbool.h>
 #include <util/delay.h>
 #include "OLED_driver.h"
-#include "snake.h"
+#include "SNAKE_game.h"
 #include "GAME_driver.h"
 
 /*Variables to keep track of where in the menu system we are*/
@@ -20,7 +20,10 @@ static int position;
 static Menu* curr_menu;
 
 
-Menu* MENU_init(){
+//TODO: Snake does not work when choosing names from the menu system??? Fix.
+
+Menu* MENU_init()
+{
 	
 	main_menu = malloc(sizeof(Menu));
 	
@@ -29,37 +32,41 @@ Menu* MENU_init(){
 	main_menu->function = NULL;
 	main_menu->parent = NULL;
 	
-	Menu* sneakygirls_menu = MENU_new_submenu(main_menu,"Sneakygirls", NULL);
-	MENU_new_submenu(main_menu,"Test", &SRAM_test);
-	Menu* snake_menu = MENU_new_submenu(main_menu, "Snake", NULL);
+	//Menu* sneakygirls_menu = MENU_new_submenu(main_menu,"Sneakygirls", NULL);
+	
+	Menu* snake_menu = MENU_new_submenu(main_menu, "Snake", &SNAKE_play);
+		//MENU_new_submenu(snake_menu, "alex", &SNAKE_play);
+		//MENU_new_submenu(snake_menu, "asp", &SNAKE_play);
+		//MENU_new_submenu(snake_menu, "benny", &SNAKE_play);
+		//MENU_new_submenu(snake_menu, "guest", &SNAKE_play);
+	
 	Menu* pingpong_menu = MENU_new_submenu(main_menu, "Ping Pong", NULL);
+		Menu* easy = MENU_new_submenu(pingpong_menu, "easy", &GAME_difficulty);
+		Menu* hard = MENU_new_submenu(pingpong_menu, "hard", &GAME_difficulty);
+			Menu* alex = MENU_new_submenu(easy, "alex", &GAME_play);
+			Menu* asp = MENU_new_submenu(easy, "asp", &GAME_play);
+			Menu* benny = MENU_new_submenu(easy, "benny", &GAME_play);
+			Menu* guest = MENU_new_submenu(easy, "guest", &GAME_play);
+	
+			MENU_allocate_submenu(hard, alex);
+			MENU_allocate_submenu(hard, asp);
+			MENU_allocate_submenu(hard, benny);
+			MENU_allocate_submenu(hard, guest);
 	Menu* highscores_menu = MENU_new_submenu(main_menu, "Highscores", NULL);
+		MENU_new_submenu(highscores_menu, "Snake", &GAME_EEPROM_print_highscores);
+		MENU_new_submenu(highscores_menu, "Pingpong", &GAME_EEPROM_print_highscores);
+	MENU_new_submenu(main_menu,"Test", &SRAM_test);
 	
-	MENU_new_submenu(pingpong_menu, "alex", &GAME_play);
-	MENU_new_submenu(pingpong_menu, "asp", &GAME_play);
-	MENU_new_submenu(pingpong_menu, "benny", &GAME_play);
-	MENU_new_submenu(pingpong_menu, "guest", &GAME_play);
 	
-	MENU_new_submenu(snake_menu, "alex", &play_snake);
-	MENU_new_submenu(snake_menu, "asp", &play_snake);
-	MENU_new_submenu(snake_menu, "benny", &play_snake);
-	MENU_new_submenu(snake_menu, "guest", &play_snake);
-	
-	MENU_new_submenu(highscores_menu, "Snake", &GAME_EEPROM_print_highscores);
-	MENU_new_submenu(highscores_menu, "Pingpong", &GAME_EEPROM_print_highscores);
-	
-	MENU_new_submenu(sneakygirls_menu,"Julie",NULL);
-	MENU_new_submenu(sneakygirls_menu,"Andrea",NULL);
-	MENU_new_submenu(sneakygirls_menu,"Johanne <3",NULL);
-	MENU_new_submenu(sneakygirls_menu->children[0], "Snik", NULL);
-	
+
 	curr_menu = main_menu;
 	position = 0;
 
 	return main_menu;
 }
 
-Menu* MENU_new_submenu(Menu* self, char* name, void (*function)(char*)){
+Menu* MENU_new_submenu(Menu* self, char* name, void (*function)(char*))
+{
 	Menu* new_menu = malloc(sizeof(Menu));
 	
 	new_menu->name = name;
@@ -77,10 +84,19 @@ Menu* MENU_new_submenu(Menu* self, char* name, void (*function)(char*)){
 	return new_menu;
 }
 
+void MENU_allocate_submenu(Menu* self, Menu* submenu)
+{
+	self->children = realloc(self->children, sizeof(Menu*)*(self->num_children+1));
+	self->children[self->num_children] = submenu;
+	self->num_children = self->num_children + 1;
+}
 
-void MENU_main(){
 
-	switch (JOYSTICK_getDirection()){
+void MENU_main()
+{
+
+	switch (JOYSTICK_getDirection())
+	{
 		case DOWN:
 			position++;
 			_delay_ms(200);
@@ -90,14 +106,30 @@ void MENU_main(){
 			_delay_ms(100);
 			break;
 		case RIGHT:
-			if (curr_menu->children != NULL){
+			if (curr_menu->children != NULL)
+			{
 				curr_menu = curr_menu->children[position];
 				position = 0;
+				if (curr_menu->function != NULL)
+				{
+					OLED_SRAM_RESET();
+					OLED_print_menu(curr_menu);
+					MENU_run_functions();
+	
+					//_delay_ms(1000);
+					if (curr_menu->function != &GAME_difficulty)
+					{
+						curr_menu = curr_menu->parent;
+					}
+					
+					
+				}
 				_delay_ms(100);
 			}
 			break;
 		case LEFT:
-			if(curr_menu->parent != NULL){
+			if(curr_menu->parent != NULL)
+			{
 				curr_menu = curr_menu->parent;
 				position = 0;
 				_delay_ms(100);
@@ -107,28 +139,31 @@ void MENU_main(){
 			break;
 	}
 	
-	if (curr_menu->function != NULL)
-		{
-			OLED_SRAM_RESET();
-			OLED_print_menu(curr_menu);
-			MENU_run_functions();
-			
-			//Trenger ikke dette når vi starter games osv??
-			//VI vil heller oppdatere en state fra menu til riktig state?
-			_delay_ms(1000);
-			curr_menu = curr_menu->parent;
-		}
+	//if (curr_menu->function != NULL)
+		//{
+			//OLED_SRAM_RESET();
+			//OLED_print_menu(curr_menu);
+			//MENU_run_functions();
+			//
+			//_delay_ms(1000);
+			//curr_menu = curr_menu->parent;
+		//}
 	
 	//Handling when the arrow moves outside bounds
-	if (position == -1){
-		if (curr_menu->num_children == 0){
+	if (position == -1)
+	{
+		if (curr_menu->num_children == 0)
+		{
 			position = 0;
 		}
-		else{
+		else
+		{
 			position = curr_menu->num_children-1;	
 		}
 		
-	}else if(position >= curr_menu->num_children){
+	}
+	else if(position >= curr_menu->num_children)
+	{
 		position = 0;
 	}
 	
@@ -138,7 +173,8 @@ void MENU_main(){
 }
 
 
-void MENU_run_functions(){
+void MENU_run_functions()
+{
 	if (curr_menu->function == &SRAM_test)
 	{
 		(*curr_menu->function)("");
@@ -152,10 +188,13 @@ void MENU_run_functions(){
 	{
 		(*curr_menu->function)(curr_menu->name);
 	}
-	else if (curr_menu->function == &play_snake)
+	else if (curr_menu->function == &GAME_difficulty)
 	{
 		(*curr_menu->function)(curr_menu->name);
 	}
 	
-	
+	else if (curr_menu->function == &SNAKE_play)
+	{
+		(*curr_menu->function)(curr_menu->name);
+	}
 }

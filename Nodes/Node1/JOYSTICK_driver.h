@@ -10,6 +10,7 @@
 #define JOYSTICK_DRIVER_H_
 
 #include <stdbool.h>
+#include <avr/io.h>
 
 #define MAX_VALUE 255
 
@@ -26,8 +27,8 @@ typedef enum
 
 typedef struct
 {
-	int x_pos;
-	int y_pos;
+	uint8_t x_pos;
+	uint8_t y_pos;
 }JOYSTICK_position_t;
 
 
@@ -36,7 +37,6 @@ void JOYSTICK_calibrate(void);
 bool JOYSTICK_button(int button);
 JOYSTICK_position_t JOYSTICK_getPosition(void);
 JOYSTICK_direction_t JOYSTICK_getDirection(void);
-void MENU_main(void);
 
 
 

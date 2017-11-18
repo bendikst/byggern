@@ -16,8 +16,9 @@ void SPI_MasterInit(void)
 	/* Enable SPI, Master, set clock rate fck/16 */
 	SPCR = (1<<MSTR)|(1<<SPR0); //Skal vi ikke enable interrupt? Nei interrupt heller på CAN
 	SPCR |= (1<<SPE);
-	//SPCR |= (1<<DORD);   // Denne bestemmer om LSB eller MSB skal sendes først, mulig det må tas hensyn til
 }
+
+
 char SPI_transceive(char cData)
 {
 	

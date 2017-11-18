@@ -10,7 +10,7 @@
 #define SRAM_H_
 
 
-
+/*Function to test the SRAM write and read. Handed out as part of the assignment.*/
 void SRAM_test(char* name);
 
 

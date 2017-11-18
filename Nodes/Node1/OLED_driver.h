@@ -40,7 +40,7 @@ void OLED_print_str(const char* data);
 /*Convert any integer of size <256 to cstring for use of the OLED_print_str.
 Should be used right away and not assigned to a variable because
 this returns address of a local variable*/
-const char* OLED_int_to_str(const int integer);
+char* OLED_int_to_str(const int integer);
 
 /*Custom print functions for menus and arrow. Writes to the SRAM. Use OLED_draw() to
 draw the screen.*/
@@ -54,7 +54,7 @@ void OLED_draw(void);
 Used for dual-frame buffering of the OLED screen.*/
 void OLED_SRAM_print(unsigned char c);
 void OLED_SRAM_clear_page(uint8_t page);
-void OLED_SRAM_RESET();
+void OLED_SRAM_RESET(void);
 void OLED_SRAM_custom_print(const unsigned char* c);
 
 #endif /* OLED_DRIVER_H_ */

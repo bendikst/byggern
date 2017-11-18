@@ -27,13 +27,11 @@ Procedure for adding new players:
 #include <stdint.h>
 
 
-//TODO: FIx bugen med at den resetter seg!!
-
-typedef struct  
-game_parameters{	
+typedef struct
+{	
 	char* name;
 	uint8_t score; //Make this larger??
-	uint8_t difficulty;
+
 }game_parameters;
 
 /*GAME_init initializes the timer to keep track of the score...*/
@@ -43,6 +41,7 @@ void GAME_init(void);
 /*Game function for the amazing pingpong game. Takes in the name of the player and desired difficulty 
 (between 1-3) from the menu. Stores the score in highscores*/
 void GAME_play(char* name);
+void GAME_difficulty(char* difficulty);
 
 void GAME_print_score(game_parameters* last_game);
 

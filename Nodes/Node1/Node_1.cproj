@@ -130,12 +130,6 @@
     <Compile Include="GAME_driver.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="joystick.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="joystick.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="JOYSTICK_driver.c">
       <SubType>compile</SubType>
     </Compile>
@@ -178,10 +172,10 @@
     <Compile Include="SLIDER_driver.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="snake.c">
+    <Compile Include="SNAKE_game.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="snake.h">
+    <Compile Include="SNAKE_game.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="SPI_driver.c">

@@ -59,7 +59,6 @@ int main(void)
 	state_enum state = MENU;
 	
 	//state = TEST;
-	
     while(1)
     {		
 		switch (state)
@@ -81,8 +80,8 @@ int main(void)
 		case TEST:
 			/*DIFFERENT TEST FUNCTIONS FOR DEBUGGING PURPOSES.*/
 			CAN_gamecontrols_transmit();
-			//printf("Transmitting\n");
-			_delay_ms(100);
+			printf("Transmitting\n");
+			_delay_ms(200);
 			break;
 		default:
 			state = IDLE;

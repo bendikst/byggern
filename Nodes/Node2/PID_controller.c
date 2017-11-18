@@ -40,15 +40,6 @@ void PID_init(){
 	//MOTOR_calibrate();
 	cli();
 	
-	////enable timer overflow interrupt for timer 2
-	//set_bit(TIMSK2, TOIE2);
-	//
-	////Start timer2 with prescaler of 1024
-	//
-	//set_bit(TCCR2B, CS20);
-	//set_bit(TCCR2B, CS21);
-	//set_bit(TCCR2B, CS22);
-	
 	//Set waveform generation mode to fast PWM, TOP: ICRn, update of OCRx at: BOTTOM, TOV flag set on: TOP
 	//And normal port operation compare output mode
 	TCCR3A = (1<<WGM31)|(1<<COM3A1);

@@ -82,13 +82,12 @@ CAN_message CAN_receive(){
 		}
 		MCP2515_bit_modify(MCP_CANINTF, 0x01, 0); //Clear interrupt flag
 	}
-	
-
 	return msg;
 }
 
 
-CAN_message CAN_joystick_transmit(){
+CAN_message CAN_joystick_transmit()
+{
 
 	JOYSTICK_position_t pos = JOYSTICK_getPosition();
 	CAN_message msg;
@@ -105,11 +104,13 @@ CAN_message CAN_joystick_transmit(){
 }
 
 
-CAN_message CAN_gamecontrols_transmit(){
-
+CAN_message CAN_gamecontrols_transmit()
+{
 	JOYSTICK_position_t pos = JOYSTICK_getPosition();
 	uint8_t slider = SLIDER_pos(1);
-	
+	printf("xpos: %d\n", pos.x_pos);
+	printf("ypos: %d\n", pos.y_pos);
+	printf("slider: %d\n", slider);
 	CAN_message msg;
 	
 	
@@ -121,23 +122,8 @@ CAN_message CAN_gamecontrols_transmit(){
 	msg.data[3] = test_bit(PINB, PB1) ? 0 : 1;
 	
 	CAN_transmit(&msg);
-	
 	return msg;
 }
-
-
-//void CAN_print(){ //TESTFUNKSJON
-	//
-	//CAN_message* msg = &rec_msg;
-	//
-	//char temp[msg->length+1];
-	//for (uint8_t i = 0; i < msg->length; i++){
-		//temp[i] = (unsigned char)msg->data[i];
-	//}
-	//temp[msg->length] = '\0';
-	//printf("Message received: \nid:%d \nlength%d \nData:%s\n", msg->id, msg->length, temp);
-//}
-
 
 
 CAN_message CAN_get_curr(){
@@ -145,7 +131,5 @@ CAN_message CAN_get_curr(){
 }
 
 ISR(INT0_vect){
-	//Studass mener heller vi bør bruke et eget flagg som sier at interrupt har skjedd?
-	//rec_flag = 1;
 	rec_msg = CAN_receive();
 }

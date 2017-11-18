@@ -36,7 +36,8 @@ Procedure for adding new players:
 - Change GAME_EEPROM_... write/read/print_highscores/reset to include given name and memory
 */
 
-void GAME_init(){
+void GAME_init()
+{
 	//Setting NORMAL mode, using prescaler 256
 	TCCR1A = 0;
 	clear_bit(TCCR1B, CS12);
@@ -50,9 +51,9 @@ void GAME_init(){
 }
 
 
-void GAME_play(char* name){
+void GAME_play(char* name)
+{
 	current_game.name = name;
-	//current_game.difficulty = difficulty;
 	current_game.score = 0;
 	
 	//Send a message to start the game module in Node 2:
@@ -68,11 +69,11 @@ void GAME_play(char* name){
 	OLED_print_str("GET READY...");
 	OLED_draw();
 	CAN_transmit(&start_game);
-	_delay_ms(1000);
+	_delay_ms(100);
 	
 	GAME_init();
-	
-	while(1){
+	while(1)
+	{
 		//TODO: switch on difficulty
 		CAN_gamecontrols_transmit();
 		_delay_ms(100); //how much DELAY??
@@ -94,7 +95,8 @@ void GAME_play(char* name){
 			if (!(strcmp(current_game.name, "alex"))) 
 			{
 				unsigned int address = 0;
-				if (current_game.score > GAME_EEPROM_read(address)) {
+				if (current_game.score > GAME_EEPROM_read(address)) 
+				{
 					GAME_EEPROM_write(current_game.score, "alex", "Pingpong");
 				}
 			}
@@ -129,8 +131,28 @@ void GAME_play(char* name){
 	}
 }
 
+void GAME_difficulty(char* difficulty){
+	CAN_message msg;
+	msg.id = 8;
+	msg.length = 1;
+	if (difficulty == "hard")
+	{
+	msg.data[0] = 3;
+	}
+	else if (difficulty == "medium")
+	{
+		msg.data[0] = 2;
+	}
+	else
+	{
+		msg.data[0] = 1;
+	}
+	
+	CAN_transmit(&msg);
+}
 
-void GAME_print_score(game_parameters* last_game){
+void GAME_print_score(game_parameters* last_game)
+{
 	OLED_SRAM_RESET();
 	OLED_print_str("GAME OVER!");
 	OLED_pos(3, 0);
@@ -140,8 +162,10 @@ void GAME_print_score(game_parameters* last_game){
 	OLED_draw();
 }
 
-void GAME_EEPROM_print_highscores(char* game){
-	if (!strcmp(game, "Pingpong")){
+void GAME_EEPROM_print_highscores(char* game)
+{
+	if (!strcmp(game, "Pingpong"))
+	{
 		OLED_SRAM_RESET();
 		OLED_pos(0, 0);
 		OLED_print_str("---HIGHSCORES---");
@@ -163,7 +187,8 @@ void GAME_EEPROM_print_highscores(char* game){
 		OLED_print_str(OLED_int_to_str(GAME_EEPROM_read(30))); //ADDRESS for Guest
 		OLED_draw();
 	}
-	else if(!strcmp(game, "Snake")){
+	else if(!strcmp(game, "Snake"))
+	{
 		OLED_SRAM_RESET();
 		OLED_pos(0, 0);
 		OLED_print_str("---HIGHSCORES---");
@@ -185,7 +210,8 @@ void GAME_EEPROM_print_highscores(char* game){
 		OLED_print_str(OLED_int_to_str(GAME_EEPROM_read(30))); //ADDRESS for Guest
 		OLED_draw();
 	}
- 	else {
+ 	else 
+	 {
 		OLED_SRAM_RESET();
 		OLED_pos(1,0);
 		OLED_print_str("Error GAME.h");
@@ -196,7 +222,8 @@ void GAME_EEPROM_print_highscores(char* game){
 }
 
 
-void GAME_inc_score(game_parameters* current_game){
+void GAME_inc_score(game_parameters* current_game)
+{
 	current_game->score += 1;
 }
 
@@ -262,7 +289,8 @@ void GAME_EEPROM_write(unsigned char data, const char* name, const char* game)
 }
 
 	
-int GAME_EEPROM_read(unsigned int address){
+int GAME_EEPROM_read(unsigned int address)
+{
 	
 	while(EECR & (1<<EEWE)){};
 	EEAR = address;
@@ -271,12 +299,15 @@ int GAME_EEPROM_read(unsigned int address){
 }
 
 
-void GAME_EEPROM_reset_highscores(){
+void GAME_EEPROM_reset_highscores()
+{
 	char* players[4] = {"alex","asp","benny", "guest"};
-	for (int i = 0; i < 4; i++){ 
+	for (int i = 0; i < 4; i++)
+	{ 
 		GAME_EEPROM_write(0, players[i], "Snake");
 	}
-	for (int i = 0; i < 4; i++){
+	for (int i = 0; i < 4; i++)
+	{
 		GAME_EEPROM_write(0, players[i], "Pingpong");
 	}
 }

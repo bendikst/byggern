@@ -4,6 +4,7 @@
  * Created: 04.10.2017 11:56:16
  *  Author: aleksra
  */ 
+//#define F_CPU 16000000L
 #include "CAN_driver.h"
 #include "SPI_driver.h"
 #include <stdio.h>

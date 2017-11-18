@@ -21,7 +21,7 @@ typedef struct Menu_struct
 {
 	char* name;
 	Menu* parent;
-	int num_children;
+	uint8_t num_children;
 	Menu** children;
 	
 	void (*function)(char*);
@@ -32,6 +32,7 @@ typedef struct Menu_struct
 //Menu creation
 Menu* MENU_init(void);
 Menu* MENU_new_submenu(Menu* self, char* name, void (*function)(char*));
+void MENU_allocate_submenu(Menu* self, Menu* submenu);
 
 /*Menu navigation is handled here. Heads up and down in the menu hierarchy according to input
 from the joystick. Acts as Node 1's main function when in the MENU state.*/

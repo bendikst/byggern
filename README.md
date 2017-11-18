@@ -19,3 +19,6 @@ Things to do etter dag 5:
 - [ ] Oppdater navn på snake? konvensjon
 - [ ] Se over TODOS i koden
 - [x] scoring in snake
+
+- [ ]
+ Snake tegner ikke når den blir valgt gjennom navn i menyen??

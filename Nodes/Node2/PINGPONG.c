@@ -19,11 +19,10 @@
 void PINGPONG_init()
 {
 	sei();
-	MOTOR_init();
 	CAN_transmit_game(false);
-	_delay_us(10); //TEST
+	MOTOR_init();
+	//_delay_us(10); //TEST
 	PID_init();
-		
 }
 
 void PINGPONG_play()
@@ -57,3 +56,17 @@ void PINGPONG_play()
 	CAN_transmit_game(lose);
 }
 
+
+void PINGPONG_difficulty(uint8_t difficulty){
+	switch(difficulty){
+		case 1:
+		PWM_set_duty_cycle_difficulty(4000);
+		break;
+		case 2:
+		PWM_set_duty_cycle_difficulty(1800);
+		break;
+		case 3:
+		PWM_set_duty_cycle_difficulty(1800);
+		break;
+	}
+}

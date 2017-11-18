@@ -20,7 +20,8 @@ void PINGPONG_init(void);
 
 /*Game function that reads the IR-sensor and utilizes a digital low pass filter for determining
 if the game is lost, then controls the physical components based on the latest received CAN gamecontrol message.*/
-void PINGPONG_play(void);
+void PINGPONG_play();
 
+void PINGPONG_difficulty(uint8_t difficulty);
 
 #endif /* PINGPONG_GAME_H_ */

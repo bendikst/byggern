@@ -163,7 +163,7 @@ void MOTOR_calibrate(){
 	int16_t prev_rotation = rotation + 300;
 	while (rotation != prev_rotation){
 		prev_rotation = rotation;
-		_delay_ms(20);
+		_delay_ms(100);
 		rotation = MOTOR_read_encoder();
 	}
 	MOTOR_move(0);
