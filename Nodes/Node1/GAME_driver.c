@@ -202,10 +202,13 @@ void GAME_inc_score(game_parameters* current_game){
 
 
 
-void GAME_EEPROM_write(unsigned char data, const char* name, const char* game){
+void GAME_EEPROM_write(unsigned char data, const char* name, const char* game)
+{
 	while(EECR & (1<<EEWE)){};
-	if (!strcmp(name, "alex")){
-		if (!strcmp(game, "Snake")){
+	if (!strcmp(name, "alex"))
+	{
+		if (!strcmp(game, "Snake"))
+		{
 			EEAR = 4;
 			EEDR = data;
 		}
@@ -215,8 +218,10 @@ void GAME_EEPROM_write(unsigned char data, const char* name, const char* game){
 			EEDR = data;
 		}
 	}
-	else if (!strcmp(name, "asp")){
-		if (!strcmp(game, "Snake")){
+	else if (!strcmp(name, "asp"))
+	{
+		if (!strcmp(game, "Snake"))
+		{
 			EEAR = 14;
 			EEDR = data;
 		}
@@ -226,8 +231,10 @@ void GAME_EEPROM_write(unsigned char data, const char* name, const char* game){
 			EEDR = data;
 		}
 	}
-	else if (!strcmp(name, "benny")){
-		if (!strcmp(game, "Snake")){
+	else if (!strcmp(name, "benny"))
+	{
+		if (!strcmp(game, "Snake"))
+		{
 			EEAR = 24;
 			EEDR = data;
 		}
@@ -237,8 +244,10 @@ void GAME_EEPROM_write(unsigned char data, const char* name, const char* game){
 			EEDR = data;
 		}
 	}
-	else if (!strcmp(name, "guest")){
-		if (!strcmp(game, "Snake")){
+	else if (!strcmp(name, "guest"))
+	{
+		if (!strcmp(game, "Snake"))
+		{
 			EEAR = 34;
 			EEDR = data;
 		}
@@ -247,6 +256,7 @@ void GAME_EEPROM_write(unsigned char data, const char* name, const char* game){
 			EEAR = 30;
 			EEDR = data;
 		}
+	}
 	set_bit(EECR, EEMWE);
 	set_bit(EECR, EEWE);	
 }
@@ -262,11 +272,11 @@ int GAME_EEPROM_read(unsigned int address){
 
 
 void GAME_EEPROM_reset_highscores(){
-	char* players[3] = {"alex","asp","benny", "guest"};
-	for (int i = 0; i < 3; i++){
+	char* players[4] = {"alex","asp","benny", "guest"};
+	for (int i = 0; i < 4; i++){ 
 		GAME_EEPROM_write(0, players[i], "Snake");
 	}
-	for (int i = 0; i < 3; i++){
+	for (int i = 0; i < 4; i++){
 		GAME_EEPROM_write(0, players[i], "Pingpong");
 	}
 }

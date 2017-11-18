@@ -76,18 +76,25 @@ void play_snake(char* player){
 		draw_snake(head);
 		draw_apple(apple);
 		OLED_draw();
-		//printf("drawing\n");
+		//printf("dr32wi3g %d\n", gameover);
 		
 		//-----checking for gameover-----// !!!//TODO: sjekk om snaken treffer seg selv
-		if(head->px < 0 || head->px>=WIDTH){
+		if(head->px < 0 || head->px >= WIDTH-1)
+		{
+			printf("draw452ing\n");
 			gameover = true;
-		} else if (head->py < 0 || head->py >= HEIGHT){
+		} 
+		else if (head->py < 0 || head->py >= HEIGHT)
+		{
+			printf("drg\n");
 			gameover = true;
 		}
 		
 		temp = head->next;
-		while (temp != NULL){
-			if(head->px == temp->px && head->px == temp->py){
+		while (temp != NULL)
+		{
+			if(head->px == temp->px && head->px == temp->py)
+			{
 				//gameover = true;
 			}
 			temp = temp->next;
@@ -95,7 +102,8 @@ void play_snake(char* player){
 		
 		
 		//-----checking for apple---//
-		if (head->px == apple->ax && head->py == apple->ay){
+		if (head->px == apple->ax && head->py == apple->ay)
+		{
 			eating = true;
 			length++;
 			score++;
@@ -106,25 +114,29 @@ void play_snake(char* player){
 		switch (JOYSTICK_getDirection())
 		{
 		case UP:
-			if (vy != -1){
+			if (vy != -1)
+			{
 				vy = -1;
 				vx = 0;
 			}
 			break;
 		case DOWN:
-			if (vy != 1){
+			if (vy != 1)
+			{
 				vy = 1;
 				vx = 0;
 			}
 			break;
 		case LEFT:
-			if (vx != 1){
+			if (vx != 1)
+			{
 				vy = 0;
 				vx = -1;
 			}
 			break;
 		case RIGHT:
-			if (vx != -1){
+			if (vx != -1)
+			{
 				vy = 0;
 				vx = 1;
 			}
@@ -134,6 +146,7 @@ void play_snake(char* player){
 		}
 		//----move snake---//
 		head = move_snake(head,vx,vy);
+		printf("drawi3g %d\n", gameover);
 		if (!eating){
 			snake_remove_last(head);
 		}
@@ -141,7 +154,7 @@ void play_snake(char* player){
 		
 	}
 	endgame(head);
-	GAME_EEPROM_write(score, name, "Snake");
+	GAME_EEPROM_write(score, player, "Snake");
 }
 
 apple_struct* rand_apple(apple_struct *apple){
@@ -159,7 +172,6 @@ snake_struct* move_snake(snake_struct *snake, uint8_t vx,uint8_t vy){
 
 void draw_square(uint8_t px, uint8_t py){
 	OLED_pos(py/2,px*8);
-	//printf("py/2,px*8 = %d, %d \n", py/2,px*8);
 	if (py%2 == 1){
 		OLED_SRAM_custom_print(block_l);
 	}else{
