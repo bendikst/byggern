@@ -1,6 +1,10 @@
 /*
  * GAME_driver.h
  *
+ * Module for the game interface in Node 1. Keeps track of the score, transmits game controls,
+ * communicates with Node 2 when to start, and receives when to end and store highscores.
+ * Also controls the game difficulty. 
+ *
  * Created: 15.11.2017 10:23:04
  *  Author: bendikss
  */ 
@@ -30,8 +34,7 @@ Procedure for adding new players:
 typedef struct
 {	
 	char* name;
-	uint8_t score; //Make this larger??
-
+	uint8_t score;
 }game_parameters;
 
 /*GAME_init initializes the timer to keep track of the score...*/

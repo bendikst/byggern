@@ -5,7 +5,7 @@
  *  Author: bendikss
  */ 
 
-#define F_CPU 4915200UL //Atmegaens CPU går vel på oscillatoren??
+#define F_CPU 4915200UL
 #include "GAME_driver.h"
 #include "CAN_driver.h"
 #include "macaroni.h"

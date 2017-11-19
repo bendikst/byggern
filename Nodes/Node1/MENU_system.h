@@ -2,7 +2,7 @@
  * MENU_system.h
  *
  * Created: 20.09.2017 17:40:57
- *  Author: aleksra
+ * Authors: Aleksander Asp, Alexander Johansen, Bendik Standal
  */ 
 
 
@@ -29,8 +29,11 @@ typedef struct Menu_struct
 
 
 
-//Menu creation
+/* Menu creation handled here */
 Menu* MENU_init(void);
+
+/*Functions to create the submenus for a menu system. Takes in the menu itself,
+ and the name of the submenu, in addidtion to the function pointer the submenu calls*/
 Menu* MENU_new_submenu(Menu* self, char* name, void (*function)(char*));
 void MENU_allocate_submenu(Menu* self, Menu* submenu);
 

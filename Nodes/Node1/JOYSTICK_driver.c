@@ -20,14 +20,15 @@ void JOYSTICK_init(){
 
 
 
-JOYSTICK_position_t JOYSTICK_getPosition(void){ //maps joystick values to 0-100 with a small deadband
+JOYSTICK_position_t JOYSTICK_getPosition(void){
 	JOYSTICK_position_t returner;
 	int deadband = 3;
 	
 	uint8_t xval = adc_read(X_axis);
 	uint8_t yval = adc_read(Y_axis);
 	
-	if(xval>x_initialpos+deadband || xval<x_initialpos-deadband){ //implement small deadband to avoid jittering
+    
+	if(xval>x_initialpos+deadband || xval<x_initialpos-deadband){
 		returner.x_pos = (xval)/(double)(MAX_VALUE)*100;
 	}else{
 		returner.x_pos = 50;

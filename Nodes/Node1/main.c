@@ -34,7 +34,7 @@ typedef enum{
 	SRAM_tester = 3,
 	IDLE = 4,
 	TEST = 5
-	}state_enum;
+	} state_enum;
 
 int main(void)
 {

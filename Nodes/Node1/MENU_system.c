@@ -1,8 +1,8 @@
 /*
- * MENU_source.c
+ * MENU_system.c
  *
  * Created: 20.09.2017 17:40:12
- *  Author: aleksra
+ * Authors: Aleksander Asp, Alexander Johansen, Bendik Standal
  */ 
 
 #define F_CPU 4915200UL
@@ -14,13 +14,11 @@
 #include "SNAKE_game.h"
 #include "GAME_driver.h"
 
-/*Variables to keep track of where in the menu system we are*/
+/* Variables to keep track of where in the menu system we are */
 static Menu* main_menu;
 static int position;
 static Menu* curr_menu;
 
-
-//TODO: Snake does not work when choosing names from the menu system??? Fix.
 
 Menu* MENU_init()
 {
@@ -32,7 +30,6 @@ Menu* MENU_init()
 	main_menu->function = NULL;
 	main_menu->parent = NULL;
 	
-	//Menu* sneakygirls_menu = MENU_new_submenu(main_menu,"Sneakygirls", NULL);
 	
 	Menu* snake_menu = MENU_new_submenu(main_menu, "Snake", &SNAKE_play);
 		//MENU_new_submenu(snake_menu, "alex", &SNAKE_play);
@@ -138,16 +135,6 @@ void MENU_main()
 		default:
 			break;
 	}
-	
-	//if (curr_menu->function != NULL)
-		//{
-			//OLED_SRAM_RESET();
-			//OLED_print_menu(curr_menu);
-			//MENU_run_functions();
-			//
-			//_delay_ms(1000);
-			//curr_menu = curr_menu->parent;
-		//}
 	
 	//Handling when the arrow moves outside bounds
 	if (position == -1)
