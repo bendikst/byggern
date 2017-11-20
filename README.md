@@ -10,15 +10,9 @@ Things to do etter dag 5:
    
 
 - [ ] Kretskort, PCB
-- [ ] Kommunikasjon: 
+- [x] Kommunikasjon: 
 - [ ] Clean up code/COMMENT
-- [ ] Flere ekstra ting
 - [ ] UML
-- [ ] Highscores online?? 
-- [ ] Små figurer for snake og pingpong?
-- [ ] Oppdater navn på snake? konvensjon
+- [x] Oppdater navn på snake? konvensjon
 - [ ] Se over TODOS i koden
-- [x] scoring in snake
-
-- [ ]
- Snake tegner ikke når den blir valgt gjennom navn i menyen??
+- [ ] scoring in snake
