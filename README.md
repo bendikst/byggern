@@ -17,3 +17,5 @@ Things to do etter dag 5:
 - [ ] Se over TODOS i koden
 - [ ] scoring in snake
 - [ ] Remove SLIDER-module, and make USB-board module
+- [ ] Look at timer for PID again
+- [ ] Merge branches
