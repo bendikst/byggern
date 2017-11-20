@@ -3,8 +3,10 @@
  *
  * Created: 04.10.2017 11:56:16
  *  Author: aleksra
- */ 
+ */
+
 #define F_CPU 4915200UL
+
 #include "CAN_driver.h"
 #include "SPI_driver.h"
 #include <stdio.h>
@@ -35,10 +37,14 @@ uint8_t CAN_init(){
 	
 	MCP2515_bit_modify(MCP_CANINTE, 0b11, MCP_RX_INT); //Enable all receive interrupts
 	MCP2515_bit_modify(MCP_CANCTRL, MODE_MASK, MODE_NORMAL);
-	
+    
+    // INT0 intflag is cleared by writing 1 to INTF2
+    set_bit(GIFR, INTF0);
+    //Enabler interrupt on PD2:
+    set_bit(GICR, INT0);
+    
 	return 0;
 }
-
 
 
 void CAN_transmit(CAN_message* msg){
@@ -129,6 +135,7 @@ CAN_message CAN_gamecontrols_transmit()
 CAN_message CAN_get_curr(){
 	return rec_msg;
 }
+
 
 ISR(INT0_vect){
 	rec_msg = CAN_receive();

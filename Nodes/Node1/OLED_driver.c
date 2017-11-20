@@ -3,7 +3,8 @@
  *
  * Created: 20.09.2017 12:22:59
  *  Author: aleksra
- */ 
+ */
+
 #include "OLED_driver.h"
 #include <string.h>
 #include <math.h>
@@ -46,7 +47,10 @@ void OLED_init(void){
 	  OLED_home();
 	  
 }
-void OLED_SRAM_print(unsigned char c){
+
+
+void OLED_SRAM_print(unsigned char c)
+{
 	for(int i = 0; i < 8; i++)
 		{
 		ext_ram[PAGE*128 + COLUMN] = (pgm_read_byte(&(font8[c - ASCII_OFFSET][i])));
@@ -55,14 +59,19 @@ void OLED_SRAM_print(unsigned char c){
 	
 }
 
-void OLED_SRAM_custom_print(const unsigned char* c){
-	for (int i = 0; i < 8; i++){
+
+void OLED_SRAM_custom_print(const unsigned char* c)
+{
+	for (int i = 0; i < 8; i++)
+    {
 		ext_ram[PAGE*128 + COLUMN] |= c[i];
 		COLUMN++;
 	}
 }
 
-void OLED_SRAM_RESET(){
+
+void OLED_SRAM_RESET()
+{
 	for (uint8_t page = 0; page < 8; page++)
 	{
 		OLED_SRAM_clear_page(page);
@@ -70,7 +79,9 @@ void OLED_SRAM_RESET(){
 	OLED_home();
 }
 
-void OLED_SRAM_clear_page(uint8_t page){
+
+void OLED_SRAM_clear_page(uint8_t page)
+{
 	OLED_goto_page(page);
 	for (int i = 0; i < 128; i++)
 	{
@@ -78,18 +89,18 @@ void OLED_SRAM_clear_page(uint8_t page){
 	}
 }
 
+
 void OLED_print(unsigned char c)
 {
 		for(int i = 0; i < 8; i++)
 		{
-		*ext_oled_data = (pgm_read_byte(&(font8[c - ASCII_OFFSET][i]))); 
-		
+		*ext_oled_data = (pgm_read_byte(&(font8[c - ASCII_OFFSET][i])));
 		}
-		
-		//Fra studass: writeData(~pgm_read_byte(&myfont[oledRam[page][col] - ASCII_OFFSET][i]))
 }
 
-void OLED_reset(){
+
+void OLED_reset()
+{
 	OLED_home();
 	for (uint8_t page = 0; page < 8; page++)
 	{
@@ -99,7 +110,9 @@ void OLED_reset(){
 	OLED_home();
 }
 
-void OLED_clear_page(uint8_t page){
+
+void OLED_clear_page(uint8_t page)
+{
 	OLED_goto_page(page);
 	for (int i = 0; i < 128; i++)
 	{
@@ -107,7 +120,9 @@ void OLED_clear_page(uint8_t page){
 	}
 }
 
-void OLED_home(void){
+
+void OLED_home(void)
+{
 	PAGE = 0;
 	COLUMN = 0;
 
@@ -116,7 +131,9 @@ void OLED_home(void){
 	*ext_oled_cmd = 0x10;
 }
 
-void OLED_goto_page(uint8_t page){
+
+void OLED_goto_page(uint8_t page)
+{
 	PAGE = page;
 	page = page + 0xb0;
 
@@ -125,36 +142,42 @@ void OLED_goto_page(uint8_t page){
 	*ext_oled_cmd = 0x10;
 }
 
-void OLED_goto_column(uint8_t column){
+
+void OLED_goto_column(uint8_t column)
+{
 	COLUMN = column;
 	*ext_oled_cmd = (0b00001111) & column;
 	column = column>>4;
 	*ext_oled_cmd = ((0b00001111) & column) + 0b00010000;
 }
 
-void OLED_pos(uint8_t page, uint8_t col){
+
+void OLED_pos(uint8_t page, uint8_t col)
+{
 	OLED_goto_page(page);
 	OLED_goto_column(col);
 }
 
-void OLED_print_str(const char* data){
-	//int datalengde = strlen(data);
-	//printf("lengden av data %d\n", datalengde);
+
+void OLED_print_str(const char* data)
+{
 	for (int i = 0; i<strlen(data); i++)
-	
 	{
 		OLED_SRAM_print(data[i]);
 	}
 	
 }
 
-char* OLED_int_to_str(int integer){
+
+char* OLED_int_to_str(int integer)
+{
 	int n;
 	if (integer == 0)
 	{
 		n = 1;
 	}
-	else {
+	else
+    {
 		n = floor(log10(integer)+1);
 	}
 	char result[n+1];
@@ -162,18 +185,23 @@ char* OLED_int_to_str(int integer){
 	return result;
 }
 
-void OLED_print_menu(Menu* menu){
+
+void OLED_print_menu(Menu* menu)
+{
 	OLED_SRAM_RESET();
 	OLED_home();
 	OLED_print_str(menu->name);
-	for (int i = 0; i < menu->num_children; i++){
+	for (int i = 0; i < menu->num_children; i++)
+    {
 		OLED_goto_page(i+1);
 		OLED_goto_column(10);
 		OLED_print_str(menu->children[i]->name);
 	}
 }
 
-void OLED_draw_arrow(int pos){
+
+void OLED_draw_arrow(int pos)
+{
 	OLED_goto_page(pos+1);
 	OLED_goto_column(0);
 	
@@ -181,7 +209,6 @@ void OLED_draw_arrow(int pos){
 	{
 		ext_ram[PAGE*128 + COLUMN] = (pgm_read_byte(&(font8[96][i])));
 		COLUMN += 1;
-		//*ext_oled_data = (pgm_read_byte(&(font8[96][i])));
 	}
 	
 }
