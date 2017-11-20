@@ -33,33 +33,22 @@ typedef enum {
 
 int main(void)
 {
-	
 	cli();
-	//int score = 0;
-	
 	UART_init(9600);
 	CAN_init();
 	PWM_init();
 	IR_init();
 	SOLENOID_init();
 	sei();
-	MOTOR_init();
-	//PID_init();
+
 	
 	PINGPONG_difficulty(1);
 	_delay_ms(100);
 	
-	//int testvar = 0;
 	printf("node2\n");
-	//uint8_t ref;
-	uint8_t testvar;
-
+	
 	state_machine state = PLAY;
 	uint8_t difficulty = 0;
-	//state = TEST;
-	//MOTOR_calibrate();
-	//bool goal = false;
-	//int counter = 0;
 	
     while(1)
     {		
@@ -95,23 +84,23 @@ int main(void)
 				////testvar = IR_read();
 				////printf("IR: %d\n", testvar);
 				////_delay_ms(100);
-//
+
 				//PWM_joystick_control(CAN_get_curr().data[0]);
 				//if (CAN_get_curr().data[3]) {
 					//SOLENOID_shoot();
 				//}
 				////_delay_ms(100);
 				//printf("tranceived from CAN: %d\n", CAN_get_curr().data[2]);
-		//
+                
 				////_delay_ms(1000);
 				//MOTOR_move(50);
-		//
+
 				////printf("Position: %d\n", MOTOR_get_position());
-		//
+
 				////printf("Encoder values: %d\n", MOTOR_read_encoder());
 				////_delay_ms(1000);
 				//uint16_t encoder = MOTOR_read_encoder();
-		//
+
 				////ref = CAN_get_curr().data[2];
 				////_delay_ms(50);
 				//printf("Encoder output: %d\n", encoder);
@@ -121,16 +110,6 @@ int main(void)
 			default:
 				state = IDLE;
 		}
-		//PWM_joystick_control(CAN_get_curr().data[0]);
-		//if (CAN_get_curr().data[3]) {
-		//SOLENOID_shoot();
-		//}
-		//uint16_t encoder = MOTOR_read_encoder();
-		////_delay_ms(100);
-		//printf("tranceived from CAN: %d\n", CAN_get_curr().data[0]);
-		//_delay_ms(50);
-		//printf("Encoder output: %d\n", encoder);
-		//
 		
     }
 }

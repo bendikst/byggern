@@ -18,7 +18,7 @@
 double K_p = 1;
 double K_i = 0.03;
 double K_d = 0.02;
-double dt = 0.02; //timestep?? regn over
+double dt = 0.02;
 
 int16_t position = 0;
 int16_t error = 0;
@@ -30,18 +30,16 @@ int16_t derivative = 0;
 int16_t u = 0;
 //TODO: Tror denne timeren er feil. Regn ut og prøv ny, kanskje derfor PID er litt rar?
 
-void PID_init(){
+void PID_init()
+{
 	position = 0;
 	error = 0;
 	prev_error = 0;
 	integral = 0;
 	derivative = 0;
 	
-	//MOTOR_calibrate();
 	cli();
 	
-	//Set waveform generation mode to fast PWM, TOP: ICRn, update of OCRx at: BOTTOM, TOV flag set on: TOP
-	//And normal port operation compare output mode
 	TCCR3A = (1<<WGM31)|(1<<COM3A1);
 	TCCR3B = (1<<WGM32)|(1<<WGM33)|(1<<CS31);
 	
@@ -59,7 +57,8 @@ void PID_init(){
 
 
 
-void PID_regulator(){
+void PID_regulator()
+{
 	uint8_t ref = CAN_get_curr().data[2];
 	
 	if (ref < 10){
@@ -70,27 +69,23 @@ void PID_regulator(){
 	}
 	
 	position = MOTOR_get_position(); 
-
 	error = ref - position;
-	
 	integral += error;
 	
 	if(error<7 && error > -7){
 		integral = 0;
 	}
 	
-	
 	derivative = (error-prev_error);
-	
 	u = K_p*error + K_i*integral + K_d*derivative;
-	
+
 	prev_error = error;
-	
 	MOTOR_move(u);
 	
 }
 
 
-ISR(TIMER3_OVF_vect){
+ISR(TIMER3_OVF_vect)
+{
 	PID_regulator();
 }

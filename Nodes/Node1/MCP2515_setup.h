@@ -28,7 +28,7 @@ void MCP2515_req_to_send(uint8_t bit);
 uint8_t MCP2515_read_status(void);
 
 /* Function to modify the bits defined by mask, to data, in address "address" */
-void MCP2515_bit_modify(uint8_t addresse, uint8_t mask, uint8_t data);
+void MCP2515_bit_modify(uint8_t address, uint8_t mask, uint8_t data);
 
 /*Resets the MCP2515*/
 void MCP2515_reset(void);

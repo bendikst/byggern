@@ -1,6 +1,8 @@
 /*
  * SLIDER_driver.h
  *
+ * Module for reading the slider positions
+ *
  * Created: 20.09.2017 10:57:04
  *  Author: aleksra
  */ 
@@ -12,8 +14,7 @@
 #include <stdbool.h>
 #define MAX_VALUE 255
 
-
-void SLIDER_init(void);
+/* Reading the position of the slider */
 int SLIDER_pos(bool isright);
 
 

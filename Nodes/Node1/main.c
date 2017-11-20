@@ -89,3 +89,8 @@ int main(void)
 		}
 	}
 }
+
+ISR(BADISR_vect)
+{
+    printf("BADISR\n");
+}

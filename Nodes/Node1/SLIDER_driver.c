@@ -5,22 +5,18 @@
  *  Author: aleksra
  */ 
 
-
 #include "SLIDER_driver.h"
 #include "ADC.h"
-void SLIDER_init(void){
-	//whaaaat
-}
 
 
-
-int SLIDER_pos(bool isright){
-	if (isright){
-		//return adc_read(R_slide)/(double)(255)*100;
+int SLIDER_pos(bool isright)
+{
+	if (isright)
+    {
 		return adc_read(R_slide);
-	}else{
-		//return adc_read(L_slide)/(double)(255)*100;
+	}
+    else
+    {
 		return adc_read(L_slide);
 	}
-	
 }

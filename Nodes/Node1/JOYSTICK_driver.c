@@ -12,7 +12,6 @@
 static int x_initialpos, y_initialpos;
 
 
-
 void JOYSTICK_init(){
 	x_initialpos = adc_read(X_axis);
 	y_initialpos = adc_read(Y_axis);

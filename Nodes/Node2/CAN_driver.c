@@ -15,13 +15,14 @@
 #include <string.h>
 #include <util/delay.h>
 
-uint8_t CAN_init(){
+uint8_t CAN_init()
+{
 	//--- setup of interrupts on the ATmega 2560 for CAN receive----//
 	
 		//Interrupt on falling edge PD0:
 		clear_bit(EICRA, ISC00);
 		set_bit(EICRA, ISC01);
-		//Enabler interrupt on a pit:
+		//Enabler interrupt on a pin:
 		set_bit(EIMSK, INT2);
 		// INT2 intflag is cleared by writing 1 to INTF2
 		set_bit(EIFR, INTF2);
@@ -31,10 +32,10 @@ uint8_t CAN_init(){
 	MCP2515_reset();
 	_delay_us(100);
 	
-	//MCP2515_write(MODE_CONFIG, MCP_CANSTAT);
 	//SELF TEST (From lab lecture)
 	uint8_t value = MCP2515_read(MCP_CANSTAT);
-	if ((value & MODE_MASK) != MODE_CONFIG) {
+	if ((value & MODE_MASK) != MODE_CONFIG)
+    {
 		printf("MCP2515 is NOT in config mode after reset!\n");
 		return 1;
 	}
@@ -47,7 +48,8 @@ uint8_t CAN_init(){
 
 
 
-void CAN_transmit(CAN_message* msg){
+void CAN_transmit(CAN_message* msg)
+{
 	
 	MCP2515_write((uint8_t)(msg->id>>3), MCP_TXB0SIDH);
 	MCP2515_write((uint8_t)(msg->id<<5), MCP_TXB0SIDL);
@@ -63,7 +65,8 @@ void CAN_transmit(CAN_message* msg){
 }
 
 
-CAN_message CAN_receive(){
+CAN_message CAN_receive()
+{
 
 	CAN_message msg;
 	
@@ -78,7 +81,8 @@ CAN_message CAN_receive(){
 		
 		MCP2515_bit_modify(MCP_CANINTF, 0x02, 0); //Clear interrupt flag
 		
-	} else //if(MCP2515_read(MCP_CANINTF) & (0b01))
+	}
+    else
 	{
 		msg.id = (MCP2515_read(MCP_RXB0SIDH)<<3) + (MCP2515_read(MCP_RXB0SIDL)>>5);
 		msg.length = MCP2515_read(MCP_RXB0DLC);
@@ -87,36 +91,24 @@ CAN_message CAN_receive(){
 			msg.data[i] = MCP2515_read(MCP_RXB0D+i);
 		}
 		MCP2515_bit_modify(MCP_CANINTF, 0x01, 0); //Clear interrupt flag
-	}//else{
-		//msg.id = 100;
-	//}
-	
+	}
+
 	return msg;
 }
 
 
-//void CAN_print(void){ //TESTFUNKSJON
-	//
-	//CAN_message* msg = &rec_msg;
-	//
-	//char temp[msg->length+1];
-	//for (uint8_t i = 0; i < msg->length; i++){
-		//temp[i] = (unsigned char)msg->data[i];
-	//}
-	//temp[msg->length] = '\0';
-	//printf("Message received: \nid:%d \nlength%d \nData:%s\n", msg->id, msg->length, temp);
-//}
-
-CAN_message CAN_get_curr(){
+CAN_message CAN_get_curr()
+{
 	return rec_msg;
 }
 
 
-void CAN_transmit_game(bool lose){
+void CAN_transmit_game(bool lose)
+{
 	CAN_message msg;
 	if (lose)
 	{
-		msg.id = 11; //Kan bruke annet her??
+		msg.id = 11;
 	} else {
 		msg.id = 2;
 	}
@@ -128,9 +120,7 @@ void CAN_transmit_game(bool lose){
 }
 
 
-
-ISR(INT2_vect){
-	//Studass mener heller vi bør bruke et eget flagg som sier at interrupt har skjedd?
-	//rec_flag = 1;
+ISR(INT2_vect)
+{
 	rec_msg = CAN_receive();
 }

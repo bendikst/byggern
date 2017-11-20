@@ -21,9 +21,9 @@ void PINGPONG_init()
 	sei();
 	CAN_transmit_game(false);
 	MOTOR_init();
-	//_delay_us(10); //TEST
 	PID_init();
 }
+
 
 void PINGPONG_play()
 {
@@ -46,7 +46,6 @@ void PINGPONG_play()
 		testvar = 0;
 		counter = 0;
 		}
-		//printf("tranceived from CAN: %d\n", CAN_get_curr().data[2]);
 		PWM_joystick_control(CAN_get_curr().data[0]);
 		if (CAN_get_curr().data[3]) 
 		{
@@ -57,7 +56,8 @@ void PINGPONG_play()
 }
 
 
-void PINGPONG_difficulty(uint8_t difficulty){
+void PINGPONG_difficulty(uint8_t difficulty)
+{
 	switch(difficulty){
 		case 1:
 		PWM_set_duty_cycle_difficulty(4000);
