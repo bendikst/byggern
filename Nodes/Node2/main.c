@@ -47,7 +47,7 @@ int main(void)
 	
 	printf("node2\n");
 	
-	state_machine state = PLAY;
+	state_machine state = IDLE;
 	uint8_t difficulty = 0;
 	
     while(1)

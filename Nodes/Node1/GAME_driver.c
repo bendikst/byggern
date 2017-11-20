@@ -49,8 +49,10 @@ void GAME_play(char* name)
 	start_game.data[0] = 0;
 	
 	OLED_SRAM_RESET();
-	OLED_pos(0, 30);
+	OLED_print_str("PLAYER:  ");
 	OLED_print_str(current_game.name);
+	OLED_pos(1, 0);
+	OLED_print_str("_______________");
 	OLED_pos(4, 0);
 	OLED_print_str("GET READY...");
 	OLED_draw();
@@ -65,8 +67,10 @@ void GAME_play(char* name)
 		_delay_ms(100); //how much DELAY??
 		
 		OLED_SRAM_RESET();
-		OLED_pos(0, 30);
+		OLED_print_str("PLAYER:  ");
 		OLED_print_str(current_game.name);
+		OLED_pos(1, 0);
+		OLED_print_str("_______________");
 		OLED_pos(4, 0);
 		OLED_print_str("SCORE:");
 		OLED_pos(4, 70);
@@ -136,6 +140,7 @@ void GAME_difficulty(char* difficulty){
 	}
 	
 	CAN_transmit(&msg);
+	
 }
 
 
@@ -301,6 +306,7 @@ void GAME_EEPROM_reset_highscores()
 	}
 }
 
-ISR(TIMER1_OVF_vect){
+ISR(TIMER1_OVF_vect)
+{
 	GAME_inc_score(&current_game);
 }

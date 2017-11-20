@@ -63,7 +63,7 @@ void PINGPONG_difficulty(uint8_t difficulty)
 		PWM_set_duty_cycle_difficulty(4000);
 		break;
 		case 2:
-		PWM_set_duty_cycle_difficulty(1800);
+		PWM_set_duty_cycle_difficulty(3000);
 		break;
 		case 3:
 		PWM_set_duty_cycle_difficulty(1800);

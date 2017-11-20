@@ -18,7 +18,7 @@
 double K_p = 1;
 double K_i = 0.03;
 double K_d = 0.02;
-double dt = 0.02;
+double dt = 0.033;
 
 int16_t position = 0;
 int16_t error = 0;
@@ -28,7 +28,6 @@ int16_t derivative = 0;
 
 
 int16_t u = 0;
-//TODO: Tror denne timeren er feil. Regn ut og prøv ny, kanskje derfor PID er litt rar?
 
 void PID_init()
 {
@@ -40,12 +39,9 @@ void PID_init()
 	
 	cli();
 	
-	TCCR3A = (1<<WGM31)|(1<<COM3A1);
-	TCCR3B = (1<<WGM32)|(1<<WGM33)|(1<<CS31);
-	
-	//Set top value
-	ICR3 = 40000; //The compiler handles writing to the 16-bit registers
-	OCR3A = 3000;
+	//Using normal mode
+	set_bit(TCCR3B, CS31);
+
 	//Enable timer interrupt
 	set_bit(TIMSK3, TOIE3); //Kan også enable overflow/Interrupt B?
 		
