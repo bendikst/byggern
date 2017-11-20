@@ -6,6 +6,8 @@
  */ 
 
 #include "SPI_driver.h"
+#include <avr/io.h>
+
 
 void SPI_MasterInit(void)
 {

@@ -122,11 +122,11 @@ void GAME_difficulty(char* difficulty){
 	CAN_message msg;
 	msg.id = 8;
 	msg.length = 1;
-	if (difficulty == "hard")
+	if (!strcmp(difficulty, "hard"))
 	{
 	msg.data[0] = 3;
 	}
-	else if (difficulty == "medium")
+	else if (!strcmp(difficulty, "medium"))
 	{
 		msg.data[0] = 2;
 	}

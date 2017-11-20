@@ -22,6 +22,7 @@ void PINGPONG_init(void);
 if the game is lost, then controls the physical components based on the latest received CAN gamecontrol message.*/
 void PINGPONG_play();
 
+/*Sets the duty cycle for the difficulty servo*/
 void PINGPONG_difficulty(uint8_t difficulty);
 
 #endif /* PINGPONG_GAME_H_ */
