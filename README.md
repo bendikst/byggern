@@ -11,7 +11,7 @@ Things to do etter dag 5:
 
 - [ ] Kretskort, PCB
 - [x] Kommunikasjon: 
-- [ ] Clean up code/COMMENT
+- [x] Clean up code/COMMENT
 - [ ] UML
 - [x] Oppdater navn på snake? konvensjon
 - [ ] Se over TODOS i koden
