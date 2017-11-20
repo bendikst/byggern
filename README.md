@@ -16,3 +16,6 @@ Things to do etter dag 5:
 - [x] Oppdater navn på snake? konvensjon
 - [ ] Se over TODOS i koden
 - [ ] scoring in snake
+- [ ] Remove SLIDER-module, and make USB-board module
+- [ ] Look at timer for PID again
+- [ ] Merge branches
