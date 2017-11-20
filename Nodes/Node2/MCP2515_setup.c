@@ -10,7 +10,8 @@
 #include <avr/io.h>
 
 
-uint8_t MCP2515_read(uint8_t address){
+uint8_t MCP2515_read(uint8_t address)
+{
 	uint8_t result;
 	
 	clear_bit(PORTB, PB7); //Select CAN controller
@@ -19,12 +20,13 @@ uint8_t MCP2515_read(uint8_t address){
 	SPI_transceive(address); //Send address
 	result = SPI_transceive(0x00); //Read result
 	
-	set_bit(PORTB, PB7); // Deselect CAN-controlla
+	set_bit(PORTB, PB7);
 	return result;
 }
 
-void MCP2515_write(uint8_t data, uint8_t address){
-	
+
+void MCP2515_write(uint8_t data, uint8_t address)
+{
 	clear_bit(PORTB, PB7); //Select CAN controller
 	SPI_transceive(MCP_WRITE); //Send write command
 	SPI_transceive(address);
@@ -32,9 +34,11 @@ void MCP2515_write(uint8_t data, uint8_t address){
 	set_bit(PORTB, PB7);
 }
 
-void MCP2515_req_to_send(uint8_t bit){
+
+void MCP2515_req_to_send(uint8_t bit)
+{
 	
-	clear_bit(PORTB, PB7); //Select CAN controller
+	clear_bit(PORTB, PB7);
 	switch (bit)
 	{
 	case 0:
@@ -50,7 +54,9 @@ void MCP2515_req_to_send(uint8_t bit){
 	set_bit(PORTB, PB7);
 }
 
-uint8_t MCP2515_read_status(){
+
+uint8_t MCP2515_read_status()
+{
 	uint8_t result;
 	
 	clear_bit(PORTB,PB7);
@@ -64,17 +70,20 @@ uint8_t MCP2515_read_status(){
 }
 
 
-void MCP2515_bit_modify(uint8_t addresse, uint8_t mask, uint8_t data){
+void MCP2515_bit_modify(uint8_t address, uint8_t mask, uint8_t data)
+{
 	clear_bit(PORTB,PB7);
 	
 	SPI_transceive(MCP_BITMOD);
-	SPI_transceive(addresse);
+	SPI_transceive(address);
 	SPI_transceive(mask);
 	SPI_transceive(data);
 	set_bit(PORTB,PB7);
 }
 
-void MCP2515_reset(){
+
+void MCP2515_reset()
+{
 	clear_bit(PORTB,PB7);
 	
 	SPI_transceive(MCP_RESET);

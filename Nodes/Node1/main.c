@@ -90,7 +90,7 @@ int main(void)
 	}
 }
 
-ISR(BADISR)
+ISR(BADISR_vect)
 {
     printf("BADISR\n");
 }
