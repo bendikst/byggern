@@ -11,13 +11,14 @@
 #include "macaroni.h"
 
 
-void SOLENOID_init(){
-	
+void SOLENOID_init()
+{
 	set_bit(DDRB, PB4);
 	set_bit(PORTB, PB4);
 }
 
-void SOLENOID_shoot(){// bRUK TIMER I STEDET
+void SOLENOID_shoot()
+{
 	clear_bit(PORTB, PB4);
 	_delay_ms(70);
 	set_bit(PORTB, PB4);

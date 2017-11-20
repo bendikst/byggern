@@ -37,10 +37,6 @@ void UART_init(unsigned int baud){
 	//Enable receiver, transmitter
 	UCSR0B = (1<<RXEN0)|(1<<TXEN0);
 	
-	//Set frame format: 8 data, 1 stop bit
-	//UCSR0C = (1<<URSEL0)|(0<<USBS0)|(3<<UCSZ00);
-	//UCSR0C = (3<<UCSZ00);
-	
 	uart = fdevopen(&UART_transmit, &UART_receive);
 	
 }

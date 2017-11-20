@@ -3,7 +3,8 @@
  * 
  * Module for handling printing to the OLED screen. Contains two parts; one for writing directly 
  * to the OLED and the other uses the SRAM to store the next data to be printed. This enables
- * dual frame buffering. 
+ * dual frame buffering.
+ * 
  * Created: 20.09.2017 12:23:16
  *  Author: aleksra, Bendik Standal, Alexander Johansen
  */ 
@@ -19,6 +20,7 @@
 #define ext_oled_data ((volatile char*) 0x1200)
 #define ext_OLED_size 0x200
 #define ASCII_OFFSET ((volatile unsigned int) 32)
+
 
 /*Functions for initializing OLED, where configurations and addressing modes are set, 
 and OLED_reset for clearing the screen.*/
@@ -37,8 +39,8 @@ void OLED_pos(uint8_t row, uint8_t col);
 void OLED_print(unsigned char c);
 void OLED_print_str(const char* data);
 
-/*Convert any integer of size <256 to cstring for use of the OLED_print_str.
-Should be used right away and not assigned to a variable because
+/*Convert any integer of size <256 to cstring for using the OLED_print_str function.
+Should be used right away and not assigned to a variable for later use, because
 this returns address of a local variable*/
 char* OLED_int_to_str(const int integer);
 

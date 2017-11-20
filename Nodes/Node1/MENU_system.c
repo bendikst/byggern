@@ -30,7 +30,6 @@ Menu* MENU_init()
 	main_menu->function = NULL;
 	main_menu->parent = NULL;
 	
-	
 	Menu* snake_menu = MENU_new_submenu(main_menu, "Snake", &SNAKE_play);
 		//MENU_new_submenu(snake_menu, "alex", &SNAKE_play);
 		//MENU_new_submenu(snake_menu, "asp", &SNAKE_play);
@@ -49,12 +48,12 @@ Menu* MENU_init()
 			MENU_allocate_submenu(hard, asp);
 			MENU_allocate_submenu(hard, benny);
 			MENU_allocate_submenu(hard, guest);
+    
 	Menu* highscores_menu = MENU_new_submenu(main_menu, "Highscores", NULL);
 		MENU_new_submenu(highscores_menu, "Snake", &GAME_EEPROM_print_highscores);
 		MENU_new_submenu(highscores_menu, "Pingpong", &GAME_EEPROM_print_highscores);
+    
 	MENU_new_submenu(main_menu,"Test", &SRAM_test);
-	
-	
 
 	curr_menu = main_menu;
 	position = 0;
@@ -71,7 +70,6 @@ Menu* MENU_new_submenu(Menu* self, char* name, void (*function)(char*))
 	new_menu->num_children = 0;
 	new_menu->children = NULL;
 	new_menu->function = function;
-	
 	
 	self->children = realloc(self->children, sizeof(Menu*)*(self->num_children+1));
 
@@ -112,8 +110,7 @@ void MENU_main()
 					OLED_SRAM_RESET();
 					OLED_print_menu(curr_menu);
 					MENU_run_functions();
-	
-					//_delay_ms(1000);
+                    
 					if (curr_menu->function != &GAME_difficulty)
 					{
 						curr_menu = curr_menu->parent;

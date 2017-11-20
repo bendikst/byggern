@@ -13,11 +13,11 @@
 volatile static bool IR_intflag = false;
 
 
-void IR_init(){
+void IR_init()
+{
 	//Enable the ADC
 	set_bit(ADCSRA, ADEN);
-	//ADCL must be read first, then ADCH, remember: if 
-	//ADCL is read and a conv completes before ADCH is read, data is lost. 
+
 	//Set ADC prescaler bits to 128
 	set_bit(ADCSRA, ADPS0);
 	set_bit(ADCSRA, ADPS1);
@@ -36,7 +36,8 @@ void IR_init(){
 }
 
 
-uint8_t IR_read(){
+uint8_t IR_read()
+{
 	//Start conversion
 	set_bit(ADCSRA, ADSC);
 	
@@ -47,7 +48,7 @@ uint8_t IR_read(){
 }
 
 
-ISR(ADC_vect){
-	//printf("kjørr\n");
+ISR(ADC_vect)
+{
 	IR_intflag = true;
 }

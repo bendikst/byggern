@@ -65,18 +65,6 @@ void PWM_joystick_control(uint8_t val){
 	
 	PWM_set_duty_cycle(PWM_value);
 	
-	/*
-	switch (dir){
-		case LEFT:
-			PWM_set_duty_cycle(1800);
-			break;
-		case RIGHT:
-			PWM_set_duty_cycle(4200);
-			break;
-		default:
-			PWM_set_duty_cycle(3000);
-	}
-	*/
 }
 
 
