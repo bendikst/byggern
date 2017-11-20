@@ -58,7 +58,7 @@ void SNAKE_play(char* player){
 	uint8_t px = 3;
 	uint8_t py = 8;
 	uint8_t length = 4;
-	uint8_t score = 0;
+
 	snake_struct* head = SNAKE_init(length, px, py);
 	apple_struct n; //allokerer plass til eple i compile time
 	apple_struct *apple = rand_apple(&n); //lagrer pekeren til eplet
@@ -73,7 +73,6 @@ void SNAKE_play(char* player){
 		
 		//-----drawing------//
 		
-		printf("fdraw%d\n", gameover);
 		OLED_SRAM_RESET();
 		draw_snake(head);
 		draw_apple(apple);
@@ -106,7 +105,6 @@ void SNAKE_play(char* player){
 		{
 			eating = true;
 			length++;
-			score++;
 			apple = rand_apple(apple);
 		}
 		
@@ -155,7 +153,6 @@ void SNAKE_play(char* player){
 		
 	}
 	endgame(head);
-	GAME_EEPROM_write(score, player, "Snake");
 }
 
 apple_struct* rand_apple(apple_struct *apple){

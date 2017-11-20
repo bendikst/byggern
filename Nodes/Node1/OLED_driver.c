@@ -4,6 +4,8 @@
  * Created: 20.09.2017 12:22:59
  *  Author: aleksra
  */ 
+#define F_CPU 4915200UL
+
 #include "OLED_driver.h"
 #include <string.h>
 #include <math.h>
@@ -85,8 +87,6 @@ void OLED_print(unsigned char c)
 		*ext_oled_data = (pgm_read_byte(&(font8[c - ASCII_OFFSET][i]))); 
 		
 		}
-		
-		//Fra studass: writeData(~pgm_read_byte(&myfont[oledRam[page][col] - ASCII_OFFSET][i]))
 }
 
 void OLED_reset(){
@@ -138,8 +138,6 @@ void OLED_pos(uint8_t page, uint8_t col){
 }
 
 void OLED_print_str(const char* data){
-	//int datalengde = strlen(data);
-	//printf("lengden av data %d\n", datalengde);
 	for (int i = 0; i<strlen(data); i++)
 	
 	{
@@ -181,9 +179,7 @@ void OLED_draw_arrow(int pos){
 	{
 		ext_ram[PAGE*128 + COLUMN] = (pgm_read_byte(&(font8[96][i])));
 		COLUMN += 1;
-		//*ext_oled_data = (pgm_read_byte(&(font8[96][i])));
 	}
-	
 }
 
 
