@@ -62,9 +62,8 @@ void GAME_play(char* name)
 	GAME_init();
 	while(1)
 	{
-		//TODO: switch on difficulty
 		CAN_gamecontrols_transmit();
-		_delay_ms(100); //how much DELAY??
+		_delay_ms(100);
 		
 		OLED_SRAM_RESET();
 		OLED_print_str("PLAYER:  ");
@@ -77,7 +76,7 @@ void GAME_play(char* name)
 		OLED_print_str(OLED_int_to_str(current_game.score));
 		OLED_draw();
 		
-		if (CAN_get_curr().id == 11)//EKSEMPEL TAPVERDI? DISKUTER
+		if (CAN_get_curr().id == 11)
 		{
 			clear_bit(TIMSK, TOIE1); //Shutting off timer for counting score
 			GAME_print_score(&current_game);

@@ -34,7 +34,6 @@ Menu* MENU_init()
 	
 	Menu* pingpong_menu = MENU_new_submenu(main_menu, "Ping Pong", NULL);
 		Menu* easy = MENU_new_submenu(pingpong_menu, "easy", &GAME_difficulty);
-		//Menu* medium = MENU_new_submenu(pingpong_menu, "medium", &GAME_difficulty);
 		Menu* hard = MENU_new_submenu(pingpong_menu, "hard", &GAME_difficulty);
 			Menu* alex = MENU_new_submenu(easy, "alex", &GAME_play);
 			Menu* asp = MENU_new_submenu(easy, "asp", &GAME_play);
@@ -46,9 +45,7 @@ Menu* MENU_init()
 			MENU_allocate_submenu(hard, benny);
 			MENU_allocate_submenu(hard, guest);
     
-	Menu* highscores_menu = MENU_new_submenu(main_menu, "Highscores", &GAME_EEPROM_print_highscores);
-		//MENU_new_submenu(highscores_menu, "Snake", &GAME_EEPROM_print_highscores);
-		//MENU_new_submenu(highscores_menu, "Pingpong", &GAME_EEPROM_print_highscores);
+	MENU_new_submenu(main_menu, "Highscores", &GAME_EEPROM_print_highscores);
     
 	MENU_new_submenu(main_menu,"Test", &SRAM_test);
 

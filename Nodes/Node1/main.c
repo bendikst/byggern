@@ -29,11 +29,7 @@
 
 typedef enum{
 	MENU = 0,
-	SNAKE = 1,
-	PINGPONG = 2,
-	SRAM_tester = 3,
-	IDLE = 4,
-	TEST = 5
+	TEST = 1
 	} state_enum;
 
 int main(void)
@@ -68,15 +64,6 @@ int main(void)
 			OLED_draw();
 			_delay_ms(90);
 			break;
-		case SNAKE:
-			//trenger vi??
-			break;
-		case PINGPONG:
-			GAME_play("benny");
-			break;
-		case IDLE:
-			_delay_ms(10000); //Noe annet her??
-			state = MENU;
 		case TEST:
 			/*DIFFERENT TEST FUNCTIONS FOR DEBUGGING PURPOSES.*/
 			CAN_gamecontrols_transmit();
@@ -84,7 +71,7 @@ int main(void)
 			_delay_ms(200);
 			break;
 		default:
-			state = IDLE;
+			state = MENU;
 			
 		}
 	}

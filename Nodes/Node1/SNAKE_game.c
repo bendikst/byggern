@@ -94,7 +94,7 @@ void SNAKE_play(char* player)
 		OLED_draw();
 		
 		
-		//-----checking for gameover-----// !!!//TODO: sjekk om snaken treffer seg selv
+		//-----checking for gameover-----//
 		if(head->px < 0 || head->px >= WIDTH)
 		{
 			gameover = true;
@@ -107,9 +107,9 @@ void SNAKE_play(char* player)
 		temp = head->next;
 		while (temp != NULL)
 		{
-			if(head->px == temp->px && head->px == temp->py)
+			if(head->px == temp->px && head->py == temp->py)
 			{
-				//gameover = true;
+				gameover = true;
 			}
 			temp = temp->next;
 		}

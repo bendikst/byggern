@@ -15,9 +15,8 @@ void SPI_MasterInit(void)
 	DDRB |= (1<<PB2)|(1<<PB1)|(1<<PB0)|(1<<PB7); //the arduino shield defines PB7 as SS
 	//DDRB &= ~(1<<PB3); // set miso to input
 	/* Enable SPI, Master, set clock rate fck/16 */
-	SPCR = (1<<MSTR)|(1<<SPR0); //Skal vi ikke enable interrupt? Nei interrupt heller på CAN
+	SPCR = (1<<MSTR)|(1<<SPR0);
 	SPCR |= (1<<SPE);
-	//SPCR |= (1<<DORD);   // Denne bestemmer om LSB eller MSB skal sendes først, mulig det må tas hensyn til
 }
 
 char SPI_transceive(char cData)

@@ -14,7 +14,7 @@
 #include "macaroni.h"
 #include "CAN_driver.h"
 
-//GAINS:
+/*----Controller Gains-----*/
 double K_p = 1;
 double K_i = 0.03;
 double K_d = 0.02;
@@ -43,7 +43,7 @@ void PID_init()
 	set_bit(TCCR3B, CS31);
 
 	//Enable timer interrupt
-	set_bit(TIMSK3, TOIE3); //Kan også enable overflow/Interrupt B?
+	set_bit(TIMSK3, TOIE3);
 		
 	sei();
 	
