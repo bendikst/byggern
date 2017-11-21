@@ -4,18 +4,14 @@ Aleks, Alex og Bennys byggernprosjekt
 Lab project for the subject TTK4155 Embedded and Industrial Computer Systems Design, "Byggern".
 #### Authors:
 Aleksander Asp, Alexander Johansen, Bendik Standal
-
-
-Things to do etter dag 5:
    
 
 - [ ] Kretskort, PCB
 - [x] Kommunikasjon: 
 - [x] Clean up code/COMMENT
-- [ ] UML
+- [x] UML
 - [x] Oppdater navn på snake? konvensjon
-- [ ] Se over TODOS i koden
-- [ ] scoring in snake
-- [ ] Remove SLIDER-module, and make USB-board module
-- [ ] Look at timer for PID again
-- [ ] Merge branches
+- [x] Se over TODOS i koden
+- [x] Look at timer for PID again
+- [x] Merge branches
+- [ ] Sørg for at slangen ikke treffer seg selv
